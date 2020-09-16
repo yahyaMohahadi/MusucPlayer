@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -18,6 +17,7 @@ import org.maktab.musucplayer.adapter.ViewPagerAdapter;
 import org.maktab.musucplayer.database.SongRepository;
 import org.maktab.musucplayer.fragment.lists.AlbumListFragment;
 import org.maktab.musucplayer.fragment.lists.ArtistListFragment;
+import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.fragment.lists.MusicListFragment;
 
 public class MainFragment extends Fragment {
@@ -30,16 +30,21 @@ public class MainFragment extends Fragment {
     private AlbumListFragment mAlbumListFragment;
     private ArtistListFragment mArtistListFragment;
     Fragment[] mFragmentsList = new Fragment[3];
-    public static final String[] mFragmentsName = new String[]{"musics", "artists", "album"};
+    public static final String[] mFragmentsName = new String[]{
+            ListFragment.States.MUSICS.toString().toLowerCase(),
+            ListFragment.States.ARTISTS.toString().toLowerCase(),
+            ListFragment.States.ALBUMS.toString().toLowerCase()};
     private TextView mTextViewListName;
     private int mIntCurentFragment = 0;
 
     private ImageButton mImageButtonShuffle;
     private ImageButton mImageButtonPlay;
     private TextView mTextViewPlatBarTittleText;
+    private ListFragment.Callbacks mCallbacksLists;
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(ListFragment.Callbacks callbacks) {
         MainFragment fragment = new MainFragment();
+        fragment.mCallbacksLists = callbacks;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -132,9 +137,10 @@ public class MainFragment extends Fragment {
     }
 
     private void iniLists() {
-        mMusicListFragment = MusicListFragment.newInstance();
-        mAlbumListFragment = AlbumListFragment.newInstance();
-        mArtistListFragment = ArtistListFragment.newInstance();
+
+        mMusicListFragment = MusicListFragment.newInstance(mCallbacksLists);
+        mAlbumListFragment = AlbumListFragment.newInstance(mCallbacksLists);
+        mArtistListFragment = ArtistListFragment.newInstance(mCallbacksLists);
 
         mFragmentsList[0] = mMusicListFragment;
         mFragmentsList[1] = mArtistListFragment;
@@ -146,6 +152,6 @@ public class MainFragment extends Fragment {
         mTextViewListName = view.findViewById(R.id.textView_list_name);
         mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_main_fragment_play);
-        mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_bar_title);
+        mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_main_title);
     }
 }

@@ -29,7 +29,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView_play_bar_title"
+            android:id="@+id/textView_play_main_title"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"

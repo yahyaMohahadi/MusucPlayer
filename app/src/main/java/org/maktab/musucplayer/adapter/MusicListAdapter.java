@@ -1,7 +1,6 @@
 package org.maktab.musucplayer.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.database.SongRepository;
+import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
@@ -26,11 +26,14 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     private List<Album> mAlbums;
     private List<Artist> mArtists;
     private Context mContext;
-    private Callbacks mCallbacks;
-    private State mState;
+    private ListFragment.Callbacks mCallbacks;
+    private ListFragment.States mState;
 
 
-    public static MusicListAdapter newInstance(Context context, List<Song> songs, State state, Callbacks callbacks) {
+    public static MusicListAdapter newInstance(Context context,
+                                               List<Song> songs,
+                                               ListFragment.States state,
+                                               ListFragment.Callbacks callbacks) {
         MusicListAdapter musicListAdapter = new MusicListAdapter();
         musicListAdapter.mSongs = songs;
         musicListAdapter.mContext = context.getApplicationContext();
@@ -57,7 +60,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 view = inflater.inflate(R.layout.list_album, parent, false);
                 break;
             }
-            case ARTIST: {
+            case ARTISTS: {
                 view = inflater.inflate(R.layout.list_artisi, parent, false);
                 break;
             }
@@ -83,7 +86,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 return mAlbums.size();
 
             }
-            case ARTIST: {
+            case ARTISTS: {
                 return mArtists.size();
 
             }
@@ -124,7 +127,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     mTextViewAlbumtName = view.findViewById(R.id.textView_list_album_name);
                     break;
                 }
-                case ARTIST: {
+                case ARTISTS: {
                     mTextViewArtistName = view.findViewById(R.id.textView_artist_artist_name);
                     mTextViewArtistNumber = view.findViewById(R.id.textView_list_artisi_number);
                     break;
@@ -142,23 +145,36 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
             switch (mState) {
                 case ALBUMS: {
                     initItemViewAlbum(position);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mCallbacks.itemCalled(mState, mAlbums.get(position).getStringAlbumName());
+                        }
+                    });
                     break;
                 }
-                case ARTIST: {
+                case ARTISTS: {
                     initItemViewArtisi(position);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mCallbacks.itemCalled(mState, mArtists.get(position).getStringArtistName());
+                        }
+                    });
                     break;
                 }
                 case MUSICS: {
                     initItemViewMusic(position);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mCallbacks.itemCalled(mState, String.valueOf(mSongs.get(position).getIntId()));
+                        }
+                    });
                     break;
                 }
             }
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mCallbacks.onItemSelected(mSongs.get(position).getUri());
-                }
-            });
+
 
         }
 
@@ -183,11 +199,4 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
     }
 
-    public interface Callbacks {
-        void onItemSelected(Uri musicUri);
-    }
-
-    public enum State {
-        ARTIST, MUSICS, ALBUMS
-    }
 }

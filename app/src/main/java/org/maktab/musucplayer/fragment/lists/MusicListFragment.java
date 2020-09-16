@@ -1,6 +1,5 @@
 package org.maktab.musucplayer.fragment.lists;
 
-import android.net.Uri;
 import android.os.Bundle;
 
 import org.maktab.musucplayer.R;
@@ -8,11 +7,12 @@ import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.database.SongRepository;
 
 public class MusicListFragment extends ListFragment {
+    private Callbacks mCallbacks;
 
-    public static MusicListFragment newInstance() {
+    public static MusicListFragment newInstance(Callbacks callbacks) {
         MusicListFragment fragment = new MusicListFragment();
         Bundle args = new Bundle();
-
+        fragment.mCallbacks = callbacks;
         fragment.setArguments(args);
         return fragment;
     }
@@ -21,13 +21,8 @@ public class MusicListFragment extends ListFragment {
     public MusicListAdapter getMusicAdapter() {
         return MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
-                MusicListAdapter.State.MUSICS
-                , new MusicListAdapter.Callbacks() {
-                    @Override
-                    public void onItemSelected(Uri musicUri) {
-
-                    }
-                }
+                ListFragment.States.MUSICS
+                , mCallbacks
         );
     }
 

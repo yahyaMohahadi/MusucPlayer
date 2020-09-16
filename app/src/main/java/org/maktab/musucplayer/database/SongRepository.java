@@ -1,12 +1,17 @@
 package org.maktab.musucplayer.database;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
+import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.utils.Music;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +34,7 @@ public class SongRepository {
         }
         if (sRepository.mSongs == null) {
             try {
-                sRepository.mSongs = Music.getMdediFromContentResolver(sContext);
+                sRepository.mSongs = getMdediFromContentResolver(sContext);
             } catch (Exception e) {
                 e.printStackTrace();
                 Log.e("QQQ", "erore for geting Music");
@@ -40,7 +45,7 @@ public class SongRepository {
 
     public boolean updateSongs() {
         try {
-            sRepository.mSongs = Music.getMdediFromContentResolver(sContext);
+            sRepository.mSongs = getMdediFromContentResolver(sContext);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,6 +122,91 @@ public class SongRepository {
             }
         }
         return albums;
+    }
+
+    public List<Song> getListSong(ListFragment.States states, String stringSelected) {
+        List<Song> songs = null;
+        switch (states) {
+            case ALBUMS: {
+                songs = this.getSongAlbum(stringSelected);
+                break;
+            }
+            case ARTISTS: {
+                songs = this.getSongArtist(stringSelected);
+                break;
+            }
+            case MUSICS: {
+                songs = new ArrayList<>();
+                songs.add(this.getSongsById(Integer.parseInt(stringSelected)));
+                break;
+            }
+        }
+        return songs;
+    }
+
+    public Song getSongsById(int id) {
+        for (Song song : mSongs) {
+            if (song.getIntId() == id) {
+                return song;
+            }
+        }
+        return null;
+    }
+
+
+    private static List<Song> getMdediFromContentResolver(Context context) throws Exception {
+        List<Song> songs = new ArrayList<>();
+        Cursor musicCursor = null;
+        try {
+            ContentResolver musicResolver = context.getContentResolver();
+            Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+            Log.d("QQQ", "ppppppppppppppp==>  " + musicUri);
+            musicCursor = musicResolver.query(musicUri, null, null, null, null);
+            if (musicCursor.moveToFirst() && musicCursor.getCount() > 0) {
+                Log.d("QQQ", "ppppppppppppppp==>  " + musicCursor.getCount());
+                while (!musicCursor.isAfterLast()) {
+                    Song song = getSongFromCursor(musicCursor);
+                    songs.add(song);
+                    musicCursor.moveToNext();
+                }
+            } else {
+                throw new Exception();
+            }
+        } catch (Exception e) {
+            Log.e("QQQ", e.getMessage());
+        } finally {
+            musicCursor.close();
+        }
+        return songs;
+
+    }
+
+    /**
+     * get key for courser ==> https://developer.android.com/reference/android/provider/MediaStore.Audio.AudioColumns
+     *
+     * @param musicCursor
+     * @return
+     */
+    private static Song getSongFromCursor(Cursor musicCursor) {
+        String title = musicCursor.getString(musicCursor.getColumnIndex
+                (MediaStore.Audio.Media.TITLE));
+        int id = Integer.parseInt(musicCursor.getString(musicCursor.getColumnIndex
+                (MediaStore.Audio.Media._ID)));
+        String artist = musicCursor.getString(musicCursor.getColumnIndex
+                (MediaStore.Audio.Media.ARTIST));
+        String albume = musicCursor.getString(musicCursor.getColumnIndex
+                (MediaStore.Audio.Media.ALBUM));
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+        /*     for (String s : musicCursor.getColumnNames()) {
+            Log.d("QQQ", s + " ---- " + musicCursor.getString(musicCursor.getColumnIndex(s)));
+        }*/
+        return new Song.Bilder()
+                .setIntId(id)
+                .setStringAlbum(albume)
+                .setStringTitle(title)
+                .setStringArtist(artist)
+                .setUri(contentUri)
+                .creat();
     }
 
 }

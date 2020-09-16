@@ -10,11 +10,12 @@ import org.maktab.musucplayer.database.SongRepository;
 
 public class ArtistListFragment extends ListFragment {
 
+    private Callbacks mCallbacksl;
 
-    public static ArtistListFragment newInstance() {
+    public static ArtistListFragment newInstance(Callbacks callbacks) {
         ArtistListFragment fragment = new ArtistListFragment();
         Bundle args = new Bundle();
-
+        fragment.mCallbacksl = callbacks;
         fragment.setArguments(args);
         return fragment;
     }
@@ -23,13 +24,8 @@ public class ArtistListFragment extends ListFragment {
     public MusicListAdapter getMusicAdapter() {
         return MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
-                MusicListAdapter.State.ARTIST,
-                new MusicListAdapter.Callbacks() {
-                    @Override
-                    public void onItemSelected(Uri musicUri) {
-
-                    }
-                }
+                States.ARTISTS,
+               mCallbacksl
         );
     }
 
