@@ -3,6 +3,8 @@ package org.maktab.musucplayer.database;
 import android.content.Context;
 import android.util.Log;
 
+import org.maktab.musucplayer.model.Album;
+import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.utils.Music;
 
@@ -12,6 +14,7 @@ import java.util.List;
 public class SongRepository {
 
     private List<Song> mSongs;
+
     private static Context sContext;
 
     private static SongRepository sRepository;
@@ -68,6 +71,52 @@ public class SongRepository {
             }
         }
         return songArtist;
+    }
+
+    public static ArrayList<Artist> getArtistsFromSongs(ArrayList<Song> songs) {
+        ArrayList<Artist> artists = new ArrayList<>();
+        lopSong:
+        for (int i = 0; i < songs.size(); i++) {
+            boolean artistExist = false;
+            lopArtist:
+            for (int j = 0; j < artists.size(); j++) {
+                if (artists.get(j).getStringArtistName().equals(songs.get(i).getStringArtist())) {
+                    artists.get(j).getSongArtist().add(songs.get(i));
+                    artistExist = true;
+                    break lopArtist;
+                }
+            }
+            if (!artistExist) {
+                Artist artist = new Artist();
+                artist.setStringArtistName(songs.get(i).getStringArtist());
+                artist.getSongArtist().add(songs.get(i));
+                artists.add(artist);
+            }
+        }
+        return artists;
+    }
+
+    public static ArrayList<Album> getAlbumFromSongs(ArrayList<Song> songs) {
+        ArrayList<Album> albums = new ArrayList<>();
+        lopSong:
+        for (int i = 0; i < songs.size(); i++) {
+            boolean albumistExist = false;
+            loopAlbum:
+            for (int j = 0; j < albums.size(); j++) {
+                if (albums.get(j).getStringAlbumName().equals(songs.get(i).getStringAlbum())) {
+                    albums.get(j).getSongAlbum().add(songs.get(i));
+                    albumistExist = true;
+                    break loopAlbum;
+                }
+            }
+            if (!albumistExist) {
+                Album album = new Album();
+                album.setStringAlbumName(songs.get(i).getStringAlbum());
+                album.getSongAlbum().add(songs.get(i));
+                albums.add(album);
+            }
+        }
+        return albums;
     }
 
 }

@@ -74,4 +74,8 @@ public class Song implements Serializable {
     public int getIntId() {
         return mIntId;
     }
+
+    public Uri getUri() {
+        return mUri;
+    }
 }

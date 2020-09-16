@@ -1,5 +1,6 @@
 package org.maktab.musucplayer.fragment.lists;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import org.maktab.musucplayer.R;
@@ -18,7 +19,16 @@ public class AlbumListFragment extends ListFragment {
 
     @Override
     public MusicListAdapter getMusicAdapter() {
-        return MusicListAdapter.newInstance(getActivity(), SongRepository.newInstance(getActivity()).getSongs());
+        return MusicListAdapter.newInstance(
+                getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
+                MusicListAdapter.State.ALBUMS,
+                new MusicListAdapter.Callbacks() {
+                    @Override
+                    public void onItemSelected(Uri musicUri) {
+
+                    }
+                }
+        );
 
     }
 

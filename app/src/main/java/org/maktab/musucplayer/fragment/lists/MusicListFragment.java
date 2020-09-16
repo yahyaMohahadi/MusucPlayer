@@ -1,13 +1,7 @@
 package org.maktab.musucplayer.fragment.lists;
 
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
@@ -22,9 +16,19 @@ public class MusicListFragment extends ListFragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public MusicListAdapter getMusicAdapter() {
-        return MusicListAdapter.newInstance(getActivity(), SongRepository.newInstance(getActivity()).getSongs());
+        return MusicListAdapter.newInstance(
+                getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
+                MusicListAdapter.State.MUSICS
+                , new MusicListAdapter.Callbacks() {
+                    @Override
+                    public void onItemSelected(Uri musicUri) {
+
+                    }
+                }
+        );
     }
 
     @Override
