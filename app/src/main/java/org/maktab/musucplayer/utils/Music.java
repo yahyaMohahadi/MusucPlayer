@@ -1,10 +1,12 @@
 package org.maktab.musucplayer.utils;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import org.maktab.musucplayer.model.Song;
 
@@ -30,7 +32,7 @@ public class Music {
                 throw new Exception();
             }
         } catch (Exception e) {
-
+            Log.e("QQQ", e.getMessage());
         } finally {
             musicCursor.close();
         }
@@ -38,6 +40,12 @@ public class Music {
 
     }
 
+    /**
+     * get key for courser ==> https://developer.android.com/reference/android/provider/MediaStore.Audio.AudioColumns
+     *
+     * @param musicCursor
+     * @return
+     */
     public static Song getSongFromCursor(Cursor musicCursor) {
         String title = musicCursor.getString(musicCursor.getColumnIndex
                 (MediaStore.Audio.Media.TITLE));
@@ -47,11 +55,17 @@ public class Music {
                 (MediaStore.Audio.Media.ARTIST));
         String albume = musicCursor.getString(musicCursor.getColumnIndex
                 (MediaStore.Audio.Media.ALBUM));
+        Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+        /*     for (String s : musicCursor.getColumnNames()) {
+            Log.d("QQQ", s + " ---- " + musicCursor.getString(musicCursor.getColumnIndex(s)));
+        }*/
         return new Song.Bilder()
                 .setIntId(id)
                 .setStringAlbum(albume)
                 .setStringTitle(title)
                 .setStringArtist(artist)
+                .setUri(contentUri)
                 .creat();
     }
 }
+

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
@@ -25,6 +26,8 @@ public class MainFragment extends Fragment {
     private AlbumListFragment mAlbumListFragment;
     private ArtistListFragment mArtistListFragment;
     Fragment[] mFragmentsList = new Fragment[3];
+    public static final String[] mFragmentsName = new String[]{"musics", "artists", "album"};
+    private TextView mTextViewListName;
     private int mIntCurentFragment = 0;
 
     public static MainFragment newInstance() {
@@ -37,6 +40,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
     }
 
     @Override
@@ -62,6 +67,7 @@ public class MainFragment extends Fragment {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 mIntCurentFragment = position;
+                initTextViewList();
             }
 
             @Override
@@ -70,6 +76,10 @@ public class MainFragment extends Fragment {
 
             }
         });
+    }
+
+    private void initTextViewList() {
+        mTextViewListName.setText(mFragmentsName[mIntCurentFragment]);
     }
 
     private void initViewPager() {
@@ -92,5 +102,6 @@ public class MainFragment extends Fragment {
 
     private void findView(View view) {
         mViewPagerMusic = view.findViewById(R.id.ViewPager_music);
+        mTextViewListName = view.findViewById(R.id.textView_list_name);
     }
 }

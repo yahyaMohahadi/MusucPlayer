@@ -1,5 +1,7 @@
 package org.maktab.musucplayer.model;
 
+import android.net.Uri;
+
 import java.io.Serializable;
 
 public class Song implements Serializable {
@@ -8,6 +10,7 @@ public class Song implements Serializable {
     private String mStringArtist;
     private String mStringAlbum;
     private int mIntId;
+    private Uri mUri;
 
 
     public static class Bilder {
@@ -15,12 +18,18 @@ public class Song implements Serializable {
         private String mStringArtist;
         private String mStringAlbum;
         private int mIntId;
+        private Uri mUri;
 
         public Bilder() {
         }
 
         public Bilder setStringTitle(String stringTitle) {
             mStringTitle = stringTitle;
+            return this;
+        }
+
+        public Bilder setUri(Uri uri) {
+            mUri = uri;
             return this;
         }
 
@@ -45,6 +54,7 @@ public class Song implements Serializable {
             song.mStringAlbum = this.mStringAlbum;
             song.mStringArtist = this.mStringArtist;
             song.mStringTitle = this.mStringTitle;
+            song.mUri = this.mUri;
             return song;
         }
     }
