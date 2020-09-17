@@ -2,6 +2,7 @@ package org.maktab.musucplayer.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,9 @@ public class MainFragment extends Fragment {
     private TextView mTextViewListName;
     private int mIntCurentFragment = 0;
 
-    private ImageButton mImageButtonShuffle;
+   /* private ImageButton mImageButtonShuffle;
     private ImageButton mImageButtonPlay;
-    private TextView mTextViewPlatBarTittleText;
+    private TextView mTextViewPlatBarTittleText;*/
     private ListFragment.Callbacks mCallbacksLists;
 
     public static MainFragment newInstance(ListFragment.Callbacks callbacks) {
@@ -53,8 +54,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -72,7 +71,7 @@ public class MainFragment extends Fragment {
     }
 
     private void setOncklickMusicBar() {
-        mImageButtonPlay.setOnClickListener(new View.OnClickListener() {
+/*        mImageButtonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //todo
@@ -93,7 +92,7 @@ public class MainFragment extends Fragment {
                 startPlayMusicView();
 
             }
-        });
+        });*/
 
     }
 
@@ -150,8 +149,8 @@ public class MainFragment extends Fragment {
     private void findView(View view) {
         mViewPagerMusic = view.findViewById(R.id.ViewPager_music);
         mTextViewListName = view.findViewById(R.id.textView_list_name);
-        mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
+/*        mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_main_fragment_play);
-        mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_main_title);
+        mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_main_title);*/
     }
 }

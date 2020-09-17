@@ -71,7 +71,7 @@ public class SongRepository {
     public List<Song> getSongArtist(String artist) {
         List<Song> songArtist = new ArrayList<>();
         for (Song song : mSongs) {
-            if (song.getStringAlbum().equals(artist)) {
+            if (song.getStringArtist().equals(artist)) {
                 songArtist.add(song);
             }
         }
@@ -160,10 +160,8 @@ public class SongRepository {
         try {
             ContentResolver musicResolver = context.getContentResolver();
             Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            Log.d("QQQ", "ppppppppppppppp==>  " + musicUri);
             musicCursor = musicResolver.query(musicUri, null, null, null, null);
             if (musicCursor.moveToFirst() && musicCursor.getCount() > 0) {
-                Log.d("QQQ", "ppppppppppppppp==>  " + musicCursor.getCount());
                 while (!musicCursor.isAfterLast()) {
                     Song song = getSongFromCursor(musicCursor);
                     songs.add(song);

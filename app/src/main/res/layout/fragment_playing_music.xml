@@ -10,14 +10,18 @@
 
     <TextView
         android:id="@+id/textView_muaic_play_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:text="tittle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_play_play_title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView_muaic_play_artist"
@@ -38,34 +42,15 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_muaic_play_title" />
 
 
-    <TextView
-        android:id="@+id/textView_play_play_title"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_weight="1"
-        android:text="music"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <ImageButton
         android:id="@+id/imageButton_play_fragment_shuffle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:background="#FFFFFF"
         android:src="@drawable/ic_shafel"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_fragment_play"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="691dp" />
 
     <ImageButton
         android:id="@+id/imageButtin_play_fragment_play"
@@ -79,4 +64,34 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/imageButton_play_fragment_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_next"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_fragment_play"
+        app:layout_constraintStart_toEndOf="@+id/imageButtin_play_fragment_play"
+        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_fragment_play"
+        android:background="#FFFFFF"/>
+
+    <ImageButton
+        android:id="@+id/imageButton_play_fragment_previous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_previous"
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_fragment_play"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtin_play_fragment_play"
+        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_fragment_play"
+        android:background="#FFFFFF"/>
+
+    <TextView
+        android:id="@+id/textView_music_play_fragment_song_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="TextView_play_fragment_song_name"
+        app:layout_constraintBottom_toTopOf="@+id/imageButtin_play_fragment_play"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
