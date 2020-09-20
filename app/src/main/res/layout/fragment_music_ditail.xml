@@ -9,8 +9,8 @@
         android:id="@+id/imageView_detail_cover"
 
         android:layout_width="0dp"
-        android:background="@drawable/shape_play"
         android:layout_height="0dp"
+        android:background="@drawable/shape_play"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -20,34 +20,34 @@
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
-        android:id="@+id/textView_list_artist"
+        android:id="@+id/textView_ditail_tittle"
+        style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="tittle music"
-        style="@style/Platform.MaterialComponents.Light"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView_detail_cover" />
 
     <TextView
-        android:id="@+id/textView_list_artist"
+        android:id="@+id/textView_ditail_artist"
         style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="artist"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView_list_artist"
-        app:layout_constraintStart_toStartOf="@+id/textView_list_artist"
-        app:layout_constraintTop_toBottomOf="@+id/textView_list_artist" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_ditail_tittle" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.75" />
+        app:layout_constraintGuide_percent="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

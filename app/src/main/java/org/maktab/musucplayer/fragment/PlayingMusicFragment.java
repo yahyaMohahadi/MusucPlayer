@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.model.Song;
 
 import java.io.IOException;
@@ -23,9 +22,8 @@ import java.util.Random;
 
 public class PlayingMusicFragment extends Fragment {
 
-    public static final String KEY_STATE = "org.maktab.musucplayer.fragmentSTATE";
+
     public static final String KEY_SONGS = "org.maktab.musucplayer.fragmentSONGS";
-    private ListFragment.States mStates;
     private StateSong mStateSong = StateSong.PLAY;
     private MediaPlayer mMediaPlayer;
     private List<Song> mSongs;
@@ -37,31 +35,34 @@ public class PlayingMusicFragment extends Fragment {
     private ImageButton mImageButtonPrevious;
 
     private ImageButton mImageButtonReapeat;
-    private TextView mTextViewTittle;
-    private TextView mTextViewAlbum;
-    private TextView mTextViewArtist;
-    private TextView mTextViewSongName;
 
     private StateRepeat mStateRepeat = StateRepeat.ONE;
 
     private int mIntPauseSecond = 0;
+    private TextView mTextViewTittle;
 
 
-    public static PlayingMusicFragment newInstance(ListFragment.States state, List<Song> songs) {
+    public static PlayingMusicFragment newInstance(List<Song> songs) {
         PlayingMusicFragment fragment = new PlayingMusicFragment();
         Bundle args = new Bundle();
-        args.putSerializable(KEY_STATE, state);
         args.putSerializable(KEY_SONGS, (Serializable) songs);
         fragment.setArguments(args);
         return fragment;
     }
 
+    public void updateList(List<Song> list) {
+        mSongs = list;
+        mMediaPlayer.reset();
+        mIntPauseSecond = 0;
+        mCurentSong = list.get(0);
+        startCurent();
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mStates = (ListFragment.States) getArguments().getSerializable(KEY_STATE);
             mSongs = (List<Song>) getArguments().getSerializable(KEY_SONGS);
         }
         if (mMediaPlayer == null) {
@@ -77,7 +78,6 @@ public class PlayingMusicFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playing_music, container, false);
         findView(view);
-        mTextViewTittle.setText(mStates.toString().toUpperCase());
         setOnClick();
         initUi();
         initRepeatUi();
@@ -87,9 +87,7 @@ public class PlayingMusicFragment extends Fragment {
 
     private void initUi() {
         initPlayButtonImage();
-        mTextViewAlbum.setText(mCurentSong.getStringAlbum());
-        mTextViewArtist.setText(mCurentSong.getStringArtist());
-        mTextViewSongName.setText(mCurentSong.getStringTitle());
+        mTextViewTittle.setText(mCurentSong.getStringTitle());
     }
 
     private void setOnClick() {
@@ -204,13 +202,8 @@ public class PlayingMusicFragment extends Fragment {
         mImageButtonNext = view.findViewById(R.id.imageButton_play_next);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_play_play);
         mImageButtonPrevious = view.findViewById(R.id.imageButton_play_previous);
-
         mImageButtonReapeat = view.findViewById(R.id.imageButton_play_shuffle);
-
-        mTextViewTittle = view.findViewById(R.id.textView_muaic_play_title);
-        mTextViewAlbum = view.findViewById(R.id.textView_muaic_play_album);
-        mTextViewArtist = view.findViewById(R.id.textView_muaic_play_artist);
-        mTextViewSongName = view.findViewById(R.id.textView_music_play_fragment_song_name);
+        mTextViewTittle = view.findViewById(R.id.textView_play_tittle);
     }
 
     private void changeSong(int toUpdate) {
