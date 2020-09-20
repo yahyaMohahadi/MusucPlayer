@@ -3,6 +3,11 @@ package org.maktab.musucplayer.fragment.lists;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.loader.app.LoaderManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.database.SongRepository;
@@ -16,6 +21,11 @@ public class AlbumListFragment extends ListFragment {
         fragment.mCallbacks = callbacks;
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    protected LinearLayoutManager getLayoutManager() {
+        return  new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
     }
 
     @Override

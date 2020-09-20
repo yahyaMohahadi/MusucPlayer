@@ -7,29 +7,29 @@
     android:padding="8dp">
 
     <TextView
-        android:id="@+id/textView_title"
+        android:id="@+id/textView_list_title"
+        style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="TextView"
-        style="@style/Platform.MaterialComponents.Light"
+        android:text="tittle"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
-        app:layout_constraintTop_toTopOf="@+id/imageButton" />
+        app:layout_constraintStart_toEndOf="@+id/imageButton_list_music_image"
+        app:layout_constraintTop_toTopOf="@+id/imageButton_list_music_image" />
 
     <TextView
-        android:id="@+id/textView_tittle"
+        android:id="@+id/textView_list_artist"
+        style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/Platform.MaterialComponents.Light"
+        android:text="artist"
         android:textSize="14sp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="@+id/textView_title"
-        app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+        app:layout_constraintStart_toStartOf="@+id/textView_list_title"
+        app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButton_list_music_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_image"

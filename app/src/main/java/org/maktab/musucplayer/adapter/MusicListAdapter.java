@@ -123,7 +123,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         private void findViewState(View view) {
             switch (mState) {
                 case ALBUMS: {
-                    mTextViewAlbumNumber = view.findViewById(R.id.textView_album_number);
+                    mTextViewAlbumNumber = view.findViewById(R.id.textView_album_music_number);
                     mTextViewAlbumtName = view.findViewById(R.id.textView_list_album_name);
                     break;
                 }
@@ -133,9 +133,9 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     break;
                 }
                 case MUSICS: {
-                    mTextViewTitle = view.findViewById(R.id.textView_title);
-                    mTextViewArtist = view.findViewById(R.id.textView_tittle);
-                    mTextViewAlbum = view.findViewById(R.id.textView_album);
+                    mTextViewTitle = view.findViewById(R.id.textView_list_title);
+                    mTextViewArtist = view.findViewById(R.id.textView_list_artist);
+
                     break;
                 }
             }
@@ -145,7 +145,8 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
             switch (mState) {
                 case ALBUMS: {
                     initItemViewAlbum(position);
-                    itemView.setOnClickListener(new View.OnClickListener() {
+                    itemView.setOnClickListener(
+                            new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             mCallbacks.itemCalled(mState, mAlbums.get(position).getStringAlbumName());
@@ -183,8 +184,6 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
             mTextViewTitle.setText(mSongs.get(position).getStringTitle());
             mTextViewArtist.setText(mSongs.get(position).getStringArtist());
-            mTextViewAlbum.setText(mSongs.get(position).getStringAlbum());
-
 
         }
 

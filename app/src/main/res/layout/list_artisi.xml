@@ -24,7 +24,7 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/imageButton_list_artist"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/selector_image"
@@ -45,8 +45,9 @@
         android:text="album name"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageButton"
+        app:layout_constraintStart_toEndOf="@+id/imageButton_list_artist"
         app:layout_constraintTop_toTopOf="parent" />
+
 
 
     <TextView

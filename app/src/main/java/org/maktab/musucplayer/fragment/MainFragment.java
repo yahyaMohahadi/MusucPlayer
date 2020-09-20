@@ -2,11 +2,9 @@ package org.maktab.musucplayer.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -147,7 +145,7 @@ public class MainFragment extends Fragment {
     }
 
     private void findView(View view) {
-        mViewPagerMusic = view.findViewById(R.id.ViewPager_music);
+        mViewPagerMusic = view.findViewById(R.id.ViewPager_lists);
         mTextViewListName = view.findViewById(R.id.textView_list_name);
 /*        mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_main_fragment_play);

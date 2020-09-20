@@ -201,11 +201,11 @@ public class PlayingMusicFragment extends Fragment {
     }
 
     private void findView(View view) {
-        mImageButtonNext = view.findViewById(R.id.imageButton_play_fragment_next);
-        mImageButtonPlay = view.findViewById(R.id.imageButtin_play_fragment_play);
-        mImageButtonPrevious = view.findViewById(R.id.imageButton_play_fragment_previous);
+        mImageButtonNext = view.findViewById(R.id.imageButton_play_next);
+        mImageButtonPlay = view.findViewById(R.id.imageButtin_play_play);
+        mImageButtonPrevious = view.findViewById(R.id.imageButton_play_previous);
 
-        mImageButtonReapeat = view.findViewById(R.id.imageButton_play_fragment_shuffle);
+        mImageButtonReapeat = view.findViewById(R.id.imageButton_play_shuffle);
 
         mTextViewTittle = view.findViewById(R.id.textView_muaic_play_title);
         mTextViewAlbum = view.findViewById(R.id.textView_muaic_play_album);

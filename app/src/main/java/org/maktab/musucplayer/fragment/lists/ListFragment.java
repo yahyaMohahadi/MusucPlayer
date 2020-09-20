@@ -38,8 +38,12 @@ public abstract class ListFragment extends Fragment {
         View view = inflater.inflate(getFragmtView(), container, false);
         findView(view);
         intRecyclerVive();
-        mRecyclerViewSongs.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewSongs.setLayoutManager(getLayoutManager());
         return view;
+    }
+
+    protected LinearLayoutManager getLayoutManager() {
+        return new LinearLayoutManager(getActivity());
     }
 
     public void findView(View view) {

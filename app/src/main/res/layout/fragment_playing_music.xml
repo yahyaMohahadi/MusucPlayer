@@ -10,21 +10,21 @@
 
 
     <ImageButton
-        android:id="@+id/imageButton_play_fragment_shuffle"
+        android:id="@+id/imageButton_play_shuffle"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_plays"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:src="@drawable/ic_shafel"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/imageButtin_play_fragment_play"
+        android:id="@+id/imageButtin_play_play"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
@@ -40,36 +40,41 @@
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:id="@+id/imageButton_play_fragment_next"
+        android:id="@+id/imageButton_play_next"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/button_plays"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:src="@drawable/ic_next"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintStart_toEndOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_fragment_play" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_play"
+        app:layout_constraintStart_toEndOf="@+id/imageButtin_play_play"
+        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_play" />
 
     <ImageButton
-        android:id="@+id/imageButton_play_fragment_previous"
+        android:id="@+id/imageButton_play_previous"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/button_plays"
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:src="@drawable/ic_previous"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintEnd_toStartOf="@+id/imageButtin_play_fragment_play"
-        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_fragment_play" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_play"
+        app:layout_constraintEnd_toStartOf="@+id/imageButtin_play_play"
+        app:layout_constraintTop_toTopOf="@+id/imageButtin_play_play" />
 
     <SeekBar
         android:id="@+id/seekBar_play_fragment"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:max="10"
         android:progress="3"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

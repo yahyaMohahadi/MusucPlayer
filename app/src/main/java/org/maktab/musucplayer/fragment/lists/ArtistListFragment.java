@@ -1,7 +1,9 @@
 package org.maktab.musucplayer.fragment.lists;
 
-import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
@@ -21,11 +23,17 @@ public class ArtistListFragment extends ListFragment {
     }
 
     @Override
+    protected LinearLayoutManager getLayoutManager() {
+        return new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+    }
+
+
+    @Override
     public MusicListAdapter getMusicAdapter() {
         return MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
                 States.ARTISTS,
-               mCallbacksl
+                mCallbacksl
         );
     }
 

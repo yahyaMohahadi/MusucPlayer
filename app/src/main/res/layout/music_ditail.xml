@@ -20,7 +20,7 @@
         tools:ignore="VectorDrawableCompat" />
 
     <TextView
-        android:id="@+id/textView_tittle"
+        android:id="@+id/textView_list_artist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -32,16 +32,16 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView_detail_cover" />
 
     <TextView
-        android:id="@+id/textView_artist"
+        android:id="@+id/textView_list_artist"
         style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="artist"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView_tittle"
-        app:layout_constraintStart_toStartOf="@+id/textView_tittle"
-        app:layout_constraintTop_toBottomOf="@+id/textView_tittle" />
+        app:layout_constraintEnd_toEndOf="@+id/textView_list_artist"
+        app:layout_constraintStart_toStartOf="@+id/textView_list_artist"
+        app:layout_constraintTop_toBottomOf="@+id/textView_list_artist" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
