@@ -1,5 +1,6 @@
 package org.maktab.musucplayer.database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
@@ -20,8 +21,10 @@ public class SongRepository {
 
     private List<Song> mSongs;
 
+    @SuppressLint("StaticFieldLeak")
     private static Context sContext;
 
+    @SuppressLint("StaticFieldLeak")
     private static SongRepository sRepository;
 
     private SongRepository() {
@@ -80,15 +83,13 @@ public class SongRepository {
 
     public static ArrayList<Artist> getArtistsFromSongs(ArrayList<Song> songs) {
         ArrayList<Artist> artists = new ArrayList<>();
-        lopSong:
         for (int i = 0; i < songs.size(); i++) {
             boolean artistExist = false;
-            lopArtist:
             for (int j = 0; j < artists.size(); j++) {
                 if (artists.get(j).getStringArtistName().equals(songs.get(i).getStringArtist())) {
                     artists.get(j).getSongArtist().add(songs.get(i));
                     artistExist = true;
-                    break lopArtist;
+                    break;
                 }
             }
             if (!artistExist) {
@@ -103,15 +104,12 @@ public class SongRepository {
 
     public static ArrayList<Album> getAlbumFromSongs(ArrayList<Song> songs) {
         ArrayList<Album> albums = new ArrayList<>();
-        lopSong:
         for (int i = 0; i < songs.size(); i++) {
             boolean albumistExist = false;
-            loopAlbum:
             for (int j = 0; j < albums.size(); j++) {
                 if (albums.get(j).getStringAlbumName().equals(songs.get(i).getStringAlbum())) {
                     albums.get(j).getSongAlbum().add(songs.get(i));
                     albumistExist = true;
-                    break loopAlbum;
                 }
             }
             if (!albumistExist) {
@@ -173,7 +171,9 @@ public class SongRepository {
         } catch (Exception e) {
             Log.e("QQQ", e.getMessage());
         } finally {
-            musicCursor.close();
+            if (musicCursor != null) {
+                musicCursor.close();
+            }
         }
         return songs;
 
@@ -182,8 +182,8 @@ public class SongRepository {
     /**
      * get key for courser ==> https://developer.android.com/reference/android/provider/MediaStore.Audio.AudioColumns
      *
-     * @param musicCursor
-     * @return
+     * @param musicCursor that can get from media
+     * @return musicList will be return
      */
     private static Song getSongFromCursor(Cursor musicCursor) {
         String title = musicCursor.getString(musicCursor.getColumnIndex

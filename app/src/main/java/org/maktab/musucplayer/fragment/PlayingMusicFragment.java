@@ -35,12 +35,14 @@ public class PlayingMusicFragment extends Fragment {
     private ImageButton mImageButtonPlay;
     private ImageButton mImageButtonNext;
     private ImageButton mImageButtonPrevious;
-    private ImageButton mImageButtonShaffle;
 
+    private ImageButton mImageButtonReapeat;
     private TextView mTextViewTittle;
     private TextView mTextViewAlbum;
     private TextView mTextViewArtist;
     private TextView mTextViewSongName;
+
+    private StateRepeat mStateRepeat = StateRepeat.ONE;
 
     private int mIntPauseSecond = 0;
 
@@ -78,6 +80,8 @@ public class PlayingMusicFragment extends Fragment {
         mTextViewTittle.setText(mStates.toString().toUpperCase());
         setOnClick();
         initUi();
+        initRepeatUi();
+        initPlayButtonImage();
         return view;
     }
 
@@ -109,13 +113,49 @@ public class PlayingMusicFragment extends Fragment {
                 startCurent();
             }
         });
-        mImageButtonShaffle.setOnClickListener(new View.OnClickListener() {
+        mImageButtonReapeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changeSong(mRandom.nextInt(mSongs.size()));
-                startCurent();
+                //todo
+                changeSongReapeat();
             }
         });
+    }
+
+    //one - all - shafle
+    private void changeSongReapeat() {
+        switch (mStateRepeat) {
+            case ALL: {
+                mStateRepeat = StateRepeat.SHUFLE;
+                break;
+            }
+            case ONE: {
+                mStateRepeat = StateRepeat.ALL;
+                break;
+            }
+            case SHUFLE: {
+                mStateRepeat = StateRepeat.ONE;
+                break;
+            }
+        }
+        initRepeatUi();
+    }
+
+    private void initRepeatUi() {
+        switch (mStateRepeat) {
+            case ALL: {
+                mImageButtonReapeat.setImageResource(R.drawable.ic_repeat_all);
+                break;
+            }
+            case ONE: {
+                mImageButtonReapeat.setImageResource(R.drawable.ic_repeat_one);
+                break;
+            }
+            case SHUFLE: {
+                mImageButtonReapeat.setImageResource(R.drawable.ic_shafel);
+                break;
+            }
+        }
     }
 
     private void changeStateSong() {
@@ -164,7 +204,8 @@ public class PlayingMusicFragment extends Fragment {
         mImageButtonNext = view.findViewById(R.id.imageButton_play_fragment_next);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_play_fragment_play);
         mImageButtonPrevious = view.findViewById(R.id.imageButton_play_fragment_previous);
-        mImageButtonShaffle = view.findViewById(R.id.imageButton_play_fragment_shuffle);
+
+        mImageButtonReapeat = view.findViewById(R.id.imageButton_play_fragment_shuffle);
 
         mTextViewTittle = view.findViewById(R.id.textView_muaic_play_title);
         mTextViewAlbum = view.findViewById(R.id.textView_muaic_play_album);
@@ -173,6 +214,20 @@ public class PlayingMusicFragment extends Fragment {
     }
 
     private void changeSong(int toUpdate) {
+        switch (mStateRepeat) {
+            case ALL: {
+                toUpdate = mSongs.indexOf(mCurentSong);
+                break;
+            }
+            case ONE: {
+                //noting just play normal
+                break;
+            }
+            case SHUFLE: {
+                toUpdate = mRandom.nextInt(mSongs.size());
+                break;
+            }
+        }
         toUpdate = toUpdate % mSongs.size();
         mIntPauseSecond = 0;
         mCurentSong = mSongs.get(toUpdate);
@@ -181,6 +236,10 @@ public class PlayingMusicFragment extends Fragment {
 
     public enum StateSong {
         PLAY, PAUSE
+    }
+
+    public enum StateRepeat {
+        ALL, ONE, SHUFLE
     }
 
     @Override

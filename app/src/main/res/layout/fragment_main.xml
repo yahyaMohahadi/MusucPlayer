@@ -9,13 +9,14 @@
 
     <TextView
         android:id="@+id/textView_list_name"
+        style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon"
+        android:textSize="24sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:text="TextView"
-        android:textSize="18sp"
+        android:text="musics"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

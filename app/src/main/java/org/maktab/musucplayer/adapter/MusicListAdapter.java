@@ -1,7 +1,6 @@
 package org.maktab.musucplayer.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -135,7 +134,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 }
                 case MUSICS: {
                     mTextViewTitle = view.findViewById(R.id.textView_title);
-                    mTextViewArtist = view.findViewById(R.id.textView_artist);
+                    mTextViewArtist = view.findViewById(R.id.textView_tittle);
                     mTextViewAlbum = view.findViewById(R.id.textView_album);
                     break;
                 }
