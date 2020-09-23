@@ -28,6 +28,8 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     private Context mContext;
     private ListFragment.Callbacks mCallbacks;
     private ListFragment.States mState;
+    //todo make it a line fore showing live
+    public static final int LIMIT_CHARE_IN_VIEW = 12;
 
 
     public static MusicListAdapter newInstance(Context context,
@@ -112,6 +114,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         //album
         private TextView mTextViewAlbumtName;
         private TextView mTextViewAlbumNumber;
+        private TextView mTextViewAlbumArtist;
 
         public MusicListHolder(@NonNull View itemView) {
             super(itemView);
@@ -125,6 +128,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 case ALBUMS: {
                     mTextViewAlbumNumber = view.findViewById(R.id.textView_album_music_number);
                     mTextViewAlbumtName = view.findViewById(R.id.textView_list_album_name);
+                    mTextViewAlbumArtist = view.findViewById(R.id.textView_list_album_artist_name);
                     break;
                 }
                 case ARTISTS: {
@@ -147,11 +151,11 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     initItemViewAlbum(position);
                     itemView.setOnClickListener(
                             new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mCallbacks.itemCalled(mState, mAlbums.get(position).getStringAlbumName());
-                        }
-                    });
+                                @Override
+                                public void onClick(View view) {
+                                    mCallbacks.itemCalled(mState, mAlbums.get(position).getStringAlbumName());
+                                }
+                            });
                     break;
                 }
                 case ARTISTS: {
@@ -188,14 +192,19 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
 
         private void initItemViewAlbum(int position) {
-            mTextViewAlbumtName.setText(mAlbums.get(position).getStringAlbumName());
-            mTextViewAlbumNumber.setText(String.valueOf(mAlbums.get(position).getSongAlbum().size()));
+            mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName()));
+            mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size())));
+            mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName()));
         }
 
         private void initItemViewArtisi(int position) {
-            mTextViewArtistName.setText(mArtists.get(position).getStringArtistName());
-            mTextViewArtistNumber.setText(String.valueOf(mArtists.get(position).getSongArtist().size()));
+            mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName()));
+            mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size())));
         }
+    }
+
+    public static String limitString(String string) {
+        return string.length() > LIMIT_CHARE_IN_VIEW ? string.substring(0, LIMIT_CHARE_IN_VIEW) : string;
     }
 
 }

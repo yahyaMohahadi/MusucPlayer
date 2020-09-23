@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,10 @@ public abstract class ListFragment extends Fragment {
         findView(view);
         intRecyclerVive();
         mRecyclerViewSongs.setLayoutManager(getLayoutManager());
+        mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+       /* mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.HORIZONTAL));*/
         return view;
     }
 

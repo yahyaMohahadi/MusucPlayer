@@ -187,6 +187,7 @@ public class PlayingMusicFragment extends Fragment {
     }
 
     private void startCurent() {
+        mStateSong = StateSong.PLAY;
         initUi();
         mMediaPlayer.reset();
         try {
@@ -194,7 +195,6 @@ public class PlayingMusicFragment extends Fragment {
             mMediaPlayer.prepare();
             mMediaPlayer.start();
             mMediaPlayer.seekTo(mIntPauseSecond);
-            mStateSong = StateSong.PLAY;
         } catch (IOException e) {
             e.printStackTrace();
         }

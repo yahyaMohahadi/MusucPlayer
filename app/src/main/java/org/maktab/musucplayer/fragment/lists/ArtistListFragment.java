@@ -24,7 +24,7 @@ public class ArtistListFragment extends ListFragment {
 
     @Override
     protected LinearLayoutManager getLayoutManager() {
-        return new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+        return new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
     }
 
 

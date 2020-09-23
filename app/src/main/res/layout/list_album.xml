@@ -11,34 +11,32 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/selector_image"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_album" />
+
 
     <TextView
         android:id="@+id/textView_list_album_name"
         style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
 
         android:layout_marginTop="8dp"
         android:text="album name"
         android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/imageButton_list_album"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toStartOf="@+id/imageButton_list_album"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton_list_album" />
 
     <TextView
         android:id="@+id/textView_list_album_artist_name"
         style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="artist name"
-        android:textSize="18sp"
 
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/textView_list_album_name"
         app:layout_constraintTop_toBottomOf="@+id/textView_list_album_name" />
 
@@ -47,8 +45,9 @@
         style="@style/Platform.MaterialComponents.Light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="music number"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView_list_album_name" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_list_album_artist_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
