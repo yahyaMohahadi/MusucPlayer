@@ -1,7 +1,9 @@
 package org.maktab.musucplayer.activity;
 
+import android.Manifest;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,7 +19,10 @@ import org.maktab.musucplayer.model.Song;
 
 import java.util.List;
 
-public class SingleFragmentActivity extends AppCompatActivity {
+import pub.devrel.easypermissions.EasyPermissions;
+import pub.devrel.easypermissions.PermissionRequest;
+
+public class MainFragmentActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     protected ListFragment.Callbacks mCallbacks;
 
@@ -26,11 +31,18 @@ public class SingleFragmentActivity extends AppCompatActivity {
     protected PlayingMusicFragment mFragmentPlay;
     protected MusicListFragment mFragmentMusicList;
     private StateOnlineFragment stateOnline = StateOnlineFragment.MAIN;
+    private Bundle mBundlesavedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_fragment);
+        mBundlesavedInstanceState = savedInstanceState;
+        requestPermissions();
+
+    }
+
+    private void doRunAppAfterPermision(Bundle savedInstanceState) {
         initCallBack();
         if (savedInstanceState == null) {
             mFragmentMusicList = MusicListFragment.newInstance(mCallbacks);
@@ -49,7 +61,6 @@ public class SingleFragmentActivity extends AppCompatActivity {
                     .add(R.id.frgment_playing_place, mFragmentPlay)
                     .commit();
         }
-
     }
 
     private void initCallBack() {
@@ -88,6 +99,39 @@ public class SingleFragmentActivity extends AppCompatActivity {
             setMainFragment();
         } else
             super.onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        doRunAppAfterPermision(mBundlesavedInstanceState);
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+
+        this.finish();
+    }
+
+    private void requestPermissions() {
+        String[] perms = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            doRunAppAfterPermision(mBundlesavedInstanceState);
+
+        } else {
+            EasyPermissions.requestPermissions(
+                    new PermissionRequest.Builder(this, 256, perms)
+                            //.setRationale(R.string.camera_and_location_rationale)
+                            .setPositiveButtonText(android.R.string.ok)
+                            //.setNegativeButtonText(android.R.string.cancel)
+                            //.setTheme(R.style.my_fancy_style)
+                            .build());
+        }
     }
 
     public enum StateOnlineFragment {

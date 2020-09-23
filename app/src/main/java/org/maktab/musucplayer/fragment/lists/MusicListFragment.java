@@ -12,7 +12,8 @@ import java.util.List;
 public class MusicListFragment extends ListFragment {
     private Callbacks mCallbacks;
     private List<Song> mSongsToShow;
-private MusicListAdapter mMusicListAdapter;
+    private MusicListAdapter mMusicListAdapter;
+
     public static MusicListFragment newInstance(Callbacks callbacks) {
         MusicListFragment fragment = new MusicListFragment();
         Bundle args = new Bundle();
@@ -40,7 +41,7 @@ private MusicListAdapter mMusicListAdapter;
 
     @Override
     public MusicListAdapter getMusicAdapter() {
-        mMusicListAdapter =  MusicListAdapter.newInstance(
+        mMusicListAdapter = MusicListAdapter.newInstance(
                 getActivity(), mSongsToShow, ListFragment.States.MUSICS, mCallbacks);
         return mMusicListAdapter;
     }
@@ -57,6 +58,7 @@ private MusicListAdapter mMusicListAdapter;
 
     public void setSongsToShow(List<Song> songsToShow) {
         mSongsToShow = songsToShow;
-        mMusicListAdapter.notifyDataSetChanged();
+        if (mMusicListAdapter != null)
+            mMusicListAdapter.notifyDataSetChanged();
     }
 }

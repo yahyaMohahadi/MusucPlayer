@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -17,7 +17,7 @@ public class DitailMusicFragment extends Fragment {
 
     private TextView mTextViewTittle;
     private TextView mTextViewArtist;
-    private ImageButton mImageButtonMusicImage;
+    private ImageView mImageViewSongDitails;
     private Song mSongCurent;
 
     public static DitailMusicFragment newInstance(Song song) {
@@ -40,12 +40,13 @@ public class DitailMusicFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_music_ditail, container, false);
         findView(view);
+        initView();
         return view;
     }
 
     public void updateSong(Song songCurent) {
         mSongCurent = songCurent;
-        initView();
+
     }
 
     private void initView() {
@@ -60,7 +61,7 @@ public class DitailMusicFragment extends Fragment {
     }
 
     private void findView(View view) {
-        mImageButtonMusicImage = view.findViewById(R.id.imageView_detail_cover);
+        mImageViewSongDitails = view.findViewById(R.id.imageView_detail_cover);
         mTextViewArtist = view.findViewById(R.id.textView_ditail_artist);
         mTextViewTittle = view.findViewById(R.id.textView_ditail_tittle);
     }

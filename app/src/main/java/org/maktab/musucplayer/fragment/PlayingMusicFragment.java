@@ -2,7 +2,6 @@ package org.maktab.musucplayer.fragment;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ public class PlayingMusicFragment extends Fragment {
 
 
     public static final String KEY_SONGS = "org.maktab.musucplayer.fragmentSONGS";
-    private StateSong mStateSong = StateSong.PLAY;
+    private StateSong mStateSong = StateSong.PAUSE;
     private MediaPlayer mMediaPlayer;
     private List<Song> mSongs;
     private Song mCurentSong;
@@ -55,7 +54,9 @@ public class PlayingMusicFragment extends Fragment {
         mMediaPlayer.reset();
         mIntPauseSecond = 0;
         mCurentSong = list.get(0);
-        startCurent();
+        if (list.size() == 1) {
+            startCurent();
+        }
 
     }
 
@@ -65,11 +66,10 @@ public class PlayingMusicFragment extends Fragment {
         if (getArguments() != null) {
             mSongs = (List<Song>) getArguments().getSerializable(KEY_SONGS);
         }
-        if (mMediaPlayer == null) {
+        if (mMediaPlayer == null && mSongs != null) {
             mMediaPlayer = new MediaPlayer();
-            Log.d("QQQ", mSongs.size() + "   songes number");
-            mCurentSong = mSongs.get(0);
-            startCurent();
+            updateList(mSongs);
+
         }
     }
 
@@ -78,6 +78,7 @@ public class PlayingMusicFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playing_music, container, false);
         findView(view);
+        //startCurent();
         setOnClick();
         initUi();
         initRepeatUi();
@@ -179,13 +180,14 @@ public class PlayingMusicFragment extends Fragment {
                 break;
             }
             case PAUSE: {
-                mImageButtonPlay.setImageResource(R.drawable.ic_on_puse);
+                mImageButtonPlay.setImageResource(R.drawable.ic_play_2);
                 break;
             }
         }
     }
 
     private void startCurent() {
+        initUi();
         mMediaPlayer.reset();
         try {
             mMediaPlayer.setDataSource(getActivity(), mCurentSong.getUri());
