@@ -1,7 +1,11 @@
 package org.maktab.musucplayer.fragment.lists;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -24,7 +28,7 @@ public class ArtistListFragment extends ListFragment {
 
     @Override
     protected LinearLayoutManager getLayoutManager() {
-        return new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false);
+        return new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
     }
 
 

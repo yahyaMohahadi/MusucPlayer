@@ -23,14 +23,14 @@
         app:layout_constraintTop_toTopOf="parent" />-->
 
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imageButton_list_artist"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:background="@drawable/selector_image"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_artist" />
+        app:srcCompat="@drawable/ic_artist" />
 
     <TextView
         android:id="@+id/textView_artist_artist_name"

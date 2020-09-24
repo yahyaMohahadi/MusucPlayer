@@ -1,10 +1,8 @@
 package org.maktab.musucplayer.fragment.lists;
 
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.loader.app.LoaderManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -25,7 +23,7 @@ public class AlbumListFragment extends ListFragment {
 
     @Override
     protected LinearLayoutManager getLayoutManager() {
-        return  new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false);
+        return new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
     }
 
     @Override
@@ -33,7 +31,7 @@ public class AlbumListFragment extends ListFragment {
         return MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
                 ListFragment.States.ALBUMS,
-               mCallbacks
+                mCallbacks
         );
 
     }

@@ -1,13 +1,17 @@
 package org.maktab.musucplayer.fragment;
 
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import org.maktab.musucplayer.R;
@@ -23,6 +27,7 @@ public class PlayingMusicFragment extends Fragment {
 
 
     public static final String KEY_SONGS = "org.maktab.musucplayer.fragmentSONGS";
+    public static final int DELAY_TIME_SEEK_BAR = 2000;
     private StateSong mStateSong = StateSong.PAUSE;
     private MediaPlayer mMediaPlayer;
     private List<Song> mSongs;
@@ -38,7 +43,9 @@ public class PlayingMusicFragment extends Fragment {
     private StateRepeat mStateRepeat = StateRepeat.ONE;
 
     private int mIntPauseSecond = 0;
+    private int mIntCurentDuration = 0;
     private TextView mTextViewTittle;
+    private SeekBar mSeekBar;
 
 
     public static PlayingMusicFragment newInstance(List<Song> songs) {
@@ -73,17 +80,40 @@ public class PlayingMusicFragment extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playing_music, container, false);
         findView(view);
-        //startCurent();
+        mSeekBar.setMax(100);
+        mSeekBar.setMin(0);
+        setSeekbarCallbacks();
         setOnClick();
         initUi();
         initRepeatUi();
         initPlayButtonImage();
         return view;
+    }
+
+    protected void setSeekbarCallbacks() {
+        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mSeekBar.setProgress(seekBar.getProgress());
+                mMediaPlayer.seekTo((seekBar.getProgress()*mIntCurentDuration)/100);
+            }
+        });
     }
 
     private void initUi() {
@@ -115,7 +145,6 @@ public class PlayingMusicFragment extends Fragment {
         mImageButtonReapeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo
                 changeSongReapeat();
             }
         });
@@ -187,6 +216,7 @@ public class PlayingMusicFragment extends Fragment {
     }
 
     private void startCurent() {
+        mSeekBar.setProgress(0);
         mStateSong = StateSong.PLAY;
         initUi();
         mMediaPlayer.reset();
@@ -198,6 +228,40 @@ public class PlayingMusicFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mIntCurentDuration = mMediaPlayer.getDuration();
+        startRunSeekbar();
+    }
+
+    private void startRunSeekbar() {
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        setSeekBarProgtess();
+                        if (mStateSong == StateSong.PLAY)
+                            startRunSeekbar();
+                        checkFinish();
+                    }
+                },
+
+                DELAY_TIME_SEEK_BAR
+        );
+
+
+    }
+
+    private void checkFinish() {
+        if (!mMediaPlayer.isPlaying() && mStateSong == StateSong.PLAY){
+            Log.d("QQQ","END");
+            changeSong(mSongs.indexOf(mCurentSong) + 1);
+            startCurent();
+            //todo fix theread
+
+        }
+    }
+
+    private void setSeekBarProgtess() {
+        mSeekBar.setProgress((int) (Float.valueOf(mMediaPlayer.getCurrentPosition()) / Float.valueOf(mIntCurentDuration) * 100));
     }
 
     private void findView(View view) {
@@ -206,6 +270,7 @@ public class PlayingMusicFragment extends Fragment {
         mImageButtonPrevious = view.findViewById(R.id.imageButton_play_previous);
         mImageButtonReapeat = view.findViewById(R.id.imageButton_play_shuffle);
         mTextViewTittle = view.findViewById(R.id.textView_play_tittle);
+        mSeekBar = view.findViewById(R.id.seekBar_play_fragment);
     }
 
     private void changeSong(int toUpdate) {
@@ -227,7 +292,9 @@ public class PlayingMusicFragment extends Fragment {
         mIntPauseSecond = 0;
         mCurentSong = mSongs.get(toUpdate);
         initUi();
+
     }
+
 
     public enum StateSong {
         PLAY, PAUSE

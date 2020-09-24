@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="@+id/textView_list_title"
         app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/imageButton_list_music_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
