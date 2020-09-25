@@ -1,7 +1,14 @@
 package org.maktab.musucplayer.model;
 
+import android.content.ContentUris;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.ParcelFileDescriptor;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.Serializable;
 
 public class Song implements Serializable {
@@ -11,6 +18,7 @@ public class Song implements Serializable {
     private String mStringAlbum;
     private int mIntId;
     private Uri mUri;
+    private Long mLongAlbumId;
 
 
     public static class Bilder {
@@ -19,8 +27,14 @@ public class Song implements Serializable {
         private String mStringAlbum;
         private int mIntId;
         private Uri mUri;
+        private Long mLongAlbumId;
 
         public Bilder() {
+        }
+
+        public Bilder setLongAlbumId(Long longAlbumId) {
+            mLongAlbumId = longAlbumId;
+            return this;
         }
 
         public Bilder setStringTitle(String stringTitle) {
@@ -55,6 +69,7 @@ public class Song implements Serializable {
             song.mStringArtist = this.mStringArtist;
             song.mStringTitle = this.mStringTitle;
             song.mUri = this.mUri;
+            song.mLongAlbumId = this.mLongAlbumId;
             return song;
         }
     }
@@ -71,11 +86,39 @@ public class Song implements Serializable {
         return mStringAlbum;
     }
 
+    public Long getLongAlbumId() {
+        return mLongAlbumId;
+    }
+
     public int getIntId() {
         return mIntId;
     }
 
     public Uri getUri() {
         return mUri;
+    }
+
+    public  Bitmap getImageSong( Context context) {
+        Bitmap bm = null;
+        ParcelFileDescriptor pfd = null;
+        final Uri sArtworkUri = Uri
+                .parse("content://media/external/audio/albumart");
+
+        Uri uri = ContentUris.withAppendedId(sArtworkUri, mLongAlbumId);
+        try {
+            pfd = context.getContentResolver()
+                    .openFileDescriptor(uri, "r");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (pfd != null) {
+            FileDescriptor fd = pfd.getFileDescriptor();
+            bm = BitmapFactory.decodeFileDescriptor(fd);
+        }
+        return bm;
+    }
+    public  Bitmap getImageMusicSize(Context context){
+        return  Bitmap.createScaledBitmap(getImageSong(context), 40, 40, true);
     }
 }

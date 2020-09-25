@@ -111,7 +111,7 @@ public class PlayingMusicFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mSeekBar.setProgress(seekBar.getProgress());
-                mMediaPlayer.seekTo((seekBar.getProgress()*mIntCurentDuration)/100);
+                mMediaPlayer.seekTo((seekBar.getProgress() * mIntCurentDuration) / 100);
             }
         });
     }
@@ -251,13 +251,12 @@ public class PlayingMusicFragment extends Fragment {
     }
 
     private void checkFinish() {
-        if (!mMediaPlayer.isPlaying() && mStateSong == StateSong.PLAY){
-            Log.d("QQQ","END");
-            changeSong(mSongs.indexOf(mCurentSong) + 1);
-            startCurent();
+       // if (mMediaPlayer.getCurrentPosition() + 2000 > mIntCurentDuration && mStateSong == StateSong.PLAY) {
+            //changeSong(mSongs.indexOf(mCurentSong) + 1);
+            //startCurent();
             //todo fix theread
 
-        }
+
     }
 
     private void setSeekBarProgtess() {
@@ -291,6 +290,7 @@ public class PlayingMusicFragment extends Fragment {
         toUpdate = toUpdate % mSongs.size();
         mIntPauseSecond = 0;
         mCurentSong = mSongs.get(toUpdate);
+        mIntCurentDuration = 0;
         initUi();
 
     }

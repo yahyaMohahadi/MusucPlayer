@@ -1,10 +1,15 @@
 package org.maktab.musucplayer.utils;
 
+import android.content.ContentUris;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.util.Log;
+import android.os.ParcelFileDescriptor;
 
+import java.io.FileDescriptor;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Music {
@@ -25,7 +30,7 @@ public class Music {
     }
 
     public boolean startOver(Uri uri) {
-       mediaPlayer.reset();
+        mediaPlayer.reset();
 
         try {
             mediaPlayer.setDataSource(mContext, uri);

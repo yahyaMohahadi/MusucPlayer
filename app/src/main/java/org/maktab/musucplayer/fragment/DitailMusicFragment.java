@@ -56,6 +56,9 @@ public class DitailMusicFragment extends Fragment {
         } else {
             mTextViewArtist.setText(mSongCurent.getStringArtist());
             mTextViewTittle.setText(mSongCurent.getStringTitle());
+            mImageViewSongDitails.setImageBitmap(
+                    mSongCurent.getImageSong(getActivity())
+            );
             //todo text image
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -106,15 +107,18 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         private TextView mTextViewTitle;
         private TextView mTextViewArtist;
         private TextView mTextViewAlbum;
+        private ImageView mImageViewMusic;
 
         //artisit
         private TextView mTextViewArtistName;
         private TextView mTextViewArtistNumber;
+        private ImageView mImageViewArtist;
 
         //album
         private TextView mTextViewAlbumtName;
         private TextView mTextViewAlbumNumber;
         private TextView mTextViewAlbumArtist;
+        private ImageView mImageViewAlbum;
 
         public MusicListHolder(@NonNull View itemView) {
             super(itemView);
@@ -129,17 +133,19 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     mTextViewAlbumNumber = view.findViewById(R.id.textView_album_music_number);
                     mTextViewAlbumtName = view.findViewById(R.id.textView_list_album_name);
                     mTextViewAlbumArtist = view.findViewById(R.id.textView_list_album_artist_name);
+                    mImageViewAlbum = view.findViewById(R.id.imageView_list_album);
                     break;
                 }
                 case ARTISTS: {
                     mTextViewArtistName = view.findViewById(R.id.textView_artist_artist_name);
                     mTextViewArtistNumber = view.findViewById(R.id.textView_list_artisi_number);
+                    mImageViewArtist = view.findViewById(R.id.imageView_list_artist);
                     break;
                 }
                 case MUSICS: {
                     mTextViewTitle = view.findViewById(R.id.textView_list_title);
                     mTextViewArtist = view.findViewById(R.id.textView_list_artist);
-
+                    mImageViewMusic = view.findViewById(R.id.imageView_list_music_image);
                     break;
                 }
             }
@@ -185,21 +191,22 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
 
         private void initItemViewMusic(final int position) {
-
             mTextViewTitle.setText(mSongs.get(position).getStringTitle());
             mTextViewArtist.setText(mSongs.get(position).getStringArtist());
-
+            mImageViewMusic.setImageBitmap(mSongs.get(position).getImageMusicSize(mContext));
         }
 
         private void initItemViewAlbum(int position) {
             mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName()));
             mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size())));
             mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName()));
+            mImageViewAlbum.setImageBitmap(mAlbums.get(position).getSongAlbum().get(0).getImageSong(mContext));
         }
 
         private void initItemViewArtisi(int position) {
             mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName()));
             mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size())));
+            mImageViewArtist.setImageBitmap(mArtists.get(position).getSongArtist().get(0).getImageSong(mContext));
         }
     }
 

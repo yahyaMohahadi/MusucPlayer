@@ -15,8 +15,8 @@
         android:layout_marginLeft="8dp"
         android:text="tittle"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/imageButton_list_music_image"
-        app:layout_constraintTop_toTopOf="@+id/imageButton_list_music_image" />
+        app:layout_constraintStart_toEndOf="@+id/imageView_list_music_image"
+        app:layout_constraintTop_toTopOf="@+id/imageView_list_music_image" />
 
     <TextView
         android:id="@+id/textView_list_artist"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
 
     <ImageView
-        android:id="@+id/imageButton_list_music_image"
+        android:id="@+id/imageView_list_music_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/selector_image"

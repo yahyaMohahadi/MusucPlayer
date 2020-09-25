@@ -5,9 +5,6 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -198,25 +195,32 @@ public class SongRepository {
         String albume = musicCursor.getString(musicCursor.getColumnIndex
                 (MediaStore.Audio.Media.ALBUM));
         Uri contentUri = ContentUris.withAppendedId(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-        /*     for (String s : musicCursor.getColumnNames()) {
-            Log.d("QQQ", s + " ---- " + musicCursor.getString(musicCursor.getColumnIndex(s)));
-        }*/
-        //Bitmap bt = BitmapFactory.decodeFile(new File(contentUri.getPath()).getAbsolutePath());
-        //Log.d("QQQ",bt.toString());
-        //
-       // MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-       // retriever.setDataSource(contentUri.getPath());
-       // byte[] coverBytes = retriever.getEmbeddedPicture();
-        //Bitmap songCover = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.length);
 
-        //Log.d("QQQ", songCover.toString());
+        long albumId =
+                Long.parseLong(musicCursor.getString(
+                        musicCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+
         return new Song.Bilder()
                 .setIntId(id)
                 .setStringAlbum(albume)
                 .setStringTitle(title)
                 .setStringArtist(artist)
                 .setUri(contentUri)
+                .setLongAlbumId(albumId)
                 .creat();
     }
 
+
 }
+/*     for (String s : musicCursor.getColumnNames()) {
+            Log.d("QQQ", s + " ---- " + musicCursor.getString(musicCursor.getColumnIndex(s)));
+        }*/
+//Bitmap bt = BitmapFactory.decodeFile(new File(contentUri.getPath()).getAbsolutePath());
+//Log.d("QQQ",bt.toString());
+//
+// MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+// retriever.setDataSource(contentUri.getPath());
+// byte[] coverBytes = retriever.getEmbeddedPicture();
+//Bitmap songCover = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.length);
+
+//Log.d("QQQ", songCover.toString());
