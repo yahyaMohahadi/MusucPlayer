@@ -18,8 +18,10 @@
         android:layout_marginTop="8dp"
         android:text="tittle music"
         android:textSize="14sp"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/imageButton_play_shuffle"
         style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -52,10 +54,10 @@
 
     <ImageButton
         android:id="@+id/imageButton_play_next"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/button_plays"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:src="@drawable/ic_next"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_play"
         app:layout_constraintStart_toEndOf="@+id/imageButtin_play_play"
@@ -63,10 +65,10 @@
 
     <ImageButton
         android:id="@+id/imageButton_play_previous"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:background="@drawable/button_plays"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
         android:src="@drawable/ic_previous"
         app:layout_constraintBottom_toBottomOf="@+id/imageButtin_play_play"
         app:layout_constraintEnd_toStartOf="@+id/imageButtin_play_play"
