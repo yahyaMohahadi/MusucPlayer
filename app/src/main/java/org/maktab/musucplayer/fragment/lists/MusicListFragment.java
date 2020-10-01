@@ -2,6 +2,8 @@ package org.maktab.musucplayer.fragment.lists;
 
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.database.SongRepository;
@@ -41,6 +43,8 @@ public class MusicListFragment extends ListFragment {
 
     @Override
     public MusicListAdapter getMusicAdapter() {
+        mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
         mMusicListAdapter = MusicListAdapter.newInstance(
                 getActivity(), mSongsToShow, ListFragment.States.MUSICS, mCallbacks);
         return mMusicListAdapter;

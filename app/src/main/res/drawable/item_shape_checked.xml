@@ -8,8 +8,8 @@
     <gradient
         android:angle="45"
 
-        android:endColor="#F1F6F6"
-        android:startColor="#35BFD1"
+        android:endColor="#653F51B5"
+        android:startColor="#28673AB7"
         android:type="linear" />
 
 
@@ -17,10 +17,9 @@
         android:width="40dp"
         android:height="40dp" />
 
-
     <stroke
         android:width="2dp"
-        android:color="#1332DD" />
+        android:color="#613F51B5" />
 
 
 </shape>

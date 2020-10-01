@@ -3,7 +3,6 @@ package org.maktab.musucplayer.fragment;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import org.maktab.musucplayer.R;
+import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.model.Song;
 
 import java.io.IOException;
@@ -27,7 +27,8 @@ public class PlayingMusicFragment extends Fragment {
 
 
     public static final String KEY_SONGS = "org.maktab.musucplayer.fragmentSONGS";
-    public static final int DELAY_TIME_SEEK_BAR = 2000;
+    public static final int DELAY_TIME_SEEK_BAR = 500;
+    public static final int LIMIT_TITTLE_PLAY_BAR = 30;
     private StateSong mStateSong = StateSong.PAUSE;
     private MediaPlayer mMediaPlayer;
     private List<Song> mSongs;
@@ -111,14 +112,23 @@ public class PlayingMusicFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 mSeekBar.setProgress(seekBar.getProgress());
-                mMediaPlayer.seekTo((seekBar.getProgress() * mIntCurentDuration) / 100);
+                switch (mStateSong) {
+                    case PAUSE: {
+                        mIntPauseSecond = (seekBar.getProgress() * mIntCurentDuration) / 100;
+                        break;
+                    }
+                    case PLAY: {
+                        mMediaPlayer.seekTo((seekBar.getProgress() * mIntCurentDuration) / 100);
+                        break;
+                    }
+                }
             }
         });
     }
 
     private void initUi() {
         initPlayButtonImage();
-        mTextViewTittle.setText(mCurentSong.getStringTitle());
+        mTextViewTittle.setText(MusicListAdapter.limitString(mCurentSong.getStringTitle(), LIMIT_TITTLE_PLAY_BAR));
     }
 
     private void setOnClick() {
@@ -232,31 +242,40 @@ public class PlayingMusicFragment extends Fragment {
         startRunSeekbar();
     }
 
+    /*     new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setSeekBarProgtess();
+                    }
+                }, DELAY_TIME_SEEK_BAR);
+            }
+        });*/
     private void startRunSeekbar() {
+
         new java.util.Timer().schedule(
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        setSeekBarProgtess();
-                        if (mStateSong == StateSong.PLAY)
+                        if (mStateSong == StateSong.PLAY) {
+                            setSeekBarProgtess();
+                            checkFinish();
                             startRunSeekbar();
-                        checkFinish();
+                        }
                     }
                 },
-
                 DELAY_TIME_SEEK_BAR
         );
-
-
     }
 
     private void checkFinish() {
-       // if (mMediaPlayer.getCurrentPosition() + 2000 > mIntCurentDuration && mStateSong == StateSong.PLAY) {
-            //changeSong(mSongs.indexOf(mCurentSong) + 1);
-            //startCurent();
-            //todo fix theread
-
-
+        // if (mMediaPlayer.getCurrentPosition() + 2000 > mIntCurentDuration && mStateSong == StateSong.PLAY) {
+        //changeSong(mSongs.indexOf(mCurentSong) + 1);
+        //startCurent();
+        //todo fix theread
     }
 
     private void setSeekBarProgtess() {

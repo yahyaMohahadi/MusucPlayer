@@ -40,8 +40,7 @@ public abstract class ListFragment extends Fragment {
         findView(view);
         intRecyclerVive();
         mRecyclerViewSongs.setLayoutManager(getLayoutManager());
-        mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
+
        /* mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.HORIZONTAL));*/
         return view;

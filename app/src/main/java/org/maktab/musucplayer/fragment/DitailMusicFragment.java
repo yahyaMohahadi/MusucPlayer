@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import org.maktab.musucplayer.R;
+import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.model.Song;
 
 
@@ -54,8 +55,8 @@ public class DitailMusicFragment extends Fragment {
             mTextViewArtist.setText("artist");
             mTextViewTittle.setText("tittle");
         } else {
-            mTextViewArtist.setText(mSongCurent.getStringArtist());
-            mTextViewTittle.setText(mSongCurent.getStringTitle());
+            mTextViewArtist.setText(MusicListAdapter.limitString(mSongCurent.getStringArtist(), MusicListAdapter.LIMIT_CHARE_IN_Tiitle));
+            mTextViewTittle.setText(MusicListAdapter.limitString(mSongCurent.getStringTitle(), 25));
             mImageViewSongDitails.setImageBitmap(
                     mSongCurent.getImageSong(getActivity())
             );

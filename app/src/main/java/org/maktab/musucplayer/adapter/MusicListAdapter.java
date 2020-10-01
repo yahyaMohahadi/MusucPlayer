@@ -30,7 +30,8 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     private ListFragment.Callbacks mCallbacks;
     private ListFragment.States mState;
     //todo make it a line fore showing live
-    public static final int LIMIT_CHARE_IN_VIEW = 12;
+    public static final int LIMIT_CHARE_IN_VIEW = 9;
+    public static final int LIMIT_CHARE_IN_Tiitle = 45;
 
 
     public static MusicListAdapter newInstance(Context context,
@@ -191,27 +192,28 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
 
         private void initItemViewMusic(final int position) {
-            mTextViewTitle.setText(mSongs.get(position).getStringTitle());
+            mTextViewTitle.setText(limitString(mSongs.get(position).getStringTitle(),LIMIT_CHARE_IN_Tiitle));
             mTextViewArtist.setText(mSongs.get(position).getStringArtist());
             mImageViewMusic.setImageBitmap(mSongs.get(position).getImageMusicSize(mContext));
         }
 
+
         private void initItemViewAlbum(int position) {
-            mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName()));
-            mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size())));
-            mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName()));
+            mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName(),LIMIT_CHARE_IN_VIEW));
+            mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size()),LIMIT_CHARE_IN_VIEW));
+            mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName(),LIMIT_CHARE_IN_VIEW));
             mImageViewAlbum.setImageBitmap(mAlbums.get(position).getSongAlbum().get(0).getImageSong(mContext));
         }
 
         private void initItemViewArtisi(int position) {
-            mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName()));
-            mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size())));
+            mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName(),LIMIT_CHARE_IN_VIEW));
+            mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size()),LIMIT_CHARE_IN_VIEW));
             mImageViewArtist.setImageBitmap(mArtists.get(position).getSongArtist().get(0).getImageSong(mContext));
         }
     }
 
-    public static String limitString(String string) {
-        return string.length() > LIMIT_CHARE_IN_VIEW ? string.substring(0, LIMIT_CHARE_IN_VIEW) : string;
+    public static String limitString(String string,int limit) {
+        return string.length() > limit ? string.substring(0, limit)+"..." : string;
     }
 
 }
