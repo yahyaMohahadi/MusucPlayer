@@ -13,11 +13,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.ViewPagerAdapter;
-import org.maktab.musucplayer.database.SongRepository;
 import org.maktab.musucplayer.fragment.lists.AlbumListFragment;
 import org.maktab.musucplayer.fragment.lists.ArtistListFragment;
 import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.fragment.lists.MusicListFragment;
+import org.maktab.musucplayer.repository.SongRepository;
+import org.maktab.musucplayer.utils.Music;
 
 public class MainFragment extends Fragment {
 
@@ -36,9 +37,9 @@ public class MainFragment extends Fragment {
     private TextView mTextViewListName;
     private int mIntCurentFragment = 0;
 
-   /* private ImageButton mImageButtonShuffle;
-    private ImageButton mImageButtonPlay;
-    private TextView mTextViewPlatBarTittleText;*/
+    /* private ImageButton mImageButtonShuffle;
+     private ImageButton mImageButtonPlay;
+     private TextView mTextViewPlatBarTittleText;*/
     private ListFragment.Callbacks mCallbacksLists;
 
     public static MainFragment newInstance(ListFragment.Callbacks callbacks) {
@@ -52,6 +53,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -64,7 +66,6 @@ public class MainFragment extends Fragment {
         setOncklickMusicBar();
         initViewPager();
         setCallbackRegestery();
-
         return view;
     }
 

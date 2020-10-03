@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.database;
+package org.maktab.musucplayer.repository;
 
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;

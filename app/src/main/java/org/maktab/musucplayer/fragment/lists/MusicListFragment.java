@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
-import org.maktab.musucplayer.database.SongRepository;
+import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.model.Song;
 
 import java.util.List;

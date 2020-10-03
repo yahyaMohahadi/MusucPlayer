@@ -2,13 +2,12 @@ package org.maktab.musucplayer.fragment.lists;
 
 import android.os.Bundle;
 
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
-import org.maktab.musucplayer.database.SongRepository;
+import org.maktab.musucplayer.repository.SongRepository;
 
 public class AlbumListFragment extends ListFragment {
     private Callbacks mCallbacks;

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.database.SongRepository;
+import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;

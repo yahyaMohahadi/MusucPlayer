@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.database.SongRepository;
+import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.fragment.DitailMusicFragment;
 import org.maktab.musucplayer.fragment.MainFragment;
 import org.maktab.musucplayer.fragment.PlayingMusicFragment;
@@ -39,7 +39,6 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
         setContentView(R.layout.activity_single_fragment);
         mBundlesavedInstanceState = savedInstanceState;
         requestPermissions();
-
     }
 
     private void doRunAppAfterPermision(Bundle savedInstanceState) {
@@ -87,10 +86,8 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
 
     private void setMainFragment() {
         stateOnline = StateOnlineFragment.MAIN;
-        Fragment fragment = MainFragment.newInstance(mCallbacks);
         FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-        tr.replace(R.id.main_fragment_place, fragment).commit();
-
+        tr.replace(R.id.main_fragment_place, mFragmentMian).commit();
     }
 
     @Override

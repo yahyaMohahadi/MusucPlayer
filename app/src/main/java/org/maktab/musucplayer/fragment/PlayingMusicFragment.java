@@ -263,6 +263,7 @@ public class PlayingMusicFragment extends Fragment {
                         if (mStateSong == StateSong.PLAY) {
                             setSeekBarProgtess();
                             checkFinish();
+
                             startRunSeekbar();
                         }
                     }
@@ -273,9 +274,9 @@ public class PlayingMusicFragment extends Fragment {
 
     private void checkFinish() {
         // if (mMediaPlayer.getCurrentPosition() + 2000 > mIntCurentDuration && mStateSong == StateSong.PLAY) {
-        //changeSong(mSongs.indexOf(mCurentSong) + 1);
-        //startCurent();
-        //todo fix theread
+        //        //        //changeSong(mSongs.indexOf(mCurentSong) + 1);
+        //        //        //startCurent();
+        //        //        //todo fix theread
     }
 
     private void setSeekBarProgtess() {
@@ -311,7 +312,6 @@ public class PlayingMusicFragment extends Fragment {
         mCurentSong = mSongs.get(toUpdate);
         mIntCurentDuration = 0;
         initUi();
-
     }
 
 
