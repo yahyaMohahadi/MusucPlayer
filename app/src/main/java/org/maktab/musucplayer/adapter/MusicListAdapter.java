@@ -140,7 +140,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 case ARTISTS: {
                     mTextViewArtistName = view.findViewById(R.id.textView_artist_artist_name);
                     mTextViewArtistNumber = view.findViewById(R.id.textView_list_artisi_number);
-                    mImageViewArtist = view.findViewById(R.id.imageView_list_artist);
+                    mImageViewArtist = view.findViewById(R.id.imageView_play_fragment);
                     break;
                 }
                 case MUSICS: {

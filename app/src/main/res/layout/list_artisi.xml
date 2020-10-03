@@ -25,7 +25,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView_list_artist"
+        android:id="@+id/imageView_play_fragment"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:civ_border_color="#0B2CE1"
@@ -43,8 +43,8 @@
         android:layout_marginTop="8dp"
         android:text="artist name"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView_list_artist"
-        app:layout_constraintTop_toBottomOf="@+id/imageView_list_artist" />
+        app:layout_constraintStart_toStartOf="@+id/imageView_play_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_play_fragment" />
 
 
     <TextView
