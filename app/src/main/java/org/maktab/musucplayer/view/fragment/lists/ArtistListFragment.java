@@ -14,13 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.databinding.FragmentAlbumListBinding;
+import org.maktab.musucplayer.databinding.FragmentArtistListBinding;
 import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.view_model.Music;
 
 
 public class ArtistListFragment extends Fragment {
-    private FragmentAlbumListBinding mBinding;
+    private FragmentArtistListBinding mBinding;
     RecyclerView mRecyclerViewSongs;
     private ListUtils.Callbacks mCallbacksl;
     private MusicListAdapter mMusicListAdapter;

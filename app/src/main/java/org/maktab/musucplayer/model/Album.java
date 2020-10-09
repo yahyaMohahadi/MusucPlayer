@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Album {
     private String mStringAlbumName;
+    private String mStringArtistName;
     private ArrayList<Song> mSongAlbum = new ArrayList<>();
 
     public String getStringAlbumName() {
@@ -16,6 +17,10 @@ public class Album {
 
     public ArrayList<Song> getSongAlbum() {
         return mSongAlbum;
+    }
+
+    public String getStringArtistName() {
+        return mSongAlbum.get(0).getStringArtist();
     }
 
     public void setSongAlbum(ArrayList<Song> songAlbum) {
