@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_play"
-    tools:context=".fragment.PlayingMusicFragment">
+    tools:context=".view.fragment.PlayingMusicFragment">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -88,4 +90,4 @@
         app:layout_constraintTop_toTopOf="@+id/imageButtin_play_play" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout></layout>

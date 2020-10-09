@@ -1,21 +1,22 @@
-package org.maktab.musucplayer.activity;
+package org.maktab.musucplayer.view.activity;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.fragment.DitailMusicFragment;
-import org.maktab.musucplayer.fragment.MainFragment;
-import org.maktab.musucplayer.fragment.PlayingMusicFragment;
-import org.maktab.musucplayer.fragment.lists.ListFragment;
-import org.maktab.musucplayer.fragment.lists.MusicListFragment;
+import org.maktab.musucplayer.databinding.ActivitySingleFragmentBinding;
+import org.maktab.musucplayer.view.fragment.DitailMusicFragment;
+import org.maktab.musucplayer.view.fragment.MainFragment;
+import org.maktab.musucplayer.view.fragment.PlayingMusicFragment;
+import org.maktab.musucplayer.utils.ListUtils;
+import org.maktab.musucplayer.view.fragment.lists.MusicListFragment;
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.repository.SongRepository;
-import org.maktab.musucplayer.utils.Music;
+import org.maktab.musucplayer.view_model.Music;
 
 import java.util.List;
 
@@ -24,21 +25,22 @@ import pub.devrel.easypermissions.PermissionRequest;
 
 public class MainFragmentActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
-    protected ListFragment.Callbacks mCallbacks;
+    private ActivitySingleFragmentBinding mBinding;
 
+    protected ListUtils.Callbacks mCallbacks;
     private Music mMusic;
     protected MainFragment mFragmentMian;
     protected DitailMusicFragment mFragmentDitails;
     protected PlayingMusicFragment mFragmentPlay;
     protected MusicListFragment mFragmentMusicList;
     private StateOnlineFragment mStateOnline = StateOnlineFragment.MAIN;
-    private ListFragment.States mStatesPrevious = ListFragment.States.MUSICS;
+    private ListUtils.States mStatesPrevious = ListUtils.States.MUSICS;
     private Bundle mBundlesavedInstanceState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_single_fragment);
+        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_single_fragment);
         mBundlesavedInstanceState = savedInstanceState;
         requestPermissions();
     }
@@ -54,7 +56,7 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void initFragment() {
-        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, ListFragment.States.MUSICS);
+        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, ListUtils.States.MUSICS);
         mFragmentMian = MainFragment.newInstance(mCallbacks);
         mFragmentPlay = PlayingMusicFragment.newInstance();
         mFragmentDitails = DitailMusicFragment.newInstance();
@@ -75,21 +77,21 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void initCallBack() {
-        mCallbacks = new ListFragment.Callbacks() {
+        mCallbacks = new ListUtils.Callbacks() {
             @Override
-            public void itemCalled(ListFragment.States states, String item) {
+            public void itemCalled(ListUtils.States states, String item) {
                 mStatesPrevious = states;
                 SongRepository repository = SongRepository.newInstance(getApplication());
                 List<Song> songsCalled = repository.getListSong(states, item);
                 switch (states) {
                     case ALBUMS:
                         mMusic.setSongList(songsCalled);
-                        mFragmentMusicList.setStates(getApplication(),ListFragment.States.MUSIC_ALBUM);
+                        mFragmentMusicList.setStates(getApplication(), ListUtils.States.MUSIC_ALBUM);
                         showFragment(StateOnlineFragment.MUSIC_LIST);
                         break;
                     case ARTISTS:
                         mMusic.setSongList(songsCalled);
-                        mFragmentMusicList.setStates(getApplication(),ListFragment.States.MUSIC_ARTIST);
+                        mFragmentMusicList.setStates(getApplication(), ListUtils.States.MUSIC_ARTIST);
                         showFragment(StateOnlineFragment.MUSIC_LIST);
                         break;
                     case MUSICS:
@@ -137,7 +139,7 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
                 break;
             }
             case DITAIL: {
-                if (mStatesPrevious == ListFragment.States.MUSICS) {
+                if (mStatesPrevious == ListUtils.States.MUSICS) {
                     showFragment(StateOnlineFragment.MAIN);
                 } else {
                     showFragment(StateOnlineFragment.MUSIC_LIST);

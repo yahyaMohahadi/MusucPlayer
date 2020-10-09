@@ -1,8 +1,7 @@
-package org.maktab.musucplayer.fragment;
+package org.maktab.musucplayer.view.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,18 +10,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
+import org.maktab.musucplayer.databinding.FragmentPlayingMusicBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.utils.Music;
+import org.maktab.musucplayer.view_model.Music;
 
 import java.io.IOException;
 
 
 public class PlayingMusicFragment extends Fragment {
 
+    private FragmentPlayingMusicBinding mBinding;
 
     public static final int LIMIT_TITTLE_PLAY_BAR = 30;
     private Music mMusic;
@@ -60,13 +62,13 @@ public class PlayingMusicFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playing_music, container, false);
-        findView(view);
+        mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_playing_music,container,false);
+        findView(mBinding.getRoot());
         setOnClick();
         initUi();
 
         initPlayButtonImage();
-        return view;
+        return mBinding.getRoot();
     }
 
 

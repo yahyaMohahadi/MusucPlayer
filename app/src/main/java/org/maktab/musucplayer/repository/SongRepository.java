@@ -9,7 +9,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import org.maktab.musucplayer.fragment.lists.ListFragment;
+import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
@@ -122,7 +122,7 @@ public class SongRepository {
         return albums;
     }
 
-    public List<Song> getListSong(ListFragment.States states, String stringSelected) {
+    public List<Song> getListSong(ListUtils.States states, String stringSelected) {
         List<Song> songs = null;
         switch (states) {
             case ALBUMS: {

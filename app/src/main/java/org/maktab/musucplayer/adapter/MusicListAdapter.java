@@ -1,7 +1,6 @@
 package org.maktab.musucplayer.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.fragment.lists.ListFragment;
+import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
@@ -28,8 +27,8 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     private List<Album> mAlbums;
     private List<Artist> mArtists;
     private Context mContext;
-    private ListFragment.Callbacks mCallbacks;
-    private ListFragment.States mState;
+    private ListUtils.Callbacks mCallbacks;
+    private ListUtils.States mState;
     private int mIntCurentSong;
     //todo make it a line fore showing live
     public static final int LIMIT_CHARE_IN_VIEW = 9;
@@ -38,8 +37,8 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
     public static MusicListAdapter newInstance(Context context,
                                                List<Song> songs,
-                                               ListFragment.States state,
-                                               ListFragment.Callbacks callbacks) {
+                                               ListUtils.States state,
+                                               ListUtils.Callbacks callbacks) {
         MusicListAdapter musicListAdapter = new MusicListAdapter();
         musicListAdapter.mSongs = songs;
         musicListAdapter.mContext = context.getApplicationContext();
@@ -59,11 +58,11 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
     }
 
-    public ListFragment.States getState() {
+    public ListUtils.States getState() {
         return mState;
     }
 
-    public void setState(ListFragment.States state) {
+    public void setState(ListUtils.States state) {
         mState = state;
     }
 

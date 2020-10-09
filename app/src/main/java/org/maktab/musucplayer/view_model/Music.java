@@ -1,10 +1,10 @@
-package org.maktab.musucplayer.utils;
+package org.maktab.musucplayer.view_model;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.util.Log;
 
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.utils.Ordering;
 
 import java.io.IOException;
 import java.util.List;
