@@ -1,6 +1,7 @@
 package org.maktab.musucplayer.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.repository.SongRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     private Context mContext;
     private ListFragment.Callbacks mCallbacks;
     private ListFragment.States mState;
+    private int mIntCurentSong;
     //todo make it a line fore showing live
     public static final int LIMIT_CHARE_IN_VIEW = 9;
     public static final int LIMIT_CHARE_IN_Tiitle = 45;
@@ -49,9 +51,28 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
     }
 
     public void setSongs(List<Song> songs) {
-        mSongs = songs;
-        mAlbums = SongRepository.getAlbumFromSongs((ArrayList<Song>) songs);
-        mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) songs);
+        if (!songs.equals(mSongs)) {
+            mSongs = songs;
+            mAlbums = SongRepository.getAlbumFromSongs((ArrayList<Song>) songs);
+            mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) songs);
+            notifyDataSetChanged();
+        }
+    }
+
+    public ListFragment.States getState() {
+        return mState;
+    }
+
+    public void setState(ListFragment.States state) {
+        mState = state;
+    }
+
+    public void setIntCurentSong(int intCurentSong) {
+        //for performance and change just to item changes
+        final int previousCurent = mIntCurentSong;
+        mIntCurentSong = intCurentSong;
+        notifyItemChanged(previousCurent);
+        notifyItemChanged(mIntCurentSong);
     }
 
     @NonNull
@@ -72,6 +93,15 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 view = inflater.inflate(R.layout.list_music, parent, false);
                 break;
             }
+            case MUSIC_ALBUM: {
+                view = inflater.inflate(R.layout.list_music, parent, false);
+                break;
+            }
+            case MUSIC_ARTIST: {
+                view = inflater.inflate(R.layout.list_music, parent, false);
+                break;
+            }
+
         }
         return new MusicListHolder(view);
     }
@@ -98,6 +128,14 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                 return mSongs.size();
 
             }
+            case MUSIC_ALBUM: {
+                return mSongs.size();
+
+            }
+            case MUSIC_ARTIST: {
+                return mSongs.size();
+
+            }
         }
         return 0;
     }
@@ -109,6 +147,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         private TextView mTextViewArtist;
         private TextView mTextViewAlbum;
         private ImageView mImageViewMusic;
+        private ImageView mImageViewPlayingHihhlight;
 
         //artisit
         private TextView mTextViewArtistName;
@@ -147,6 +186,21 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     mTextViewTitle = view.findViewById(R.id.textView_list_title);
                     mTextViewArtist = view.findViewById(R.id.textView_list_artist);
                     mImageViewMusic = view.findViewById(R.id.imageView_list_music_image);
+                    mImageViewPlayingHihhlight = view.findViewById(R.id.imageView_highlight_music);
+                    break;
+                }
+                case MUSIC_ALBUM: {
+                    mTextViewTitle = view.findViewById(R.id.textView_list_title);
+                    mTextViewArtist = view.findViewById(R.id.textView_list_artist);
+                    mImageViewMusic = view.findViewById(R.id.imageView_list_music_image);
+                    mImageViewPlayingHihhlight = view.findViewById(R.id.imageView_highlight_music);
+                    break;
+                }
+                case MUSIC_ARTIST: {
+                    mTextViewTitle = view.findViewById(R.id.textView_list_title);
+                    mTextViewArtist = view.findViewById(R.id.textView_list_artist);
+                    mImageViewMusic = view.findViewById(R.id.imageView_list_music_image);
+                    mImageViewPlayingHihhlight = view.findViewById(R.id.imageView_highlight_music);
                     break;
                 }
             }
@@ -180,40 +234,78 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
                     itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            setIntCurentSong(position);
+                            mCallbacks.itemCalled(mState, String.valueOf(mSongs.get(position).getIntId()));
+                        }
+                    });
+                    break;
+                }
+                case MUSIC_ARTIST: {
+                    initItemViewMusic(position);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            setIntCurentSong(position);
+                            mCallbacks.itemCalled(mState, String.valueOf(mSongs.get(position).getIntId()));
+                        }
+                    });
+                    break;
+                }
+                case MUSIC_ALBUM: {
+                    initItemViewMusic(position);
+                    itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            setIntCurentSong(position);
                             mCallbacks.itemCalled(mState, String.valueOf(mSongs.get(position).getIntId()));
                         }
                     });
                     break;
                 }
             }
-
-
         }
 
 
         private void initItemViewMusic(final int position) {
-            mTextViewTitle.setText(limitString(mSongs.get(position).getStringTitle(),LIMIT_CHARE_IN_Tiitle));
-            mTextViewArtist.setText(mSongs.get(position).getStringArtist());
-            mImageViewMusic.setImageBitmap(mSongs.get(position).getImageMusicSize(mContext));
+            if (position == mIntCurentSong) {
+                //todo init blue curent song
+                mTextViewTitle.setText(limitString(mSongs.get(position).getStringTitle(), LIMIT_CHARE_IN_Tiitle));
+                mTextViewArtist.setText(mSongs.get(position).getStringArtist());
+                mImageViewMusic.setImageBitmap(mSongs.get(position).getImageMusicSize(mContext));
+                mImageViewPlayingHihhlight.setVisibility(View.VISIBLE);
+
+            } else {
+                mTextViewTitle.setText(limitString(mSongs.get(position).getStringTitle(), LIMIT_CHARE_IN_Tiitle));
+                mTextViewArtist.setText(mSongs.get(position).getStringArtist());
+                mImageViewMusic.setImageBitmap(mSongs.get(position).getImageMusicSize(mContext));
+                mImageViewPlayingHihhlight.setVisibility(View.INVISIBLE);
+
+                //mTextViewTitle.setTextColor(R.color.colorMusicnormal);
+                //mTextViewArtist.setTextColor(R.color.colorMusicnormal);
+                //Picasso.get().load(mSongs.get(position).getUriImage()).into(mImageViewMusic);
+            }
         }
 
 
         private void initItemViewAlbum(int position) {
-            mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName(),LIMIT_CHARE_IN_VIEW));
-            mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size()),LIMIT_CHARE_IN_VIEW));
-            mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName(),LIMIT_CHARE_IN_VIEW));
+            mTextViewAlbumtName.setText(limitString(mAlbums.get(position).getStringAlbumName(), LIMIT_CHARE_IN_VIEW));
+            mTextViewAlbumNumber.setText(limitString(String.valueOf(mAlbums.get(position).getSongAlbum().size()), LIMIT_CHARE_IN_VIEW));
+            mTextViewAlbumArtist.setText(limitString(mArtists.get(position).getStringArtistName(), LIMIT_CHARE_IN_VIEW));
             mImageViewAlbum.setImageBitmap(mAlbums.get(position).getSongAlbum().get(0).getImageSong(mContext));
+            //Picasso.get().load(mAlbums.get(position).getSongAlbum().get(0).getUriImage()).into(mImageViewAlbum);
+
         }
 
         private void initItemViewArtisi(int position) {
-            mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName(),LIMIT_CHARE_IN_VIEW));
-            mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size()),LIMIT_CHARE_IN_VIEW));
+            mTextViewArtistName.setText(limitString(mArtists.get(position).getStringArtistName(), LIMIT_CHARE_IN_VIEW));
+            mTextViewArtistNumber.setText(limitString(String.valueOf(mArtists.get(position).getSongArtist().size()), LIMIT_CHARE_IN_VIEW));
             mImageViewArtist.setImageBitmap(mArtists.get(position).getSongArtist().get(0).getImageSong(mContext));
+            //Picasso.get().load(mArtists.get(position).getSongArtist().get(0).getUriImage())..into(mImageViewArtist);
         }
     }
 
-    public static String limitString(String string,int limit) {
-        return string.length() > limit ? string.substring(0, limit)+"..." : string;
+    public static String limitString(String string, int limit) {
+        return string.length() > limit ? string.substring(0, limit) + "..." : string;
     }
 
 }

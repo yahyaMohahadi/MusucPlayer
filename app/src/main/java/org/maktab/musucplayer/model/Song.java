@@ -101,10 +101,7 @@ public class Song implements Serializable {
     public  Bitmap getImageSong( Context context) {
         Bitmap bm = null;
         ParcelFileDescriptor pfd = null;
-        final Uri sArtworkUri = Uri
-                .parse("content://media/external/audio/albumart");
-
-        Uri uri = ContentUris.withAppendedId(sArtworkUri, mLongAlbumId);
+        Uri uri = getUriImage();
         try {
             pfd = context.getContentResolver()
                     .openFileDescriptor(uri, "r");
@@ -118,6 +115,14 @@ public class Song implements Serializable {
         }
         return bm;
     }
+
+    public Uri getUriImage() {
+        final Uri sArtworkUri = Uri
+                .parse("content://media/external/audio/albumart");
+
+        return ContentUris.withAppendedId(sArtworkUri, mLongAlbumId);
+    }
+
     public  Bitmap getImageMusicSize(Context context){
         return  Bitmap.createScaledBitmap(getImageSong(context), 40, 40, true);
     }

@@ -133,9 +133,16 @@ public class SongRepository {
                 songs = this.getSongArtist(stringSelected);
                 break;
             }
+            case MUSIC_ALBUM: {
+                songs = this.getSongArtist(stringSelected);
+                break;
+            }
+            case MUSIC_ARTIST: {
+                songs = this.getSongArtist(stringSelected);
+                break;
+            }
             case MUSICS: {
-                songs = new ArrayList<>();
-                songs.add(this.getSongsById(Integer.parseInt(stringSelected)));
+                songs = mSongs;
                 break;
             }
         }

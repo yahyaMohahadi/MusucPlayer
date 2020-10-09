@@ -2,20 +2,20 @@ package org.maktab.musucplayer.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.fragment.DitailMusicFragment;
 import org.maktab.musucplayer.fragment.MainFragment;
 import org.maktab.musucplayer.fragment.PlayingMusicFragment;
 import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.fragment.lists.MusicListFragment;
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.repository.SongRepository;
+import org.maktab.musucplayer.utils.Music;
 
 import java.util.List;
 
@@ -26,11 +26,13 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
 
     protected ListFragment.Callbacks mCallbacks;
 
+    private Music mMusic;
     protected MainFragment mFragmentMian;
     protected DitailMusicFragment mFragmentDitails;
     protected PlayingMusicFragment mFragmentPlay;
     protected MusicListFragment mFragmentMusicList;
-    private StateOnlineFragment stateOnline = StateOnlineFragment.MAIN;
+    private StateOnlineFragment mStateOnline = StateOnlineFragment.MAIN;
+    private ListFragment.States mStatesPrevious = ListFragment.States.MUSICS;
     private Bundle mBundlesavedInstanceState;
 
     @Override
@@ -42,61 +44,113 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void doRunAppAfterPermision(Bundle savedInstanceState) {
+        //todo run it in new thread or in database (initialisiation mabe get lot time)
+        initMusicRepository();
         initCallBack();
         if (savedInstanceState == null) {
-            mFragmentMusicList = MusicListFragment.newInstance(mCallbacks);
-            mFragmentMian = MainFragment.newInstance(mCallbacks);
-            FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-            tr.add(R.id.main_fragment_place, mFragmentMian).commit();
-
-            //todo get the closed database option and puse it to playfragment list
-            mFragmentPlay = PlayingMusicFragment
-                    .newInstance(SongRepository.newInstance(getApplicationContext())
-                            .getSongs()
-                    );
-            mFragmentDitails = DitailMusicFragment.newInstance(null);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.frgment_playing_place, mFragmentPlay)
-                    .commit();
+            initFragment();
         }
+        showFragment(StateOnlineFragment.MAIN);
+    }
+
+    private void initFragment() {
+        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, ListFragment.States.MUSICS);
+        mFragmentMian = MainFragment.newInstance(mCallbacks);
+        mFragmentPlay = PlayingMusicFragment.newInstance();
+        mFragmentDitails = DitailMusicFragment.newInstance();
+    }
+
+    private void initMusicRepository() {
+        mMusic = Music.newInstance(
+                getApplicationContext(),
+                SongRepository.newInstance(getApplicationContext()).getSongs());
+
+        mMusic.setCallbacksListtener(new Music.Callbacks() {
+            @Override
+            public void onMusicChangeListtener(Song song) {
+                mFragmentMian.setCurentSong(song);
+                mFragmentMusicList.changeCurentSong(song);
+            }
+        });
     }
 
     private void initCallBack() {
         mCallbacks = new ListFragment.Callbacks() {
             @Override
             public void itemCalled(ListFragment.States states, String item) {
-                List<Song> songsCalled = SongRepository.newInstance(getApplication()).getListSong(states, item);
-                if (songsCalled.size() == 1) {
-                    stateOnline = StateOnlineFragment.DITAIL;
-                    mFragmentDitails.updateSong(songsCalled.get(0));
-                    mFragmentPlay.updateList(songsCalled);
-                    getSupportFragmentManager().beginTransaction().replace(
-                            R.id.main_fragment_place, mFragmentDitails).commit();
-                } else {
-                    stateOnline = StateOnlineFragment.SONGS;
-                    mFragmentMusicList.setSongsToShow(songsCalled);
-                    getSupportFragmentManager().beginTransaction().replace(
-                            R.id.main_fragment_place, mFragmentMusicList).commit();
+                mStatesPrevious = states;
+                SongRepository repository = SongRepository.newInstance(getApplication());
+                List<Song> songsCalled = repository.getListSong(states, item);
+                switch (states) {
+                    case ALBUMS:
+                        mMusic.setSongList(songsCalled);
+                        mFragmentMusicList.setStates(getApplication(),ListFragment.States.MUSIC_ALBUM);
+                        showFragment(StateOnlineFragment.MUSIC_LIST);
+                        break;
+                    case ARTISTS:
+                        mMusic.setSongList(songsCalled);
+                        mFragmentMusicList.setStates(getApplication(),ListFragment.States.MUSIC_ARTIST);
+                        showFragment(StateOnlineFragment.MUSIC_LIST);
+                        break;
+                    case MUSICS:
+                        mFragmentPlay.playSong(repository.getSongsById(Integer.parseInt(item)));
+                        break;
+                    case MUSIC_ARTIST:
+                        mFragmentPlay.playSong(repository.getSongsById(Integer.parseInt(item)));
+                        break;
+                    case MUSIC_ALBUM:
+                        mFragmentPlay.playSong(repository.getSongsById(Integer.parseInt(item)));
+                        break;
                 }
-
             }
         };
     }
 
-    private void setMainFragment() {
-        stateOnline = StateOnlineFragment.MAIN;
-        FragmentTransaction tr = getSupportFragmentManager().beginTransaction();
-        tr.replace(R.id.main_fragment_place, mFragmentMian).commit();
+    private void showFragment(StateOnlineFragment staet) {
+        mStateOnline = staet;
+        mFragmentPlay.update();
+        switch (staet) {
+            case MAIN: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentMian).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();
+                break;
+            }
+            case DITAIL: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentDitails).commit();
+                getSupportFragmentManager().beginTransaction().remove(mFragmentPlay).commit();
+                break;
+            }
+            case MUSIC_LIST: {
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentMusicList).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();
+                break;
+            }
+        }
     }
 
     @Override
     public void onBackPressed() {
-        if (stateOnline == StateOnlineFragment.DITAIL || stateOnline == StateOnlineFragment.SONGS) {
-            setMainFragment();
-        } else
-            super.onBackPressed();
+        switch (mStateOnline) {
+            case MAIN: {
+                mMusic.deatach();
+                super.onBackPressed();
+                break;
+            }
+            case DITAIL: {
+                if (mStatesPrevious == ListFragment.States.MUSICS) {
+                    showFragment(StateOnlineFragment.MAIN);
+                } else {
+                    showFragment(StateOnlineFragment.MUSIC_LIST);
+                }
+                break;
+            }
+            case MUSIC_LIST: {
+                showFragment(StateOnlineFragment.MAIN);
+                break;
+            }
+        }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -132,7 +186,6 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     public enum StateOnlineFragment {
-        DITAIL, MAIN, SONGS
+        DITAIL, MAIN, MUSIC_LIST
     }
 }
-

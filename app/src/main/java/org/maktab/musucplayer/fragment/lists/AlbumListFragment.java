@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.repository.SongRepository;
+import org.maktab.musucplayer.utils.Music;
 
 public class AlbumListFragment extends ListFragment {
     private Callbacks mCallbacks;
+    private MusicListAdapter mMusicListAdapter;
 
     public static AlbumListFragment newInstance(Callbacks callbacks) {
         AlbumListFragment fragment = new AlbumListFragment();
@@ -21,17 +23,27 @@ public class AlbumListFragment extends ListFragment {
     }
 
     @Override
+    void updateList() {
+        try {
+            mMusicListAdapter.setSongs(Music.newInstance().getSongList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected LinearLayoutManager getLayoutManager() {
         return new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
     }
 
     @Override
     public MusicListAdapter getMusicAdapter() {
-        return MusicListAdapter.newInstance(
+        mMusicListAdapter= MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
                 ListFragment.States.ALBUMS,
                 mCallbacks
         );
+        return mMusicListAdapter;
 
     }
 

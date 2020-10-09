@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.utils.Music;
 
 
 public class DitailMusicFragment extends Fragment {
@@ -21,10 +22,14 @@ public class DitailMusicFragment extends Fragment {
     private ImageView mImageViewSongDitails;
     private Song mSongCurent;
 
-    public static DitailMusicFragment newInstance(Song song) {
+    public static DitailMusicFragment newInstance() {
         DitailMusicFragment fragment = new DitailMusicFragment();
         Bundle args = new Bundle();
-        fragment.mSongCurent = song;
+        try {
+            fragment.mSongCurent = Music.newInstance().getCurentSong();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,8 +50,12 @@ public class DitailMusicFragment extends Fragment {
         return view;
     }
 
-    public void updateSong(Song songCurent) {
-        mSongCurent = songCurent;
+    public void updateList() {
+        try {
+            mSongCurent = Music.newInstance().getCurentSong();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

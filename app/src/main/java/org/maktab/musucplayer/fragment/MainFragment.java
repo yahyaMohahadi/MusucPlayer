@@ -17,12 +17,10 @@ import org.maktab.musucplayer.fragment.lists.AlbumListFragment;
 import org.maktab.musucplayer.fragment.lists.ArtistListFragment;
 import org.maktab.musucplayer.fragment.lists.ListFragment;
 import org.maktab.musucplayer.fragment.lists.MusicListFragment;
-import org.maktab.musucplayer.repository.SongRepository;
-import org.maktab.musucplayer.utils.Music;
+import org.maktab.musucplayer.model.Song;
 
 public class MainFragment extends Fragment {
 
-    private SongRepository mSongRepository;
     private ViewPager2 mViewPagerMusic;
     private ViewPagerAdapter mViewPagerAdapter;
 
@@ -61,7 +59,6 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        mSongRepository = SongRepository.newInstance(getContext());
         findView(view);
         setOncklickMusicBar();
         initViewPager();
@@ -95,6 +92,7 @@ public class MainFragment extends Fragment {
 
     }
 
+
     private void startPlayMusicView() {
         //todo start MusicFragmetPlay
     }
@@ -127,16 +125,20 @@ public class MainFragment extends Fragment {
     }
 
     private void initViewPager() {
-        if (mViewPagerAdapter == null) {
+        //todo int wrong to dont check adapteeer exist but it asure error
+       /* if (mViewPagerAdapter == null) {
             iniLists();
             mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mFragmentsList);
         }
+        mViewPagerMusic.setAdapter(mViewPagerAdapter);*/
+        iniLists();
+        mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mFragmentsList);
         mViewPagerMusic.setAdapter(mViewPagerAdapter);
     }
 
     private void iniLists() {
 
-        mMusicListFragment = MusicListFragment.newInstance(mCallbacksLists);
+        mMusicListFragment = MusicListFragment.newInstance(mCallbacksLists, ListFragment.States.MUSICS);
         mAlbumListFragment = AlbumListFragment.newInstance(mCallbacksLists);
         mArtistListFragment = ArtistListFragment.newInstance(mCallbacksLists);
 
@@ -151,5 +153,24 @@ public class MainFragment extends Fragment {
 /*        mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
         mImageButtonPlay = view.findViewById(R.id.imageButtin_main_fragment_play);
         mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_main_title);*/
+    }
+
+
+    public void setCurentSong(Song song) {
+        //0 = music / 1 = artist/ 2 = album
+        //todo make better ui when calles album or lsit
+        switch (mIntCurentFragment) {
+            case 0: {
+                mMusicListFragment.changeCurentSong(song);
+                break;
+            }
+            case 1: {
+                break;
+            }
+            case 2: {
+                break;
+            }
+        }
+
     }
 }

@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.repository.SongRepository;
+import org.maktab.musucplayer.utils.Music;
 
 
 public class ArtistListFragment extends ListFragment {
 
     private Callbacks mCallbacksl;
+    private MusicListAdapter mMusicListAdapter;
 
     public static ArtistListFragment newInstance(Callbacks callbacks) {
         ArtistListFragment fragment = new ArtistListFragment();
@@ -23,6 +25,15 @@ public class ArtistListFragment extends ListFragment {
     }
 
     @Override
+    void updateList() {
+        try {
+            mMusicListAdapter.setSongs(Music.newInstance().getSongList());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     protected LinearLayoutManager getLayoutManager() {
         return new GridLayoutManager(getActivity(), 3, GridLayoutManager.VERTICAL, false);
     }
@@ -30,11 +41,12 @@ public class ArtistListFragment extends ListFragment {
 
     @Override
     public MusicListAdapter getMusicAdapter() {
-        return MusicListAdapter.newInstance(
+        mMusicListAdapter = MusicListAdapter.newInstance(
                 getActivity(), SongRepository.newInstance(getActivity()).getSongs(),
                 States.ARTISTS,
                 mCallbacksl
         );
+        return mMusicListAdapter;
     }
 
     @Override

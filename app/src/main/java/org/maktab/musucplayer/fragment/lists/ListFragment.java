@@ -1,19 +1,15 @@
 package org.maktab.musucplayer.fragment.lists;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.adapter.MusicListAdapter;
-import org.maktab.musucplayer.model.Album;
-import org.maktab.musucplayer.model.Artist;
 
 public abstract class ListFragment extends Fragment {
 
@@ -41,6 +37,7 @@ public abstract class ListFragment extends Fragment {
         intRecyclerVive();
         mRecyclerViewSongs.setLayoutManager(getLayoutManager());
 
+        updateList();
        /* mRecyclerViewSongs.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.HORIZONTAL));*/
         return view;
@@ -49,6 +46,8 @@ public abstract class ListFragment extends Fragment {
     protected LinearLayoutManager getLayoutManager() {
         return new LinearLayoutManager(getActivity());
     }
+
+    abstract void updateList();
 
     public void findView(View view) {
         mRecyclerViewSongs = view.findViewById(getRecyclerViewId());
@@ -64,6 +63,6 @@ public abstract class ListFragment extends Fragment {
     }
 
     public enum States {
-        ALBUMS, ARTISTS, MUSICS
+        ALBUMS, ARTISTS, MUSICS, MUSIC_ARTIST, MUSIC_ALBUM
     }
 }

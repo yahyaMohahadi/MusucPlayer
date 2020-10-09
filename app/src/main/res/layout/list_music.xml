@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="8dp"
+    tools:visibility="visible">
 
     <TextView
         android:id="@+id/textView_list_title"
@@ -37,5 +38,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@drawable/ic_music" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageView_highlight_music"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_music" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

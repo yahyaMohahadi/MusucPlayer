@@ -2,6 +2,7 @@ package org.maktab.musucplayer.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,46 +19,42 @@ import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.utils.Music;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.List;
 
 
 public class PlayingMusicFragment extends Fragment {
 
 
-    public static final String KEY_SONGS = "org.maktab.musucplayer.fragmentSONGS";
     public static final int LIMIT_TITTLE_PLAY_BAR = 30;
-    private List<Song> mSongs;
     private Music mMusic;
     private ImageButton mImageButtonNext;
     private ImageButton mImageButtonPlay;
+    private ImageButton mImageButtonPrevious;
     private TextView mTextViewArtist;
     private ImageView mImageViewMusicCover;
 
-    public static PlayingMusicFragment newInstance(List<Song> songs) {
+    public static PlayingMusicFragment newInstance() {
         PlayingMusicFragment fragment = new PlayingMusicFragment();
         Bundle args = new Bundle();
-        args.putSerializable(KEY_SONGS, (Serializable) songs);
         fragment.setArguments(args);
         return fragment;
     }
 
-    public void updateList(List<Song> list) {
-        mSongs = list;
-        mMusic.setSongList(list);
-        if (list.size() == 1) {
-            mMusic.initStatePlay(Music.StatePlay.PLAY);
-        }
+
+    public void playSong(Song song) {
+        mMusic.playSong(song);
+        initUi();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mSongs = (List<Song>) getArguments().getSerializable(KEY_SONGS);
-            mMusic = mMusic.newInstance(this.getActivity(), mSongs);
+        try {
+            mMusic = mMusic.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -75,7 +72,17 @@ public class PlayingMusicFragment extends Fragment {
 
     private void setOnClick() {
 
-
+        mImageButtonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    mMusic.initDirection(Music.Direction.PREVIOUS);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                initUi();
+            }
+        });
         mImageButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,12 +137,12 @@ public class PlayingMusicFragment extends Fragment {
         mTextViewTittle = view.findViewById(R.id.textView_play_tittle);
         mTextViewArtist = view.findViewById(R.id.textView_playing_fragment_artist);
         mImageViewMusicCover = view.findViewById(R.id.imageView_play_fragment);
+        mImageButtonPrevious = view.findViewById(R.id.imageButton_play_previous);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMusic.deatach();
     }
 
 
@@ -148,17 +155,17 @@ public class PlayingMusicFragment extends Fragment {
         mImageViewMusicCover.setImageBitmap(mMusic.getCurentSong().getImageMusicSize(getActivity()));
     }
 
-    /*        mImageButtonPrevious.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    mMusic.initDirection(Music.Direction.PREVIOUS);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                initUi();
-            }
-        });
+    public void update() {
+        try {
+            initUi();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /*
         mImageButtonShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

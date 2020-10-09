@@ -18,7 +18,7 @@ public class Ordering {
     }
 
     public void inableShuffle() {
-        initOrderShuffle(mSize,mIntCurrent);
+        initOrderShuffle(mSize, mIntCurrent);
     }
 
     public void disableShuffle() {
@@ -35,6 +35,10 @@ public class Ordering {
 
     public int getCurent() {
         return mList.get(mIntCurrent);
+    }
+
+    public void setCurent(int curent) {
+        mIntCurrent = mList.indexOf(curent);
     }
 
     public int getPrevios() {

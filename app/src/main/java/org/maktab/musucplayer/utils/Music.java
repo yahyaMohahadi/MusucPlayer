@@ -2,6 +2,7 @@ package org.maktab.musucplayer.utils;
 
 import android.content.Context;
 import android.media.MediaPlayer;
+import android.util.Log;
 
 import org.maktab.musucplayer.model.Song;
 
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Music {
+    private Callbacks mCallbacksListtener;
+
     private Context mContext;
     private List<Song> mSongList;
     private Ordering mOrdering;
@@ -35,7 +38,23 @@ public class Music {
         return sInstance;
     }
 
+    public static Music newInstance() throws Exception {
+        if (sInstance == null) {
+            throw new Exception("initialisiation exepted for Music");
+        }
+        return sInstance;
+    }
+
+    public List<Song> getSongList() {
+        return mSongList;
+    }
+
+
     private static void initFirst(List<Song> songs) {
+        if (songs.size() == 0) {
+            sInstance.mMediaPlayer.reset();
+            return;
+        }
         if (sInstance.mMediaPlayer != null) {
             sInstance.mMediaPlayer.reset();
         }
@@ -44,13 +63,21 @@ public class Music {
         sInstance.initStateShuffle(StateShuffle.RESPECTIVLY);
         sInstance.initStateRepeat(StateRepeat.NORMAL);
         sInstance.mMediaPlayer = new MediaPlayer();
-        sInstance.prepare(0);
+        sInstance.prepare();
         sInstance.mStatePlay = StatePlay.PAUSE;
     }
 
     public void setSongList(List<Song> songList) {
         mSongList = songList;
         initFirst(songList);
+    }
+
+    public List<Song> getSongs() {
+        return mSongList;
+    }
+
+    public void setCallbacksListtener(Callbacks callbacksListtener) {
+        mCallbacksListtener = callbacksListtener;
     }
 
     public void initStatePlay(StatePlay statePlay) {
@@ -68,6 +95,16 @@ public class Music {
                 break;
             }
         }
+    }
+
+    public void playSong(Song song) {
+        if (mSongList.indexOf(song) != -1) {
+            mOrdering.setCurent(mSongList.indexOf(song));
+            prepare();
+            mStatePlay = StatePlay.PAUSE;
+            initStatePlay(StatePlay.PLAY);
+        }
+
     }
 
     private void play() {
@@ -128,13 +165,15 @@ public class Music {
     private void previous() throws IOException {
         mOrdering.getPrevios();
 
-        prepare(mOrdering.getCurent());
+        prepare();
         if (mStatePlay == StatePlay.PLAY) {
             play();
         }
     }
 
-    private void prepare(Integer integerCurentSong) {
+    private void prepare() {
+        if (mCallbacksListtener != null)
+            mCallbacksListtener.onMusicChangeListtener(getCurentSong());
         mIntegerPersentPlayed = 0;
         try {
             mMediaPlayer.reset();
@@ -177,7 +216,7 @@ public class Music {
 
     private void next() throws IOException {
         mOrdering.getNext();
-        prepare(mOrdering.getCurent());
+        prepare();
         if (mStatePlay == StatePlay.PLAY) {
             play();
         }
@@ -231,5 +270,8 @@ public class Music {
         NEWXT, PREVIOUS
     }
 
+    public interface Callbacks {
+        void onMusicChangeListtener(Song song);
+    }
 }
 
