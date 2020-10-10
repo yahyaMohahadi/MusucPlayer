@@ -1,35 +1,37 @@
 package org.maktab.musucplayer.view_model;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.databinding.ObservableField;
 
 import org.maktab.musucplayer.model.Album;
+import org.maktab.musucplayer.utils.ListUtils;
 
 public class AlbumViewModel {
 
+    public static final int LIMIT_ALBUM_STR = 9;
+    private final ListUtils.Callbacks mCallbacks;
     private Album mAlbum;
     private Uri mUriImage;
     public ObservableField<Uri> resultImageUrl = new ObservableField<>();
 
-    public AlbumViewModel(Album album) {
+    public AlbumViewModel(Album album, ListUtils.Callbacks callbacks) {
+        this.mCallbacks = callbacks;
         this.mAlbum = album;
         mUriImage = album.getSongAlbum().get(0).getUriImage();
         imageUrlUpdated(mUriImage);
     }
 
     public void onClick() {
-        //todo logic
-        Log.d("QQQ", mAlbum.getStringAlbumName());
+        mCallbacks.itemCalled(ListUtils.States.ALBUMS, mAlbum.getStringAlbumName());
     }
 
     public String getTittle() {
-        return mAlbum.getStringAlbumName();
+        return ListUtils.limitString(mAlbum.getStringAlbumName(), LIMIT_ALBUM_STR);
     }
 
     public String getArtistName() {
-        return mAlbum.getStringArtistName();
+        return ListUtils.limitString(mAlbum.getStringArtistName(), LIMIT_ALBUM_STR);
     }
 
     public String getMusicNumber() {

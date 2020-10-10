@@ -302,9 +302,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
             //Picasso.get().load(mArtists.get(position).getSongArtist().get(0).getUriImage())..into(mImageViewArtist);
         }
     }
-
     public static String limitString(String string, int limit) {
         return string.length() > limit ? string.substring(0, limit) + "..." : string;
     }
-
 }

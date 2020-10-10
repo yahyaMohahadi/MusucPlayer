@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.adapter.MusicAlbumAdapter;
 import org.maktab.musucplayer.adapter.MusicArtistAdapter;
-import org.maktab.musucplayer.model.Album;
+import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.utils.ListUtils;
@@ -16,20 +16,23 @@ import org.maktab.musucplayer.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbumListViewModel {
+public class ArtistListViewModel {
     private Context mContext;
-    private List<Album> mAlbums;
+    private List<Artist> mArtists;
     private ListUtils.Callbacks mCallbacks;
 
-    public AlbumListViewModel(Context context,ListUtils.Callbacks callbacks) {
+    public ArtistListViewModel(Context context,ListUtils.Callbacks callbacks) {
         mCallbacks = callbacks;
         mContext = context.getApplicationContext();
-        mAlbums = SongRepository.getAlbumFromSongs((ArrayList<Song>) SongRepository.newInstance(mContext).getSongs());
+        mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) SongRepository.newInstance(mContext).getSongs());
+
     }
 
     public void setupRecyclerView(RecyclerView recyclerviewAlbum) {
         recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false));
-        MusicAlbumAdapter adapter= MusicAlbumAdapter.newInstance(mAlbums,mCallbacks);
+        MusicArtistAdapter adapter = MusicArtistAdapter.newInstance(mArtists,mCallbacks);
         recyclerviewAlbum.setAdapter(adapter);
     }
+
+
 }

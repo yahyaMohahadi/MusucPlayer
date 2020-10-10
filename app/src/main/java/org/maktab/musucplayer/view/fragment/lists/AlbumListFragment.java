@@ -17,11 +17,12 @@ public class AlbumListFragment extends Fragment {
 
     private FragmentAlbumListBinding mBinding;
     private AlbumListViewModel mViewModel;
+    private static ListUtils.Callbacks mCallbacks;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new AlbumListViewModel(getContext());
+        mViewModel = new AlbumListViewModel(getContext(),mCallbacks);
     }
 
     @Override
@@ -32,9 +33,10 @@ public class AlbumListFragment extends Fragment {
         return mBinding.getRoot();
     }
 
-    public static AlbumListFragment newInstance(ListUtils.Callbacks callbacks) {
+    public static AlbumListFragment newInstance(ListUtils.Callbacks callbacksLists) {
         AlbumListFragment fragment = new AlbumListFragment();
         Bundle args = new Bundle();
+        mCallbacks= callbacksLists;
         fragment.setArguments(args);
         return fragment;
     }
