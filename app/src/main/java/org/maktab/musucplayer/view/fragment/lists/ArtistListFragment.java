@@ -7,19 +7,11 @@ import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.adapter.MusicListAdapter;
-import org.maktab.musucplayer.databinding.FragmentAlbumListBinding;
 import org.maktab.musucplayer.databinding.FragmentArtistListBinding;
-import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.view_model.ArtistListViewModel;
-import org.maktab.musucplayer.view_model.ArtistViewModel;
-import org.maktab.musucplayer.view_model.Music;
 
 
 public class ArtistListFragment extends Fragment {

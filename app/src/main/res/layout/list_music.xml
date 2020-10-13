@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="8dp"
-    tools:visibility="visible">
-
-    <TextView
-        android:id="@+id/textView_list_title"
-        style="@style/Platform.MaterialComponents.Light"
-        android:layout_width="wrap_content"
+<data>
+    <variable
+        name="musicVM"
+        type="org.maktab.musucplayer.view_model.MusicViewModel" />
+</data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="tittle"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView_list_music_image"
-        app:layout_constraintTop_toTopOf="@+id/imageView_list_music_image" />
+        android:padding="8dp"
+        android:onClick="@{()->musicVM.onCklick()}"
+        tools:visibility="visible">
 
-    <TextView
-        android:id="@+id/textView_list_artist"
-        style="@style/Platform.MaterialComponents.Light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="artist"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/textView_list_title"
-        app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
+        <TextView
+            android:id="@+id/textView_list_title"
+            style="@style/Platform.MaterialComponents.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="@{musicVM.tittle}"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView_list_music_image"
+            app:layout_constraintTop_toTopOf="@+id/imageView_list_music_image" />
 
-    <ImageView
-        android:id="@+id/imageView_list_music_image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/selector_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ic_music" />
+        <TextView
+            android:id="@+id/textView_list_artist"
+            style="@style/Platform.MaterialComponents.Light"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{musicVM.artist}"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/textView_list_title"
+            app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageView_highlight_music"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_music"
-         />
+        <ImageView
+            android:id="@+id/imageView_list_music_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/selector_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:imageUrl="@{musicVM.resultImageUrl}"
+            />
 
-</androidx.constraintlayout.widget.ConstraintLayout></layout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView_highlight_music"
+            android:layout_width="16dp"
+            android:layout_height="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:isVisible="@{musicVM.isPlaying}"
+            app:srcCompat="@drawable/ic_music" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

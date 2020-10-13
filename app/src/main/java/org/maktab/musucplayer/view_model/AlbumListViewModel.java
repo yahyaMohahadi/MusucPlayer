@@ -28,7 +28,8 @@ public class AlbumListViewModel {
     }
 
     public void setupRecyclerView(RecyclerView recyclerviewAlbum) {
-        recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false));
+        //todo change it for tablet to be 3
+        recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
         MusicAlbumAdapter adapter= MusicAlbumAdapter.newInstance(mAlbums,mCallbacks);
         recyclerviewAlbum.setAdapter(adapter);
     }

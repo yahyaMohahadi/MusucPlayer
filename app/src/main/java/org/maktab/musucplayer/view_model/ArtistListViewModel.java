@@ -29,7 +29,7 @@ public class ArtistListViewModel {
     }
 
     public void setupRecyclerView(RecyclerView recyclerviewAlbum) {
-        recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false));
+        recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
         MusicArtistAdapter adapter = MusicArtistAdapter.newInstance(mArtists,mCallbacks);
         recyclerviewAlbum.setAdapter(adapter);
     }

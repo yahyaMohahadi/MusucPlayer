@@ -13,9 +13,8 @@ import androidx.fragment.app.Fragment;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.databinding.FragmentMusicDitailBinding;
-import org.maktab.musucplayer.databinding.FragmentMusicListBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.view_model.Music;
+import org.maktab.musucplayer.repository.Music;
 
 
 public class DitailMusicFragment extends Fragment {

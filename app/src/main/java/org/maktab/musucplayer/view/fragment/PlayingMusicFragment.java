@@ -17,7 +17,7 @@ import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.databinding.FragmentPlayingMusicBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.view_model.Music;
+import org.maktab.musucplayer.repository.Music;
 
 import java.io.IOException;
 

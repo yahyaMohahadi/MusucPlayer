@@ -9,14 +9,14 @@ import androidx.databinding.DataBindingUtil;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ActivitySingleFragmentBinding;
+import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.repository.Music;
+import org.maktab.musucplayer.repository.SongRepository;
+import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.view.fragment.DitailMusicFragment;
 import org.maktab.musucplayer.view.fragment.MainFragment;
 import org.maktab.musucplayer.view.fragment.PlayingMusicFragment;
-import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.view.fragment.lists.MusicListFragment;
-import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.repository.SongRepository;
-import org.maktab.musucplayer.view_model.Music;
 
 import java.util.List;
 
@@ -33,6 +33,8 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     protected DitailMusicFragment mFragmentDitails;
     protected PlayingMusicFragment mFragmentPlay;
     protected MusicListFragment mFragmentMusicList;
+    protected MusicListFragment mFragmentMusicListArtist;
+    protected MusicListFragment mFragmentMusicListAlbum;
     private StateOnlineFragment mStateOnline = StateOnlineFragment.MAIN;
     private ListUtils.States mStatesPrevious = ListUtils.States.MUSICS;
     private Bundle mBundlesavedInstanceState;
@@ -40,7 +42,7 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mBinding = DataBindingUtil.setContentView(this,R.layout.activity_single_fragment);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_fragment);
         mBundlesavedInstanceState = savedInstanceState;
         requestPermissions();
     }
@@ -56,7 +58,9 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void initFragment() {
-        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, ListUtils.States.MUSICS);
+        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSICS);
+        mFragmentMusicListAlbum = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSIC_ALBUM);
+        mFragmentMusicListArtist = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSIC_ARTIST);
         mFragmentMian = MainFragment.newInstance(mCallbacks);
         mFragmentPlay = PlayingMusicFragment.newInstance();
         mFragmentDitails = DitailMusicFragment.newInstance();
@@ -70,8 +74,9 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
         mMusic.setCallbacksListtener(new Music.Callbacks() {
             @Override
             public void onMusicChangeListtener(Song song) {
+                //todo change music curent song
+                //mFragmentMusicList.changeCurentSong(song);
                 mFragmentMian.setCurentSong(song);
-                mFragmentMusicList.changeCurentSong(song);
             }
         });
     }
@@ -86,13 +91,13 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
                 switch (states) {
                     case ALBUMS:
                         mMusic.setSongList(songsCalled);
-                        mFragmentMusicList.setStates(getApplication(), ListUtils.States.MUSIC_ALBUM);
-                        showFragment(StateOnlineFragment.MUSIC_LIST);
+                        mFragmentMusicListAlbum.setSongs(songsCalled);
+                        showFragment(StateOnlineFragment.MUSIC_ALBUM);
                         break;
                     case ARTISTS:
                         mMusic.setSongList(songsCalled);
-                        mFragmentMusicList.setStates(getApplication(), ListUtils.States.MUSIC_ARTIST);
-                        showFragment(StateOnlineFragment.MUSIC_LIST);
+                        mFragmentMusicListArtist.setSongs(songsCalled);
+                        showFragment(StateOnlineFragment.MUSIC_ARTIST);
                         break;
                     case MUSICS:
                         mFragmentPlay.playSong(repository.getSongsById(Integer.parseInt(item)));
@@ -127,6 +132,16 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
                 getSupportFragmentManager().beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();
                 break;
             }
+
+            case MUSIC_ARTIST:
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentMusicListArtist).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();
+                break;
+
+            case MUSIC_ALBUM:
+                getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentMusicListAlbum).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();
+                break;
         }
     }
 
@@ -188,6 +203,6 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     public enum StateOnlineFragment {
-        DITAIL, MAIN, MUSIC_LIST
+        DITAIL, MAIN, MUSIC_LIST, MUSIC_ARTIST, MUSIC_ALBUM
     }
 }

@@ -24,10 +24,11 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
     private MusicArtistAdapter() {
     }
 
-    public static MusicArtistAdapter newInstance(List<Artist> albums, ListUtils.Callbacks callbacks) {
+
+    public static MusicArtistAdapter newInstance(List<Artist> songs, ListUtils.Callbacks callbacks) {
 
         MusicArtistAdapter musicListAdapter = new MusicArtistAdapter();
-        musicListAdapter.mArtists = albums;
+        musicListAdapter.mArtists = songs;
         musicListAdapter.mCallbacks =callbacks;
         return musicListAdapter;
     }
