@@ -4,11 +4,12 @@ import android.net.Uri;
 import android.util.Log;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.utils.ListUtils;
 
-public class ArtistViewModel {
+public class ArtistViewModel extends ViewModel {
 
     public static final int LIMIT_ARTIST_STR = 9;
     private final ListUtils.Callbacks mCallbacks;

@@ -3,6 +3,7 @@ package org.maktab.musucplayer.view_model;
 import android.content.Context;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,7 +17,7 @@ import org.maktab.musucplayer.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistListViewModel {
+public class ArtistListViewModel extends ViewModel {
     private Context mContext;
     private List<Artist> mArtists;
     private ListUtils.Callbacks mCallbacks;

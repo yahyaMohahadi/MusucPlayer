@@ -154,9 +154,6 @@ public class MainFragment extends Fragment {
     private void findView(View view) {
         mViewPagerMusic = view.findViewById(R.id.ViewPager_lists);
         mTextViewListName = view.findViewById(R.id.textView_list_name);
-/*        mImageButtonShuffle = view.findViewById(R.id.imageButton_main_fragment_shuffle);
-        mImageButtonPlay = view.findViewById(R.id.imageButtin_main_fragment_play);
-        mTextViewPlatBarTittleText = view.findViewById(R.id.textView_play_main_title);*/
     }
 
 
@@ -165,7 +162,7 @@ public class MainFragment extends Fragment {
         //todo make better ui when calles album or lsit
         switch (mIntCurentFragment) {
             case 0: {
-                mMusicListFragment.changeCurentSong(song);
+                //mMusicListFragment.changeCurentSong(song);
                 break;
             }
             case 1: {

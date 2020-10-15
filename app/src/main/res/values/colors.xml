@@ -3,8 +3,9 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-
-
+    <color name="md_white_1000">#FFFFFF</color>
+    <color name="md_black_1000">#000000</color>
     <color name="colorMusicHiglight">#F44336</color>
     <color name="colorMusicnormal">#DD070707</color>
+    <color name="md_red_400">#EF5350</color>
 </resources>

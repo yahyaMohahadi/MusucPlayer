@@ -3,12 +3,13 @@ package org.maktab.musucplayer.view_model;
 import android.net.Uri;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.repository.Music;
+import org.maktab.musucplayer.view_model.player.Music;
 import org.maktab.musucplayer.utils.ListUtils;
 
-public class MusicViewModel {
+public class MusicViewModel extends ViewModel {
     private final ListUtils.Callbacks mCallbacks;
     private final Song mSong;
     private String mStringTittle;

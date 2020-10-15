@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 <data>
+    <import type="android.view.View"/>
     <variable
         name="musicVM"
         type="org.maktab.musucplayer.view_model.MusicViewModel" />
@@ -54,8 +55,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:isVisible="@{musicVM.isPlaying}"
-            app:srcCompat="@drawable/ic_music" />
+            android:visibility="@{musicVM.isPlaying ? View.VISIBLE :View.GONE }"
+            app:srcCompat="@drawable/ic_music"
+            tools:ignore="VectorDrawableCompat" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

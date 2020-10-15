@@ -2,6 +2,7 @@ package org.maktab.musucplayer.view_model;
 
 import android.content.Context;
 
+import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,7 +13,7 @@ import org.maktab.musucplayer.utils.ListUtils;
 
 import java.util.List;
 
-public class MusicListViewModel {
+public class MusicListViewModel extends ViewModel {
     private final Context mContex;
     private final ListUtils.States mStates;
     private final ListUtils.Callbacks mCallbacks;
@@ -20,10 +21,10 @@ public class MusicListViewModel {
     private MusicListAdapter mAdapter;
 
 
-    public MusicListViewModel(Context activity, ListUtils.Callbacks callbacks, List<Song> songs, ListUtils.States states) {
+    public MusicListViewModel(Context activity, ListUtils.Callbacks callbacks,  ListUtils.States states) {
         mContex = activity.getApplicationContext();
-        mSongs = songs;
         mStates = states;
+        //todo get songs
         mCallbacks = callbacks;
 
     }

@@ -3,11 +3,12 @@ package org.maktab.musucplayer.view_model;
 import android.net.Uri;
 
 import androidx.databinding.ObservableField;
+import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.utils.ListUtils;
 
-public class AlbumViewModel {
+public class AlbumViewModel extends ViewModel {
 
     public static final int LIMIT_ALBUM_STR = 9;
     private final ListUtils.Callbacks mCallbacks;

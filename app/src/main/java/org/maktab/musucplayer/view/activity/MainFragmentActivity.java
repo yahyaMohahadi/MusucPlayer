@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ActivitySingleFragmentBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.repository.Music;
+import org.maktab.musucplayer.view_model.player.Music;
 import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.view.fragment.DitailMusicFragment;
@@ -58,9 +58,9 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
     }
 
     private void initFragment() {
-        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSICS);
-        mFragmentMusicListAlbum = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSIC_ALBUM);
-        mFragmentMusicListArtist = MusicListFragment.newInstance(mCallbacks, mMusic.getSongs(), ListUtils.States.MUSIC_ARTIST);
+        mFragmentMusicList = MusicListFragment.newInstance(mCallbacks, ListUtils.States.MUSICS);
+        mFragmentMusicListAlbum = MusicListFragment.newInstance(mCallbacks, ListUtils.States.MUSIC_ALBUM);
+        mFragmentMusicListArtist = MusicListFragment.newInstance(mCallbacks, ListUtils.States.MUSIC_ARTIST);
         mFragmentMian = MainFragment.newInstance(mCallbacks);
         mFragmentPlay = PlayingMusicFragment.newInstance();
         mFragmentDitails = DitailMusicFragment.newInstance();
