@@ -15,11 +15,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.ViewPagerAdapter;
 import org.maktab.musucplayer.databinding.FragmentMainBinding;
-import org.maktab.musucplayer.view.fragment.lists.AlbumListFragment;
-import org.maktab.musucplayer.view.fragment.lists.ArtistListFragment;
-import org.maktab.musucplayer.utils.ListUtils;
-import org.maktab.musucplayer.view.fragment.lists.MusicListFragment;
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.utils.ListUtils;
+import org.maktab.musucplayer.view.fragment.lists.MusicListAAFragment;
+import org.maktab.musucplayer.view.fragment.lists.MusicListFragment;
 
 public class MainFragment extends Fragment {
 
@@ -29,24 +28,22 @@ public class MainFragment extends Fragment {
     private ViewPagerAdapter mViewPagerAdapter;
 
     private MusicListFragment mMusicListFragment;
-    private AlbumListFragment mAlbumListFragment;
-    private ArtistListFragment mArtistListFragment;
+    private MusicListAAFragment mAlbumListFragment;
+    private MusicListAAFragment mArtistListFragment;
     Fragment[] mFragmentsList = new Fragment[3];
     public static final String[] mFragmentsName = new String[]{
-            ListUtils.States.MUSICS.toString().toLowerCase(),
-            ListUtils.States.ARTISTS.toString().toLowerCase(),
-            ListUtils.States.ALBUMS.toString().toLowerCase()};
+            "music",
+            "artist",
+            "album"};
     private TextView mTextViewListName;
     private int mIntCurentFragment = 0;
 
     /* private ImageButton mImageButtonShuffle;
      private ImageButton mImageButtonPlay;
      private TextView mTextViewPlatBarTittleText;*/
-    private ListUtils.Callbacks mCallbacksLists;
 
-    public static MainFragment newInstance(ListUtils.Callbacks callbacks) {
+    public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
-        fragment.mCallbacksLists = callbacks;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -62,7 +59,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_main,container,false);
+        mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
         findView(mBinding.getRoot());
         setOncklickMusicBar();
         initViewPager();
@@ -142,9 +139,9 @@ public class MainFragment extends Fragment {
 
     private void iniLists() {
 
-        mMusicListFragment = MusicListFragment.newInstance(mCallbacksLists, ListUtils.States.MUSICS);
-        mAlbumListFragment = AlbumListFragment.newInstance(mCallbacksLists);
-        mArtistListFragment = ArtistListFragment.newInstance(mCallbacksLists);
+        mMusicListFragment = MusicListFragment.newInstance();
+        mAlbumListFragment = MusicListAAFragment.newInstance(MusicListAAFragment.StateAA.ALBUM);
+        mArtistListFragment = MusicListAAFragment.newInstance(MusicListAAFragment.StateAA.ARTIST);
 
         mFragmentsList[0] = mMusicListFragment;
         mFragmentsList[1] = mArtistListFragment;

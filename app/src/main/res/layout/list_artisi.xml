@@ -7,7 +7,7 @@
 
         <variable
             name="artistVM"
-            type="org.maktab.musucplayer.view_model.ArtistViewModel" />
+            type="org.maktab.musucplayer.view_model.itemViewModel.ArtistViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

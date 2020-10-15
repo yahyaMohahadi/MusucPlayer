@@ -17,7 +17,8 @@ import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.databinding.FragmentPlayingMusicBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.view_model.player.Music;
+import org.maktab.musucplayer.player.Music;
+import org.maktab.musucplayer.view_model.MusicViewModel;
 
 import java.io.IOException;
 
@@ -25,6 +26,7 @@ import java.io.IOException;
 public class PlayingMusicFragment extends Fragment {
 
     private FragmentPlayingMusicBinding mBinding;
+    private MusicViewModel mViewModel;
 
     public static final int LIMIT_TITTLE_PLAY_BAR = 30;
     private Music mMusic;

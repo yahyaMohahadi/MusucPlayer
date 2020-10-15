@@ -11,7 +11,7 @@ import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ListAlbumBinding;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.utils.ListUtils;
-import org.maktab.musucplayer.view_model.AlbumViewModel;
+import org.maktab.musucplayer.view_model.itemViewModel.AlbumViewModel;
 
 import java.util.List;
 
@@ -19,15 +19,13 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
 
 
     private List<Album> mAlbums;
-    private ListUtils.Callbacks mCallbacks;
 
     private MusicAlbumAdapter() {
     }
 
-    public static MusicAlbumAdapter newInstance(List<Album> albums, ListUtils.Callbacks callbacks) {
+    public static MusicAlbumAdapter newInstance(List<Album> albums) {
         MusicAlbumAdapter musicListAdapter = new MusicAlbumAdapter();
         musicListAdapter.mAlbums = albums;
-        musicListAdapter.mCallbacks = callbacks;
         return musicListAdapter;
     }
 
@@ -72,7 +70,6 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
 
         public void bind(final Album album) {
             //todo dont use image view to set
-            mBinding.setAlbumVM(new AlbumViewModel(album,mCallbacks));
             mBinding.executePendingBindings();
         }
     }

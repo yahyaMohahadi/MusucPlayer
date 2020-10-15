@@ -1,75 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/frameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.MainFragment">
 
-    <TextView
-        android:id="@+id/textView_list_name"
-        style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon"
-        android:textSize="24sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:text="musics"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".view.fragment.MainFragment">
 
         <TextView
-            android:id="@+id/textView_play_main_title"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:id="@+id/textView_list_name"
+            style="@style/MaterialAlertDialog.MaterialComponents.Title.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_weight="1"
-            android:text="music" />
+            android:layout_marginTop="16dp"
+            android:text="musics"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/imageButton_main_fragment_shuffle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:src="@drawable/ic_shafel" />
+        <!--
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <ImageButton
-            android:id="@+id/imageButtin_main_fragment_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:src="@drawable/ic_on_puse"
-            android:text="Button" />
+                <TextView
+                    android:id="@+id/textView_play_main_title"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
+                    android:text="music" />
 
-    </LinearLayout>
--->
+                <ImageButton
+                    android:id="@+id/imageButton_main_fragment_shuffle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/ic_shafel" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/ViewPager_lists"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_list_name">
+                <ImageButton
+                    android:id="@+id/imageButtin_main_fragment_play"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:src="@drawable/ic_on_puse"
+                    android:text="Button" />
 
-    </androidx.viewpager2.widget.ViewPager2>
-</androidx.constraintlayout.widget.ConstraintLayout></layout>
+            </LinearLayout>
+        -->
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/ViewPager_lists"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_list_name">
+
+        </androidx.viewpager2.widget.ViewPager2>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

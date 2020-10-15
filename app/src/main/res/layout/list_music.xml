@@ -6,7 +6,7 @@
     <import type="android.view.View"/>
     <variable
         name="musicVM"
-        type="org.maktab.musucplayer.view_model.MusicViewModel" />
+        type="org.maktab.musucplayer.view_model.itemViewModel.MusicViewModel" />
 </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

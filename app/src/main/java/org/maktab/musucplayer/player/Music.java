@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.view_model.player;
+package org.maktab.musucplayer.player;
 
 import android.content.Context;
 import android.media.MediaPlayer;

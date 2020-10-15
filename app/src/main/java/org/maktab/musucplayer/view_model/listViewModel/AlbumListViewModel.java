@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.view_model;
+package org.maktab.musucplayer.view_model.listViewModel;
 
 import android.content.Context;
 
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.adapter.MusicAlbumAdapter;
 import org.maktab.musucplayer.adapter.MusicArtistAdapter;
-import org.maktab.musucplayer.model.Artist;
+import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.repository.SongRepository;
 import org.maktab.musucplayer.utils.ListUtils;
@@ -17,23 +17,19 @@ import org.maktab.musucplayer.utils.ListUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArtistListViewModel extends ViewModel {
+public class AlbumListViewModel extends ViewModel {
     private Context mContext;
-    private List<Artist> mArtists;
-    private ListUtils.Callbacks mCallbacks;
+    private List<Album> mAlbums;
 
-    public ArtistListViewModel(Context context,ListUtils.Callbacks callbacks) {
-        mCallbacks = callbacks;
+    public AlbumListViewModel(Context context) {
         mContext = context.getApplicationContext();
-        mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) SongRepository.newInstance(mContext).getSongs());
-
+        mAlbums = SongRepository.getAlbumFromSongs((ArrayList<Song>) SongRepository.newInstance(mContext).getSongs());
     }
 
     public void setupRecyclerView(RecyclerView recyclerviewAlbum) {
+        //todo change it for tablet to be 3
         recyclerviewAlbum.setLayoutManager(new GridLayoutManager(mContext, 2, GridLayoutManager.VERTICAL, false));
-        MusicArtistAdapter adapter = MusicArtistAdapter.newInstance(mArtists,mCallbacks);
+        MusicAlbumAdapter adapter= MusicAlbumAdapter.newInstance(mAlbums);
         recyclerviewAlbum.setAdapter(adapter);
     }
-
-
 }

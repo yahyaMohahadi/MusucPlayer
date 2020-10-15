@@ -5,7 +5,7 @@
     <data>
         <variable
             name="albumVM"
-            type="org.maktab.musucplayer.view_model.AlbumViewModel" />
+            type="org.maktab.musucplayer.view_model.itemViewModel.AlbumViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

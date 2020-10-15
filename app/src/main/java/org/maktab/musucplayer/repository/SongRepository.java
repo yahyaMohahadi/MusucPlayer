@@ -7,12 +7,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
-import org.maktab.musucplayer.utils.ListUtils;
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.view_model.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +39,6 @@ public class SongRepository {
                 sRepository.mSongs = getMdediFromContentResolver(sContext);
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("QQQ", "erore for geting Music");
             }
         }
         return sRepository;
@@ -52,7 +50,6 @@ public class SongRepository {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("QQQ", "erore for updating Music");
             return false;
         }
     }
@@ -122,31 +119,27 @@ public class SongRepository {
         return albums;
     }
 
-    public List<Song> getListSong(ListUtils.States states, String stringSelected) {
-        List<Song> songs = null;
+    public List<Song> getListSong(SongRepository.StateAskSong states, String stringSelected) {
+        //todo manage state song asked
+     /*   List<Song> songs = null;
         switch (states) {
-            case ALBUMS: {
-                songs = this.getSongAlbum(stringSelected);
-                break;
-            }
-            case ARTISTS: {
-                songs = this.getSongArtist(stringSelected);
-                break;
-            }
             case MUSIC_ALBUM: {
-                songs = this.getSongArtist(stringSelected);
+                songs = this.getSongAlbum(stringSelected);
                 break;
             }
             case MUSIC_ARTIST: {
                 songs = this.getSongArtist(stringSelected);
                 break;
             }
-            case MUSICS: {
+            case DITAIL:{
+                break;
+            }
+            case MAIN: {
                 songs = mSongs;
                 break;
             }
-        }
-        return songs;
+        }*/
+        return mSongs;
     }
 
     public Song getSongsById(int id) {
@@ -176,7 +169,6 @@ public class SongRepository {
                 throw new Exception();
             }
         } catch (Exception e) {
-            Log.e("QQQ", e.getMessage());
         } finally {
             if (musicCursor != null) {
                 musicCursor.close();
@@ -217,17 +209,8 @@ public class SongRepository {
                 .creat();
     }
 
-
+    public enum StateAskSong {
+        ONE_MUSIC,ALL_MUSIC,ALBUM_MUSIC,ARTIST_MUSIC
+    }
 }
-/*     for (String s : musicCursor.getColumnNames()) {
-            Log.d("QQQ", s + " ---- " + musicCursor.getString(musicCursor.getColumnIndex(s)));
-        }*/
-//Bitmap bt = BitmapFactory.decodeFile(new File(contentUri.getPath()).getAbsolutePath());
-//Log.d("QQQ",bt.toString());
-//
-// MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-// retriever.setDataSource(contentUri.getPath());
-// byte[] coverBytes = retriever.getEmbeddedPicture();
-//Bitmap songCover = BitmapFactory.decodeByteArray(coverBytes, 0, coverBytes.length);
 
-//Log.d("QQQ", songCover.toString());

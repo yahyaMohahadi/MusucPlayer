@@ -12,8 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.FragmentMusicListBinding;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.utils.ListUtils;
-import org.maktab.musucplayer.view_model.MusicListViewModel;
+import org.maktab.musucplayer.view_model.listViewModel.MusicListViewModel;
 
 import java.util.List;
 
@@ -22,27 +21,26 @@ public class MusicListFragment extends Fragment {
     private static MusicListViewModel mViewModel;
 
 
-    public static MusicListFragment newInstance(ListUtils.Callbacks callbacks, ListUtils.States states) {
-        if (states == ListUtils.States.MUSIC_ALBUM
-                || states == ListUtils.States.MUSICS
-                || states == ListUtils.States.MUSIC_ARTIST) {
-            MusicListFragment fragment = new MusicListFragment();
-            return fragment;
-        }
-        return null;
+    public static MusicListFragment newInstance() {
+
+        MusicListFragment fragment = new MusicListFragment();
+        return fragment;
+
+
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mViewModel =new  ViewModelProvider(this).get(MusicListViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MusicListViewModel.class);
+        mViewModel.setContex(getActivity());
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_music_list, container, false);
         mViewModel.setUpAdapter(mBinding.recyclerviewSongs);
         return mBinding.getRoot();
     }
 
-    public void setSongs(List<Song> songs){
+    public void setSongs(List<Song> songs) {
         mViewModel.setSongs(songs);
     }
 

@@ -1,24 +1,24 @@
-package org.maktab.musucplayer.view_model;
+package org.maktab.musucplayer.view_model.itemViewModel;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.utils.ListUtils;
+import org.maktab.musucplayer.view_model.MainViewModel;
 
 public class ArtistViewModel extends ViewModel {
 
     public static final int LIMIT_ARTIST_STR = 9;
-    private final ListUtils.Callbacks mCallbacks;
+
     private Artist mAlbum;
     private Uri mUriImage;
     public ObservableField<Uri> resultImageUrl = new ObservableField<>();
 
-    public ArtistViewModel(Artist artist, ListUtils.Callbacks callbacks) {
-        this.mCallbacks=callbacks;
+    public ArtistViewModel(Artist artist) {
+
         this.mAlbum = artist;
         //todo download image
         mUriImage = artist.getSongArtist().get(0).getUriImage();
@@ -26,7 +26,7 @@ public class ArtistViewModel extends ViewModel {
     }
 
     public void onClick() {
-        mCallbacks.itemCalled(ListUtils.States.ARTISTS,mAlbum.getStringArtistName());
+        //todo manage click
     }
 
 

@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.view_model;
+package org.maktab.musucplayer.view_model.listViewModel;
 
 import android.content.Context;
 
@@ -9,31 +9,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.adapter.MusicListAdapter;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.utils.ListUtils;
 
 import java.util.List;
 
 public class MusicListViewModel extends ViewModel {
-    private final Context mContex;
-    private final ListUtils.States mStates;
-    private final ListUtils.Callbacks mCallbacks;
-    private  List<Song> mSongs;
+    private Context mContex;
+
+    private List<Song> mSongs;
     private MusicListAdapter mAdapter;
 
 
-    public MusicListViewModel(Context activity, ListUtils.Callbacks callbacks,  ListUtils.States states) {
+    public MusicListViewModel(Context activity) {
         mContex = activity.getApplicationContext();
-        mStates = states;
-        //todo get songs
-        mCallbacks = callbacks;
-
+        //todo get song
     }
+
+    public void setContex(Context contex) {
+        mContex = contex;
+    }
+
+    public MusicListViewModel() {
+    }
+
 
     public void setUpAdapter(RecyclerView recyclerviewSongs) {
         recyclerviewSongs.setLayoutManager(new LinearLayoutManager(mContex));
         recyclerviewSongs.addItemDecoration(new DividerItemDecoration(mContex,
                 DividerItemDecoration.VERTICAL));
-        mAdapter = MusicListAdapter.newInstance(mCallbacks, mSongs, mStates);
+        mAdapter = MusicListAdapter.newInstance(mSongs);
         recyclerviewSongs.setAdapter(mAdapter);
     }
 
@@ -41,7 +44,7 @@ public class MusicListViewModel extends ViewModel {
     }
 
     public void setSongs(List<Song> songs) {
-        mSongs=songs;
+        mSongs = songs;
         mAdapter.setSongs(songs);
 
     }
