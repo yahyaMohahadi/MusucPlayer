@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ListMusicBinding;
-import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.view_model.itemViewModel.MusicViewModel;
+import org.maktab.musucplayer.data.model.Song;
+
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
 
         public void bind(Song song) {
-            mBinding.setMusicVM(new MusicViewModel(song));
+            ;
         }
     }
 

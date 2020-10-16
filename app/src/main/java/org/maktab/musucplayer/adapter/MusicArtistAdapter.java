@@ -9,9 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ListArtisiBinding;
-import org.maktab.musucplayer.model.Artist;
-import org.maktab.musucplayer.utils.ListUtils;
-import org.maktab.musucplayer.view_model.itemViewModel.ArtistViewModel;
+import org.maktab.musucplayer.data.model.Artist;
+
 
 import java.util.List;
 

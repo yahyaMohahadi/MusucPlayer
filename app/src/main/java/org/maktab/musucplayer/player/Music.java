@@ -5,7 +5,7 @@ import android.media.MediaPlayer;
 
 import androidx.lifecycle.MutableLiveData;
 
-import org.maktab.musucplayer.model.Song;
+import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.utils.Ordering;
 
 import java.io.IOException;

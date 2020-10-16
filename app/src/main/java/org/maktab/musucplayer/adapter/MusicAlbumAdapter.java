@@ -2,18 +2,16 @@ package org.maktab.musucplayer.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
+import org.maktab.musucplayer.data.model.Album;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ListAlbumBinding;
-import org.maktab.musucplayer.model.Album;
-import org.maktab.musucplayer.utils.ListUtils;
-import org.maktab.musucplayer.view_model.itemViewModel.AlbumViewModel;
 
 import java.util.List;
+
 
 public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.MusicListHolder> {
 
