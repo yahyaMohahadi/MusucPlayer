@@ -2,17 +2,15 @@ package org.maktab.musucplayer.view_model.listViewModel;
 
 import android.content.Context;
 
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.maktab.musucplayer.adapter.MusicAlbumAdapter;
 import org.maktab.musucplayer.adapter.MusicArtistAdapter;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.repository.SongRepository;
-import org.maktab.musucplayer.utils.ListUtils;
+import org.maktab.musucplayer.view_model.MusicViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +21,8 @@ public class ArtistListViewModel extends ViewModel {
 
     public ArtistListViewModel(Context context) {
         mContext = context.getApplicationContext();
-        mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) SongRepository.newInstance(mContext).getSongs());
+        List<Song> all = MusicViewModel.newInstance().getMutableLiveDataAllSongs().getValue();
+        mArtists = SongRepository.getArtistsFromSongs((ArrayList<Song>) all);
 
     }
 

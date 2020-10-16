@@ -2,6 +2,7 @@ package org.maktab.musucplayer.view.fragment;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class MainFragment extends Fragment {
         setOncklickMusicBar();
         initViewPager();
         setCallbackRegestery();
+        Log.d("QQQ","STATRT MAIN");
         return mBinding.getRoot();
     }
 

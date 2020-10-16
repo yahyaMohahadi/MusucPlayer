@@ -16,7 +16,6 @@ public class ViewModelOrdering {
     private MainFragment mFragmentMian;
     private DitailMusicFragment mFragmentDitails;
     private PlayingMusicFragment mFragmentPlay;
-    private boolean mBooleanllFragmentsSet = true;
 
     public StateOnline getStateOnline() {
         return mStateOnline;
@@ -56,7 +55,7 @@ public class ViewModelOrdering {
     }
 
     public void setupMain() {
-        if (mFragmentMian != null) {
+        if (mFragmentMian != null && mFragmentPlay != null) {
             mStateOnline = StateOnline.MAIN;
             mManager.beginTransaction().replace(R.id.main_fragment_place, mFragmentMian).commit();
             mManager.beginTransaction().replace(R.id.frgment_playing_place, mFragmentPlay).commit();

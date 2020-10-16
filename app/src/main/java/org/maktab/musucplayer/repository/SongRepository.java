@@ -1,29 +1,31 @@
 package org.maktab.musucplayer.repository;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.Log;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.musucplayer.model.Album;
 import org.maktab.musucplayer.model.Artist;
 import org.maktab.musucplayer.model.Song;
-import org.maktab.musucplayer.view_model.MainViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SongRepository {
 
-    private List<Song> mSongs;
+    private MutableLiveData<List<Song>> mLiveSongs = new MutableLiveData<List<Song>>() {
+    };
 
-    @SuppressLint("StaticFieldLeak")
+
     private static Context sContext;
 
-    @SuppressLint("StaticFieldLeak")
     private static SongRepository sRepository;
 
     private SongRepository() {
@@ -31,36 +33,33 @@ public class SongRepository {
 
     public static SongRepository newInstance(Context context) {
         if (sRepository == null) {
-            sRepository = new SongRepository();
             sContext = context.getApplicationContext();
+            sRepository = new SongRepository();
         }
-        if (sRepository.mSongs == null) {
-            try {
-                sRepository.mSongs = getMdediFromContentResolver(sContext);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        if (sRepository.mLiveSongs == null) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        sRepository.mLiveSongs.postValue(getMdediFromContentResolver(sContext));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Log.d("QQQ", "GET MUSIC FAILED");
+                    }
+                }
+            }).start();
+
         }
         return sRepository;
     }
 
-    public boolean updateSongs() {
-        try {
-            sRepository.mSongs = getMdediFromContentResolver(sContext);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public List<Song> getSongs() {
-        return mSongs;
+    public MutableLiveData<List<Song>> getLiveSongs() {
+        return mLiveSongs;
     }
 
     public List<Song> getSongAlbum(String album) {
         List<Song> songAlbum = new ArrayList<>();
-        for (Song song : mSongs) {
+        for (Song song : mLiveSongs.getValue()) {
             if (song.getStringAlbum().equals(album)) {
                 songAlbum.add(song);
             }
@@ -70,7 +69,7 @@ public class SongRepository {
 
     public List<Song> getSongArtist(String artist) {
         List<Song> songArtist = new ArrayList<>();
-        for (Song song : mSongs) {
+        for (Song song : mLiveSongs.getValue()) {
             if (song.getStringArtist().equals(artist)) {
                 songArtist.add(song);
             }
@@ -120,30 +119,11 @@ public class SongRepository {
     }
 
     public List<Song> getListSong(SongRepository.StateAskSong states, String stringSelected) {
-        //todo manage state song asked
-     /*   List<Song> songs = null;
-        switch (states) {
-            case MUSIC_ALBUM: {
-                songs = this.getSongAlbum(stringSelected);
-                break;
-            }
-            case MUSIC_ARTIST: {
-                songs = this.getSongArtist(stringSelected);
-                break;
-            }
-            case DITAIL:{
-                break;
-            }
-            case MAIN: {
-                songs = mSongs;
-                break;
-            }
-        }*/
-        return mSongs;
+        return mLiveSongs.getValue();
     }
 
     public Song getSongsById(int id) {
-        for (Song song : mSongs) {
+        for (Song song : mLiveSongs.getValue()) {
             if (song.getIntId() == id) {
                 return song;
             }
@@ -210,7 +190,7 @@ public class SongRepository {
     }
 
     public enum StateAskSong {
-        ONE_MUSIC,ALL_MUSIC,ALBUM_MUSIC,ARTIST_MUSIC
+        ONE_MUSIC, ALL_MUSIC, ALBUM_MUSIC, ARTIST_MUSIC
     }
 }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab.musucplayer.R;
@@ -16,7 +17,7 @@ import java.util.List;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class MainFragmentActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
 
     private ActivitySingleFragmentBinding mBinding;
     private MainViewModel mViewModel;
@@ -26,10 +27,17 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_fragment);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        mViewModel.setContext(this);
-        mViewModel.setFragmentManager(getSupportFragmentManager());
         mViewModel.requestPermision(this);
+        mViewModel.setContext(this);
 
+        mViewModel.getMutableLiveData().observe(this, new Observer() {
+            @Override
+            public void onChanged(Object o) {
+                mViewModel.updateMusics();
+            }
+        });
+
+        mViewModel.setFragmentManager(getSupportFragmentManager());
     }
 
     @Override
@@ -40,6 +48,7 @@ public class MainFragmentActivity extends AppCompatActivity implements EasyPermi
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+
     }
 
     @Override

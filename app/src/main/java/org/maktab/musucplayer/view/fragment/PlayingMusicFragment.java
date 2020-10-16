@@ -67,9 +67,6 @@ public class PlayingMusicFragment extends Fragment {
         mBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_playing_music,container,false);
         findView(mBinding.getRoot());
         setOnClick();
-        initUi();
-
-        initPlayButtonImage();
         return mBinding.getRoot();
     }
 

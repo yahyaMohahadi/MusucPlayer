@@ -3,6 +3,8 @@ package org.maktab.musucplayer.player;
 import android.content.Context;
 import android.media.MediaPlayer;
 
+import androidx.lifecycle.MutableLiveData;
+
 import org.maktab.musucplayer.model.Song;
 import org.maktab.musucplayer.utils.Ordering;
 
@@ -13,7 +15,7 @@ public class Music {
     private Callbacks mCallbacksListtener;
 
     private Context mContext;
-    private List<Song> mSongList;
+    private MutableLiveData<List<Song>> mLiveDataSongList = new MutableLiveData<>();
     private Ordering mOrdering;
     private static Music sInstance;
     private MediaPlayer mMediaPlayer;
@@ -27,6 +29,10 @@ public class Music {
     //TODO THRAD AND CALLBACKS FOR SEEKBAR
 
     private Music() {
+    }
+
+    public MutableLiveData<List<Song>> getLiveDataSongList() {
+        return mLiveDataSongList;
     }
 
     public static Music newInstance(Context context, List<Song> songs) {
@@ -45,10 +51,6 @@ public class Music {
         return sInstance;
     }
 
-    public List<Song> getSongList() {
-        return mSongList;
-    }
-
 
     private static void initFirst(List<Song> songs) {
         if (songs.size() == 0) {
@@ -59,7 +61,7 @@ public class Music {
             sInstance.mMediaPlayer.reset();
         }
         sInstance.mOrdering = new Ordering(songs.size());
-        sInstance.mSongList = songs;
+        sInstance.mLiveDataSongList.setValue(songs);
         sInstance.initStateShuffle(StateShuffle.RESPECTIVLY);
         sInstance.initStateRepeat(StateRepeat.NORMAL);
         sInstance.mMediaPlayer = new MediaPlayer();
@@ -68,13 +70,9 @@ public class Music {
     }
 
     public void setSongList(List<Song> songList) {
-        mSongList = songList;
         initFirst(songList);
     }
 
-    public List<Song> getSongs() {
-        return mSongList;
-    }
 
     public void setCallbacksListtener(Callbacks callbacksListtener) {
         mCallbacksListtener = callbacksListtener;
@@ -98,8 +96,8 @@ public class Music {
     }
 
     public void playSong(Song song) {
-        if (mSongList.indexOf(song) != -1) {
-            mOrdering.setCurent(mSongList.indexOf(song));
+        if (mLiveDataSongList.getValue().indexOf(song) != -1) {
+            mOrdering.setCurent(mLiveDataSongList.getValue().indexOf(song));
             prepare();
             mStatePlay = StatePlay.PAUSE;
             initStatePlay(StatePlay.PLAY);
@@ -177,42 +175,15 @@ public class Music {
         mIntegerPersentPlayed = 0;
         try {
             mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(mContext, mSongList.get(mOrdering.getCurent()).getUri());
+            mMediaPlayer.setDataSource(mContext, mLiveDataSongList.getValue().get(mOrdering.getCurent()).getUri());
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
         mIntegerMusicTotal = mMediaPlayer.getDuration();
-        //runTimeThread();
+        //TODO runTimeThread();
 
     }
-
-/*
-    private void runTimeThread() {
-        mThreadTime =
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (true) {
-                            new java.util.Timer().schedule(
-                                    new java.util.TimerTask() {
-                                        @Override
-                                        public void run() {
-                                            int persent = (int)
-                                                    (100 * (Float.valueOf(
-                                                            mMediaPlayer.getCurrentPosition())
-                                                            / Float.valueOf(
-                                                            mIntegerMusicTotal)));
-                                            mIntegerPersentPlayed = persent;
-                                        }
-                                    },
-                                    500
-                            );
-                        }
-                    }
-                });
-    }
-*/
 
     private void next() throws IOException {
         mOrdering.getNext();
@@ -236,7 +207,7 @@ public class Music {
     }
 
     public Song getCurentSong() {
-        return mSongList.get(mOrdering.getCurent());
+        return mLiveDataSongList.getValue().get(mOrdering.getCurent());
     }
 
     public StateShuffle getStateShuffle() {

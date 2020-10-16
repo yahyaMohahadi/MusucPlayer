@@ -11,11 +11,10 @@ import org.maktab.musucplayer.player.Music;
 import org.maktab.musucplayer.utils.ListUtils;
 
 public class MusicViewModel extends ViewModel {
-    private final Song mSong;
+    private  Song mSong;
     private String mStringTittle;
     public String mStringArtist;
     private Uri mUriSongImage;
-
     public ObservableField<Uri> resultImageUrl = new ObservableField<>();
 
     public MusicViewModel(Song song) {
@@ -27,7 +26,6 @@ public class MusicViewModel extends ViewModel {
         try {
             return Music.newInstance().getCurentSong().equals(mSong);
         } catch (Exception e) {
-            //e.printStackTrace();
             return false;
         }
     }
