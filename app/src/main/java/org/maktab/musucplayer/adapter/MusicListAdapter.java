@@ -1,5 +1,6 @@
 package org.maktab.musucplayer.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -9,25 +10,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.Adapter;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.databinding.ListMusicBinding;
 import org.maktab.musucplayer.data.model.Song;
+import org.maktab.musucplayer.databinding.ListMusicBinding;
+import org.maktab.musucplayer.ui.lists.music.MusicListViewModel;
+import org.maktab.musucplayer.ui.lists.music.MusicViewModel;
 
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> {
 
     private List<Song> mSongs;
-    //todo make it a line fore showing live
 
-    public static MusicListAdapter newInstance(
-            List<Song> songs) {
-        MusicListAdapter musicListAdapter = new MusicListAdapter();
-        musicListAdapter.mSongs = songs;
-        return musicListAdapter;
+    public MusicListAdapter(List<Song> songs) {
+        mSongs = songs;
+
     }
 
-    public void setSongs(List<Song> songs) {
+
+    public void setSongs(@NonNull List<Song> songs) {
         if (!songs.equals(mSongs)) {
             mSongs = songs;
             notifyDataSetChanged();
@@ -51,7 +52,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
     @Override
     public int getItemCount() {
-        return mSongs == null ? 0 : mSongs.size();
+        return mSongs==null ? 0 : mSongs.size();
     }
 
     class MusicListHolder extends RecyclerView.ViewHolder {
@@ -64,14 +65,9 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
 
         public void bind(Song song) {
-            ;
+            MusicViewModel viewModel = new MusicViewModel(song);
+            mBinding.setVievModel(viewModel);
+            mBinding.executePendingBindings();
         }
-    }
-
-    public static final int LIMIT_CHARE_IN_VIEW = 9;
-    public static final int LIMIT_CHARE_IN_Tiitle = 45;
-
-    public static String limitString(String string, int limit) {
-        return string.length() > limit ? string.substring(0, limit) + "..." : string;
     }
 }

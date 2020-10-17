@@ -17,8 +17,8 @@ import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.adapter.ViewPagerAdapter;
 import org.maktab.musucplayer.databinding.FragmentMainBinding;
 import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.ui.lists.MusicListAAFragment;
-import org.maktab.musucplayer.ui.lists.MusicListFragment;
+import org.maktab.musucplayer.ui.lists.albumArtist.MusicListAAFragment;
+import org.maktab.musucplayer.ui.lists.music.MusicListFragment;
 
 public class MainFragment extends Fragment {
 

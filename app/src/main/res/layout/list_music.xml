@@ -3,49 +3,74 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="vievModel"
+            type="org.maktab.musucplayer.ui.lists.music.MusicViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         tools:visibility="visible">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_list_title"
             style="@style/Platform.MaterialComponents.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{vievModel.tittle}"
+            android:textAppearance="@style/TextViewHeadline6"
             android:textSize="14sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/imageView_list_music_image"
-            app:layout_constraintTop_toTopOf="@+id/imageView_list_music_image" />
+            app:layout_constraintTop_toTopOf="@+id/imageView_list_music_image"
+            tools:text="Tittle" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_list_artist"
             style="@style/Platform.MaterialComponents.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:layout_gravity="center"
+            android:layout_marginTop="4dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{vievModel.artist}"
+            android:textColor="@color/text_artist_list"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_list_music_image"
             app:layout_constraintStart_toStartOf="@+id/textView_list_title"
-            app:layout_constraintTop_toBottomOf="@+id/textView_list_title" />
+            app:layout_constraintTop_toBottomOf="@+id/textView_list_title"
+            tools:text="Artist" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView_list_music_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_note"
+            app:imageUrl="@{vievModel.resultImageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView_highlight_music"
-            android:layout_width="16dp"
-            android:layout_height="24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="VectorDrawableCompat" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

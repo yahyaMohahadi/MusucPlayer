@@ -6,9 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
-
-import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.musucplayer.data.model.Album;
 import org.maktab.musucplayer.data.model.Artist;
@@ -16,11 +13,11 @@ import org.maktab.musucplayer.data.model.Song;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 public class SongRepository {
 
-    private MutableLiveData<List<Song>> mLiveSongs = new MutableLiveData<List<Song>>() {
-    };
+    private Vector<Song> mSongs;
 
 
     private static Context sContext;
@@ -35,30 +32,24 @@ public class SongRepository {
             sContext = context.getApplicationContext();
             sRepository = new SongRepository();
         }
-        if (sRepository.mLiveSongs == null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        sRepository.mLiveSongs.postValue(getMdediFromContentResolver(sContext));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.d("QQQ", "GET MUSIC FAILED");
-                    }
-                }
-            }).start();
-
+        if (sRepository.mSongs == null) {
+            sRepository.mSongs = new Vector<>();
+            try {
+                sRepository.mSongs.addAll(getMdediFromContentResolver(sContext));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return sRepository;
     }
 
-    public MutableLiveData<List<Song>> getLiveSongs() {
-        return mLiveSongs;
+    public List<Song> getSongs() {
+        return mSongs;
     }
 
     public List<Song> getSongAlbum(String album) {
         List<Song> songAlbum = new ArrayList<>();
-        for (Song song : mLiveSongs.getValue()) {
+        for (Song song : mSongs) {
             if (song.getStringAlbum().equals(album)) {
                 songAlbum.add(song);
             }
@@ -68,7 +59,7 @@ public class SongRepository {
 
     public List<Song> getSongArtist(String artist) {
         List<Song> songArtist = new ArrayList<>();
-        for (Song song : mLiveSongs.getValue()) {
+        for (Song song : mSongs) {
             if (song.getStringArtist().equals(artist)) {
                 songArtist.add(song);
             }
@@ -118,11 +109,11 @@ public class SongRepository {
     }
 
     public List<Song> getListSong(SongRepository.StateAskSong states, String stringSelected) {
-        return mLiveSongs.getValue();
+        return mSongs;
     }
 
     public Song getSongsById(int id) {
-        for (Song song : mLiveSongs.getValue()) {
+        for (Song song : mSongs) {
             if (song.getIntId() == id) {
                 return song;
             }

@@ -8,4 +8,5 @@
     <color name="colorMusicHiglight">#F44336</color>
     <color name="colorMusicnormal">#DD070707</color>
     <color name="md_red_400">#EF5350</color>
+    <color name="text_artist_list">#9F9D9D</color>
 </resources>

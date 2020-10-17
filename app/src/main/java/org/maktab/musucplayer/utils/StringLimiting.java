@@ -1,12 +1,10 @@
 package org.maktab.musucplayer.utils;
 
-import android.net.Uri;
-import android.widget.ImageView;
+public class StringLimiting {
 
-import androidx.databinding.BindingAdapter;
+    public static final int LIMIT_CHARE_AETIST = 9;
+    public static final int LIMIT_CHARE_TITTLE = 45;
 
-
-public class ListUtils {
     public static String limitString(String string, int limit) {
         return string.length() > limit ? string.substring(0, limit) + "..." : string;
     }

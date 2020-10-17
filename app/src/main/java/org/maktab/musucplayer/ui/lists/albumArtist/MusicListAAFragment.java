@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.ui.lists;
+package org.maktab.musucplayer.ui.lists.albumArtist;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
