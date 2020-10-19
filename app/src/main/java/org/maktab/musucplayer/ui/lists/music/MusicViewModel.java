@@ -1,12 +1,11 @@
 package org.maktab.musucplayer.ui.lists.music;
 
 import android.net.Uri;
-import android.util.Log;
 
 import androidx.databinding.ObservableField;
 
 import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.utils.StringLimiting;
+import org.maktab.musucplayer.utils.StringLimiter;
 
 public class MusicViewModel {
     private Song mSong;
@@ -23,11 +22,11 @@ public class MusicViewModel {
     }
 
     public String getTittle() {
-        return StringLimiting.limitString(mSong.getStringTitle(), StringLimiting.LIMIT_CHARE_TITTLE);
+        return StringLimiter.limitString(mSong.getStringTitle(), StringLimiter.LIMIT_CHARE_TITTLE);
     }
 
     public String getArtist() {
-        return StringLimiting.limitString(mSong.getStringArtist(), StringLimiting.LIMIT_CHARE_AETIST);
+        return StringLimiter.limitString(mSong.getStringArtist(), StringLimiter.LIMIT_CHARE_AETIST);
     }
 
     public ObservableField<Uri> getResultImageUrl() {

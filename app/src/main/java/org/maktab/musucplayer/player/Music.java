@@ -41,7 +41,15 @@ public class Music {
         }
         return sInstance;
     }
-
+    public static Music newInstance(Context context, List<Song> songs,Music.Callbacks callbacks) {
+        if (sInstance == null) {
+            sInstance = new Music();
+            sInstance.setCallbacksListtener(callbacks);
+            sInstance.mContext = context.getApplicationContext();
+            initFirst(songs);
+        }
+        return sInstance;
+    }
     public static Music newInstance() throws Exception {
         if (sInstance == null) {
             throw new Exception("initialisiation exepted for Music");
@@ -63,8 +71,8 @@ public class Music {
         sInstance.initStateShuffle(StateShuffle.RESPECTIVLY);
         sInstance.initStateRepeat(StateRepeat.NORMAL);
         sInstance.mMediaPlayer = new MediaPlayer();
-        sInstance.prepare();
         sInstance.mStatePlay = StatePlay.PAUSE;
+        sInstance.prepare();
     }
 
     public void setSongList(List<Song> songList) {
@@ -168,8 +176,6 @@ public class Music {
     }
 
     private void prepare() {
-        if (mCallbacksListtener != null)
-            mCallbacksListtener.onMusicChangeListtener(getCurentSong());
         mIntegerPersentPlayed = 0;
         try {
             mMediaPlayer.reset();
@@ -179,6 +185,8 @@ public class Music {
             e.printStackTrace();
         }
         mIntegerMusicTotal = mMediaPlayer.getDuration();
+        if (mCallbacksListtener != null)
+            mCallbacksListtener.onMusicChangeListtener(getCurentSong());
         //TODO runTimeThread();
 
     }

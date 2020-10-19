@@ -9,7 +9,7 @@ import androidx.databinding.DataBindingUtil;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ActivitySingleFragmentBinding;
-import org.maktab.musucplayer.ui.bar.PlayingMusicFragment;
+import org.maktab.musucplayer.ui.bar.PlayingBarFragment;
 import org.maktab.musucplayer.ui.ditails.DitailMusicFragment;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private ActivitySingleFragmentBinding mBinding;
     private MainFragment mFragmentMain;
     private DitailMusicFragment mFragmentDetail;
-    private PlayingMusicFragment mFragmentPlay;
+    private PlayingBarFragment mFragmentPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         //todo init in asyncronize way
         mFragmentMain = MainFragment.newInstance();
         mFragmentDetail = DitailMusicFragment.newInstance();
-        mFragmentPlay = PlayingMusicFragment.newInstance();
+        mFragmentPlay = PlayingBarFragment.newInstance();
     }
 
     private void requestPermissions() {

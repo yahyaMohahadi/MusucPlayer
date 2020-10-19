@@ -45,7 +45,6 @@ public class MusicListViewModel extends ViewModel {
             recyclerviewSongs.setAdapter(mAdapter);
 
         } else {
-            Log.d("QQQ",mListMutableLiveData.getValue().size()+"");
             mAdapter.setSongs(mListMutableLiveData.getValue());
         }
     }

@@ -1,15 +1,11 @@
 package org.maktab.musucplayer.ui.main;
 
-import androidx.databinding.ObservableField;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.viewpager2.widget.ViewPager2;
 
 import org.maktab.musucplayer.adapter.ViewPagerAdapter;
-import org.maktab.musucplayer.utils.StringLimiting;
-
-import java.util.Observable;
 
 public class MainFragmentViewModel extends ViewModel {
     private ViewPagerAdapter mViewPagerAdapter;
