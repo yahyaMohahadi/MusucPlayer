@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Artist;
+import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.ArtistListOpenBinding;
 import org.maktab.musucplayer.databinding.ListArtisiBinding;
 import org.maktab.musucplayer.databinding.ListMusicBinding;
@@ -26,14 +27,17 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
     public static final int INT_OPEN_LIST = 1;
     private List<Artist> mArtists;
     private Artist mArtistOpen;
+    private Callback<Artist> mCallback;
+    private Callback<Song> mSongCallback;
 
     private MusicArtistAdapter() {
     }
 
 
-    public static MusicArtistAdapter newInstance(List<Artist> songs) {
-
+    public static MusicArtistAdapter newInstance(List<Artist> songs, Callback<Artist> artistCallback, Callback<Song> songCallback) {
         MusicArtistAdapter musicListAdapter = new MusicArtistAdapter();
+        musicListAdapter.mCallback = artistCallback;
+        musicListAdapter.mSongCallback = songCallback;
         musicListAdapter.mArtists = songs;
         return musicListAdapter;
     }
@@ -41,7 +45,7 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
     public void setSongs(List<Artist> artists) {
         if (artists.equals(mArtists)) {
             mArtists = null;
-        }else {
+        } else {
             mArtists = artists;
         }
     }
@@ -115,11 +119,12 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
         public void bind(final Artist artist) {
             ArtistViewModel mViewModel;
             mViewModel = new ArtistViewModel(artist);
-            mViewModel.setCallback(new Callback<Artist>() {
+            mViewModel.setCallback(new MusicArtistAdapter.CallbackOpenable() {
                 @Override
                 public void onClick(Artist onCall) {
                     setArtistOpen(onCall);
                     notifyDataSetChanged();
+                    mCallback.onClick(onCall, false);
                 }
             });
             mBinding.setViewModel(mViewModel);
@@ -141,26 +146,29 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
         public void bind(final Artist artist) {
             ArtistViewModel mViewModel;
             mViewModel = new ArtistViewModel(artist);
-            mViewModel.setCallback(new Callback<Artist>() {
+            mViewModel.setCallback(new MusicArtistAdapter.CallbackOpenable() {
                 @Override
                 public void onClick(Artist onCall) {
                     if (onCall.equals(mArtistOpen)) {
                         setArtistOpen(null);
-
                         return;
                     }
                     setArtistOpen(onCall);
-
+                    mCallback.onClick(artist, false);
                 }
             });
             mBinding.include.setViewModel(mViewModel);
             mBinding.itemPlace.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(mBinding.itemPlace.getContext());
-            for (int i = 0; i <artist.getSongArtist().size() ; i++) {
+            for (int i = 0; i < artist.getSongArtist().size(); i++) {
                 ListMusicBinding binding = DataBindingUtil.inflate(inflater, R.layout.list_music, null, false);
-                binding.setVievModel(new MusicViewModel(artist.getSongArtist().get(i)));
-                mBinding.itemPlace.addView(binding.getRoot(),i);
+                binding.setVievModel(new MusicViewModel(artist.getSongArtist().get(i), mSongCallback));
+                mBinding.itemPlace.addView(binding.getRoot(), i);
             }
         }
+    }
+
+    public interface CallbackOpenable {
+        void onClick(Artist artist);
     }
 }

@@ -16,15 +16,18 @@ import androidx.lifecycle.ViewModelProvider;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.FragmentPlayingBarMusicBinding;
+import org.maktab.musucplayer.ui.main.activity.MainActivity;
 
 
 public class PlayingBarFragment extends Fragment {
     private FragmentPlayingBarMusicBinding mBinding;
     private BarViewModel mViewModel;
+    private MainActivity.Callback mCallback;
 
 
-    public static PlayingBarFragment newInstance() {
+    public static PlayingBarFragment newInstance(MainActivity.Callback callback) {
         PlayingBarFragment fragment = new PlayingBarFragment();
+        fragment.mCallback=callback;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -42,6 +45,7 @@ public class PlayingBarFragment extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_playing_bar_music, container, false);
         mBinding.setLifecycleOwner(this);
+        mBinding.setCallback(mCallback);
         mViewModel = new ViewModelProvider(this).get(BarViewModel.class);
         mBinding.setVeiwModel(mViewModel);
         mViewModel.fetchMusic(this.getActivity(),this);

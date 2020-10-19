@@ -12,8 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Album;
-import org.maktab.musucplayer.data.model.Artist;
+import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.FragmentArtistListBinding;
+import org.maktab.musucplayer.ui.Callback;
 
 import java.util.List;
 
@@ -22,10 +23,13 @@ public class MusicListAlbumFragment extends Fragment {
 
     private AlbumListViewMode mViewModel;
     private FragmentArtistListBinding mBinding;
+    private Callback<Album> mCallback;
+    private Callback<Song> mSongCallback;
 
-    public static MusicListAlbumFragment newInstance() {
+    public static MusicListAlbumFragment newInstance(Callback mCallback, Callback<Album> callback) {
         MusicListAlbumFragment fragment = new MusicListAlbumFragment();
-
+        fragment.mCallback = callback;
+        fragment.mSongCallback = mCallback;
         return fragment;
     }
 
@@ -41,6 +45,7 @@ public class MusicListAlbumFragment extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_artist_list, container, false);
         mViewModel = new ViewModelProvider(this).get(AlbumListViewMode.class);
+        mViewModel.setCallback(mCallback, mSongCallback);
         mViewModel.setupRecyclerView(mBinding.recyclerviewArtist);
         mViewModel.fetchLiveData(getContext());
         mViewModel.getListMutableLiveData().observe(this, new Observer<List<Album>>() {

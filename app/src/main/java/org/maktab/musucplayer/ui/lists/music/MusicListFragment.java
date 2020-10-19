@@ -14,20 +14,20 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.FragmentMusicListBinding;
+import org.maktab.musucplayer.ui.Callback;
 
 import java.util.List;
 
 public class MusicListFragment extends Fragment {
     private FragmentMusicListBinding mBinding;
     private MusicListViewModel mViewModel;
+    private Callback<Song> mCallback;
 
 
-    public static MusicListFragment newInstance() {
-
+    public static MusicListFragment newInstance(Callback<Song> callback) {
         MusicListFragment fragment = new MusicListFragment();
+        fragment.mCallback = callback;
         return fragment;
-
-
     }
 
 
@@ -36,6 +36,7 @@ public class MusicListFragment extends Fragment {
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_music_list, container, false);
         mViewModel = new ViewModelProvider(this).get(MusicListViewModel.class);
+        mViewModel.setCallback(mCallback);
         mViewModel.fetchSongs(this.getContext());
         addDividerRecyclerView();
         mViewModel.setupRacyclerView(mBinding.recyclerviewSongs);

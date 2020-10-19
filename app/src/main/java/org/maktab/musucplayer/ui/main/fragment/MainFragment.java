@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.ui.main;
+package org.maktab.musucplayer.ui.main.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.FragmentMainBinding;
+import org.maktab.musucplayer.ui.Callback;
 import org.maktab.musucplayer.ui.lists.album.MusicListAlbumFragment;
 import org.maktab.musucplayer.ui.lists.artist.MusicListArtistFragment;
 import org.maktab.musucplayer.ui.lists.music.MusicListFragment;
 
 public class MainFragment extends Fragment {
 
+    private static Callback[] mCallbacks;
     private FragmentMainBinding mBinding;
     private MainFragmentViewModel mViewModel;
 
@@ -27,7 +29,8 @@ public class MainFragment extends Fragment {
     private final Fragment[] mFragmentsList = new Fragment[3];
 
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(Callback[] callbacks) {
+        mCallbacks = callbacks;
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -63,10 +66,9 @@ public class MainFragment extends Fragment {
 
 
     private void iniLists() {
-
-        mMusicListFragment = MusicListFragment.newInstance();
-        mAlbumListFragment = MusicListAlbumFragment.newInstance();
-        mArtistListFragment = MusicListArtistFragment.newInstance();
+        mMusicListFragment = MusicListFragment.newInstance(mCallbacks[0]);
+        mArtistListFragment = MusicListArtistFragment.newInstance(mCallbacks[0], mCallbacks[1]);
+        mAlbumListFragment = MusicListAlbumFragment.newInstance(mCallbacks[0], mCallbacks[2]);
         mFragmentsList[0] = mMusicListFragment;
         mFragmentsList[1] = mArtistListFragment;
         mFragmentsList[2] = mAlbumListFragment;

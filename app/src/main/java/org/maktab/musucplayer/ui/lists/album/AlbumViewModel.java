@@ -24,7 +24,7 @@ public class AlbumViewModel extends Observable {
     }
 
     public void onClick() {
-        mCallback.onClick(mAlbum);
+        mCallback.onClick(mAlbum,false);
     }
 
     public void imageUrlUpdated() {

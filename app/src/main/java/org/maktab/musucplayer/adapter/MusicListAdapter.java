@@ -1,6 +1,6 @@
 package org.maktab.musucplayer.adapter;
 
-import android.util.Log;
+import android.telecom.Call;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter;
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.ListMusicBinding;
-import org.maktab.musucplayer.ui.lists.music.MusicListViewModel;
+import org.maktab.musucplayer.ui.Callback;
 import org.maktab.musucplayer.ui.lists.music.MusicViewModel;
 
 import java.util.ArrayList;
@@ -21,8 +21,11 @@ import java.util.List;
 public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> {
 
     private List<Song> mSongs = new ArrayList<>();
+    private Callback<Song> mSongCallback;
 
-    public MusicListAdapter(List<Song> songs) {
+
+    public MusicListAdapter(List<Song> songs, Callback<Song> songCallback) {
+        mSongCallback = songCallback;
         mSongs = songs;
 
     }
@@ -52,7 +55,7 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
 
     @Override
     public int getItemCount() {
-        return mSongs==null ? 0 : mSongs.size();
+        return mSongs == null ? 0 : mSongs.size();
     }
 
     class MusicListHolder extends RecyclerView.ViewHolder {
@@ -65,7 +68,12 @@ public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> 
         }
 
         public void bind(Song song) {
-            MusicViewModel viewModel = new MusicViewModel(song);
+            MusicViewModel viewModel = new MusicViewModel(song, new Callback<Song>() {
+                @Override
+                public void onClick(Song onCall, boolean inAllSongCalled) {
+                    mSongCallback.onClick(onCall,true);
+                }
+            });
             mBinding.setVievModel(viewModel);
             mBinding.executePendingBindings();
         }

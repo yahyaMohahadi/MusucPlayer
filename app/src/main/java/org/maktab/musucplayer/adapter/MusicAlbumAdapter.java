@@ -10,15 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.data.model.Album;
-import org.maktab.musucplayer.data.model.Artist;
+import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.databinding.AlbumListOpenBinding;
-import org.maktab.musucplayer.databinding.ArtistListOpenBinding;
 import org.maktab.musucplayer.databinding.ListAlbumBinding;
-import org.maktab.musucplayer.databinding.ListArtisiBinding;
 import org.maktab.musucplayer.databinding.ListMusicBinding;
 import org.maktab.musucplayer.ui.Callback;
 import org.maktab.musucplayer.ui.lists.album.AlbumViewModel;
-import org.maktab.musucplayer.ui.lists.artist.ArtistViewModel;
 import org.maktab.musucplayer.ui.lists.music.MusicViewModel;
 
 import java.util.List;
@@ -31,14 +28,17 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
     public static final int INT_OPEN_LIST = 1;
     private List<Album> mAlbums;
     private Album mAlbumOpen;
+    private Callback<Album> mCallback;
+    private Callback<Song> mSongCallback;
 
     private MusicAlbumAdapter() {
     }
 
 
-    public static MusicAlbumAdapter newInstance(List<Album> songs) {
-
+    public static MusicAlbumAdapter newInstance(List<Album> songs, Callback<Album> albumCallback, Callback<Song> songCallback) {
         MusicAlbumAdapter musicListAdapter = new MusicAlbumAdapter();
+        musicListAdapter.mCallback = albumCallback;
+        musicListAdapter.mSongCallback = songCallback;
         musicListAdapter.mAlbums = songs;
         return musicListAdapter;
     }
@@ -46,7 +46,7 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
     public void setSongs(List<Album> albums) {
         if (albums.equals(mAlbums)) {
             mAlbums = null;
-        }else {
+        } else {
             mAlbums = albums;
         }
     }
@@ -122,9 +122,10 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
             mViewModel = new AlbumViewModel(album);
             mViewModel.setCallback(new Callback<Album>() {
                 @Override
-                public void onClick(Album onCall) {
+                public void onClick(Album onCall, boolean allSong) {
                     setAlbumOpen(onCall);
                     notifyDataSetChanged();
+                    mCallback.onClick(onCall, false);
                 }
             });
             mBinding.setViewModel(mViewModel);
@@ -148,12 +149,12 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
             mViewModel = new AlbumViewModel(album);
             mViewModel.setCallback(new Callback<Album>() {
                 @Override
-                public void onClick(Album onCall) {
+                public void onClick(Album onCall, boolean allCall) {
                     if (onCall.equals(mAlbumOpen)) {
                         setAlbumOpen(null);
-
                         return;
                     }
+                    mCallback.onClick(album, false);
                     setAlbumOpen(onCall);
 
                 }
@@ -161,10 +162,10 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
             mBinding.include.setViewModel(mViewModel);
             mBinding.itemPlace.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(mBinding.itemPlace.getContext());
-            for (int i = 0; i <album.getSongAlbum().size() ; i++) {
+            for (int i = 0; i < album.getSongAlbum().size(); i++) {
                 ListMusicBinding binding = DataBindingUtil.inflate(inflater, R.layout.list_music, null, false);
-                binding.setVievModel(new MusicViewModel(album.getSongAlbum().get(i)));
-                mBinding.itemPlace.addView(binding.getRoot(),i);
+                binding.setVievModel(new MusicViewModel(album.getSongAlbum().get(i), mSongCallback));
+                mBinding.itemPlace.addView(binding.getRoot(), i);
             }
         }
     }

@@ -5,18 +5,20 @@ import android.net.Uri;
 import androidx.databinding.ObservableField;
 
 import org.maktab.musucplayer.data.model.Song;
+import org.maktab.musucplayer.ui.Callback;
 import org.maktab.musucplayer.utils.StringLimiter;
 
 public class MusicViewModel {
     private Song mSong;
-
+    private Callback<Song> mSongCallback;
     public ObservableField<Uri> resultImageUrl = new ObservableField<>();
 
     public void onClick() {
-
+        mSongCallback.onClick(mSong,false);
     }
 
-    public MusicViewModel(Song song) {
+    public MusicViewModel(Song song, Callback<Song> songCallback) {
+        mSongCallback=songCallback;
         mSong = (song);
         imageUrlUpdated();
     }

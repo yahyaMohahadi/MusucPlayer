@@ -11,6 +11,7 @@ import org.maktab.musucplayer.adapter.MusicAlbumAdapter;
 import org.maktab.musucplayer.data.local.repository.SongRepository;
 import org.maktab.musucplayer.data.model.Album;
 import org.maktab.musucplayer.data.model.Song;
+import org.maktab.musucplayer.ui.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,15 @@ import java.util.List;
 public class AlbumListViewMode extends ViewModel {
     private MusicAlbumAdapter mAdapter;
     private MutableLiveData<List<Album>> mListMutableLiveData = new MutableLiveData<>();
+    private Callback<Album> mCallback;
+    private Callback<Song> mSongCallback;
 
     public AlbumListViewMode() {
+    }
+
+    public void setCallback(Callback<Album> callback, Callback<Song> songCallback) {
+        mSongCallback = songCallback;
+        mCallback = callback;
     }
 
     public MutableLiveData<List<Album>> getListMutableLiveData() {
@@ -29,7 +37,7 @@ public class AlbumListViewMode extends ViewModel {
     public void setupRecyclerView(RecyclerView recyclerviewArtist) {
         if (mAdapter == null) {
             recyclerviewArtist.setLayoutManager(new LinearLayoutManager(recyclerviewArtist.getContext()));
-            mAdapter = MusicAlbumAdapter.newInstance(mListMutableLiveData.getValue());
+            mAdapter = MusicAlbumAdapter.newInstance(mListMutableLiveData.getValue(), mCallback, mSongCallback);
             recyclerviewArtist.setAdapter(mAdapter);
         } else {
             mAdapter.setSongs(mListMutableLiveData.getValue());

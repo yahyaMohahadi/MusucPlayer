@@ -1,5 +1,5 @@
 package org.maktab.musucplayer.ui;
 
 public interface Callback<T> {
-    void onClick(T onCall);
+    void onClick(T onCall,boolean inAllSongCalled);
 }
