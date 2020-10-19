@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="org.maktab.musucplayer.ui.lists.artist.ArtistViewModel" />
@@ -15,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:onClick="@{()->viewModel.onClick()}"
         android:padding="8dp">
 
 
