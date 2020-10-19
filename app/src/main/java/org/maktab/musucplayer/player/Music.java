@@ -12,9 +12,9 @@ import java.io.IOException;
 import java.util.List;
 
 public class Music {
-    private Callbacks mCallbacksListtener;
+    private static MutableLiveData<Song> mLiveDataCurentSong = new MutableLiveData<>();
     private Context mContext;
-    private MutableLiveData<List<Song>> mLiveDataSongList = new MutableLiveData<>();
+    private List<Song> mSongs;
     private Ordering mOrdering;
     private static Music sInstance;
     private MediaPlayer mMediaPlayer;
@@ -29,8 +29,8 @@ public class Music {
     private Music() {
     }
 
-    public MutableLiveData<List<Song>> getLiveDataSongList() {
-        return mLiveDataSongList;
+    public List<Song> getSongs() {
+        return mSongs;
     }
 
     public static Music newInstance(Context context, List<Song> songs) {
@@ -41,22 +41,6 @@ public class Music {
         }
         return sInstance;
     }
-    public static Music newInstance(Context context, List<Song> songs,Music.Callbacks callbacks) {
-        if (sInstance == null) {
-            sInstance = new Music();
-            sInstance.setCallbacksListtener(callbacks);
-            sInstance.mContext = context.getApplicationContext();
-            initFirst(songs);
-        }
-        return sInstance;
-    }
-    public static Music newInstance() throws Exception {
-        if (sInstance == null) {
-            throw new Exception("initialisiation exepted for Music");
-        }
-        return sInstance;
-    }
-
 
     private static void initFirst(List<Song> songs) {
         if (songs.size() == 0) {
@@ -67,7 +51,7 @@ public class Music {
             sInstance.mMediaPlayer.reset();
         }
         sInstance.mOrdering = new Ordering(songs.size());
-        sInstance.mLiveDataSongList.setValue(songs);
+        sInstance.mSongs = (songs);
         sInstance.initStateShuffle(StateShuffle.RESPECTIVLY);
         sInstance.initStateRepeat(StateRepeat.NORMAL);
         sInstance.mMediaPlayer = new MediaPlayer();
@@ -79,10 +63,6 @@ public class Music {
         initFirst(songList);
     }
 
-
-    public void setCallbacksListtener(Callbacks callbacksListtener) {
-        mCallbacksListtener = callbacksListtener;
-    }
 
     public void initStatePlay(StatePlay statePlay) {
         switch (mStatePlay) {
@@ -102,8 +82,8 @@ public class Music {
     }
 
     public void playSong(Song song) {
-        if (mLiveDataSongList.getValue().indexOf(song) != -1) {
-            mOrdering.setCurent(mLiveDataSongList.getValue().indexOf(song));
+        if (mSongs.indexOf(song) != -1) {
+            mOrdering.setCurent(mSongs.indexOf(song));
             prepare();
             mStatePlay = StatePlay.PAUSE;
             initStatePlay(StatePlay.PLAY);
@@ -179,14 +159,13 @@ public class Music {
         mIntegerPersentPlayed = 0;
         try {
             mMediaPlayer.reset();
-            mMediaPlayer.setDataSource(mContext, mLiveDataSongList.getValue().get(mOrdering.getCurent()).getUri());
+            mMediaPlayer.setDataSource(mContext, mSongs.get(mOrdering.getCurent()).getUri());
             mMediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
         mIntegerMusicTotal = mMediaPlayer.getDuration();
-        if (mCallbacksListtener != null)
-            mCallbacksListtener.onMusicChangeListtener(getCurentSong());
+        mLiveDataCurentSong.postValue(getCurentSong());
         //TODO runTimeThread();
 
     }
@@ -199,6 +178,9 @@ public class Music {
         }
     }
 
+    public static MutableLiveData<Song> getLiveDataCurentSong() {
+        return mLiveDataCurentSong;
+    }
 
     public int getIntegerPersentPlayed() {
         return mIntegerPersentPlayed;
@@ -213,7 +195,7 @@ public class Music {
     }
 
     public Song getCurentSong() {
-        return mLiveDataSongList.getValue().get(mOrdering.getCurent());
+        return mSongs.get(mOrdering.getCurent());
     }
 
     public StateShuffle getStateShuffle() {

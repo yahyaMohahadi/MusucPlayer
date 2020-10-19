@@ -9,7 +9,7 @@ import androidx.databinding.Observable;
 import androidx.databinding.ObservableField;
 import androidx.databinding.PropertyChangeRegistry;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.data.local.repository.SongRepository;
@@ -18,6 +18,7 @@ import org.maktab.musucplayer.player.Music;
 import org.maktab.musucplayer.utils.StringLimiter;
 
 import java.io.IOException;
+
 //todo find beter way for dataa binding
 public class BarViewModel extends ViewModel implements Observable {
     private Music mMusic;
@@ -37,7 +38,7 @@ public class BarViewModel extends ViewModel implements Observable {
 
     @Bindable
     public String getArtist() {
-        return StringLimiter.limitString(artist,StringLimiter.LIMIT_CHARE_AETIST);
+        return StringLimiter.limitString(artist, StringLimiter.LIMIT_CHARE_AETIST);
     }
 
     public void setArtist(String artist) {
@@ -57,23 +58,30 @@ public class BarViewModel extends ViewModel implements Observable {
 
     @Bindable
     public String getTittle() {
-        return StringLimiter.limitString(tittle,StringLimiter.LIMIT_CHARE_BAR_TITTLE);
+        return StringLimiter.limitString(tittle, StringLimiter.LIMIT_CHARE_BAR_TITTLE);
     }
 
     public void fetchMusic(@NonNull final Context application, LifecycleOwner owner) {
         //todo declirate azyncronize
-        mMusic = Music.newInstance(application, SongRepository.newInstance(application).getSongs(),
-                new Music.Callbacks(){
-                    @Override
-                    public void onMusicChangeListtener(Song song) {
-                        setTittle(song.getStringTitle());
-                        setArtist(song.getStringArtist());
-                        mImageUri.set(song.getUriImage());
-                        if (mMusic!=null)
-                        setPlaying(mMusic.getStatePlay() == Music.StatePlay.PLAY ? true : false);
-                    }
-                }
-        );
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mMusic = Music.newInstance(application, SongRepository.newInstance(application).getSongs());
+            }
+        }).start();
+        mMusic.getLiveDataCurentSong().observe(owner, new Observer<Song>() {
+            @Override
+            public void onChanged(Song song) {
+                setSongUi(song);
+            }
+        });
+    }
+
+    public void setSongUi(Song song) {
+        setTittle(song.getStringTitle());
+        setArtist(song.getStringArtist());
+        mImageUri.set(song.getUriImage());
+        setPlaying(mMusic.getStatePlay() == Music.StatePlay.PLAY ? true : false);
     }
 
     public void onNextClicked() {
