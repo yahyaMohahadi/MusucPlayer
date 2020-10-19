@@ -11,7 +11,7 @@
 
         <include
             android:id="@+id/include"
-            layout="@layout/list_artisi"
+            layout="@layout/list_album"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -39,17 +39,16 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
     }
 
     public void setSongs(List<Artist> artists) {
-        if (artists == null)
-            return;
-        if (!artists.equals(mArtists)) {
+        if (artists.equals(mArtists)) {
+            mArtists = null;
+        }else {
             mArtists = artists;
         }
     }
 
     private void setArtistOpen(Artist artistOpen) {
-        if (artistOpen.equals(mArtistOpen))
-            mArtistOpen = null;
         mArtistOpen = artistOpen;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -145,8 +144,13 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
             mViewModel.setCallback(new Callback<Artist>() {
                 @Override
                 public void onClick(Artist onCall) {
+                    if (onCall.equals(mArtistOpen)) {
+                        setArtistOpen(null);
+
+                        return;
+                    }
                     setArtistOpen(onCall);
-                    notifyDataSetChanged();
+
                 }
             });
             mBinding.include.setViewModel(mViewModel);

@@ -13,7 +13,6 @@ import java.util.List;
 
 public class Music {
     private Callbacks mCallbacksListtener;
-
     private Context mContext;
     private MutableLiveData<List<Song>> mLiveDataSongList = new MutableLiveData<>();
     private Ordering mOrdering;
@@ -25,7 +24,6 @@ public class Music {
     private StateShuffle mStateShuffle;
     private StateRepeat mStateRepeat;
     private StatePlay mStatePlay;
-//    private Thread mThreadTime;
     //TODO THRAD AND CALLBACKS FOR SEEKBAR
 
     private Music() {
