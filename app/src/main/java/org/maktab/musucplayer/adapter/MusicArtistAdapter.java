@@ -8,9 +8,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
-import org.maktab.musucplayer.databinding.ListArtisiBinding;
 import org.maktab.musucplayer.data.model.Artist;
-
+import org.maktab.musucplayer.databinding.ListArtisiBinding;
+import org.maktab.musucplayer.ui.lists.artist.ArtistViewModel;
 
 import java.util.List;
 
@@ -30,10 +30,11 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
         return musicListAdapter;
     }
 
-    public void setSongs(List<Artist> albums) {
-        if (!mArtists.equals(albums)) {
-            mArtists = albums;
-            notifyDataSetChanged();
+    public void setSongs(List<Artist> artists) {
+        if (artists==null)
+            return;
+        if (!artists.equals(mArtists)) {
+            mArtists = artists;
         }
     }
 
@@ -67,10 +68,11 @@ public class MusicArtistAdapter extends RecyclerView.Adapter<MusicArtistAdapter.
             super(binding.getRoot());
             this.mBinding = binding;
 
+
         }
 
         public void bind(final Artist artist) {
-            //todo dont use image view to set
+            mBinding.setViewModel(new ArtistViewModel(artist));
             mBinding.executePendingBindings();
         }
     }

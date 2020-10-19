@@ -1,65 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
         <variable
-            name="albumVM"
-            type="org.maktab.musucplayer.view_model.itemViewModel.AlbumViewModel" />
-    </data>-->
+            name="viewModel"
+            type="org.maktab.musucplayer.ui.lists.album.AlbumViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:background="@drawable/item_shape_checked"
         android:gravity="center"
         android:padding="8dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imageView_list_album"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:civ_border_color="#0B2CE1"
             app:civ_border_width="2dp"
+            app:imageUrl="@{viewModel.resultImageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_list_album_name"
             style="@style/Platform.MaterialComponents.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="@{viewModel.albumName}"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/imageView_list_album"
-            app:layout_constraintTop_toBottomOf="@+id/imageView_list_album"
-            tools:text="album name" />
+            app:layout_constraintStart_toEndOf="@+id/imageView_list_album"
+            app:layout_constraintTop_toTopOf="@+id/imageView_list_album"
+            tools:text="album name"
 
-        <TextView
+
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+
+            android:textAppearance="@style/TextViewHeadline6"
+
+            android:textStyle="bold"
+            />
+
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_list_album_artist_name"
             style="@style/Platform.MaterialComponents.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="8dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
 
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{viewModel.atristName}"
+            android:textColor="@color/text_artist_list"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/textView_list_album_name"
             app:layout_constraintTop_toBottomOf="@+id/textView_list_album_name"
             tools:text="artist" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/textView_album_music_number"
             style="@style/Platform.MaterialComponents.Light"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:freezesText="true"
             android:gravity="left"
+
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="@{viewModel.number}"
+            android:textColor="@color/text_artist_list"
             android:textSize="14sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView_list_album_artist_name" />
+            app:layout_constraintBottom_toBottomOf="@+id/imageView_list_album"
+            app:layout_constraintStart_toStartOf="@+id/textView_list_album_artist_name"
+            tools:text="45" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

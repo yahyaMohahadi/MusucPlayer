@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MusicListAdapter extends Adapter<MusicListAdapter.MusicListHolder> {
 
-    private List<Song> mSongs;
+    private List<Song> mSongs = new ArrayList<>();
 
     public MusicListAdapter(List<Song> songs) {
         mSongs = songs;

@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.adapter.MusicListAdapter;
@@ -23,6 +24,7 @@ public class MusicListViewModel extends ViewModel {
     }
 
     public void fetchSongs(final Context context) {
+        //todo find way to dont send contex
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -39,6 +41,7 @@ public class MusicListViewModel extends ViewModel {
     public void setupRacyclerView(RecyclerView recyclerviewSongs) {
         if (mAdapter == null) {
             mAdapter =new MusicListAdapter(mListMutableLiveData.getValue());
+            recyclerviewSongs.setLayoutManager(new LinearLayoutManager(recyclerviewSongs.getContext()));
             recyclerviewSongs.setAdapter(mAdapter);
 
         } else {

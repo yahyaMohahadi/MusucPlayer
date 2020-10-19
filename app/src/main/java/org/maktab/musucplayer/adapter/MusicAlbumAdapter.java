@@ -2,13 +2,15 @@ package org.maktab.musucplayer.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import org.maktab.musucplayer.data.model.Album;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.maktab.musucplayer.R;
+import org.maktab.musucplayer.data.model.Album;
 import org.maktab.musucplayer.databinding.ListAlbumBinding;
+import org.maktab.musucplayer.ui.lists.album.AlbumViewModel;
 
 import java.util.List;
 
@@ -28,9 +30,10 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
     }
 
     public void setSongs(List<Album> albums) {
-        if (!mAlbums.equals(albums)) {
+        if (albums==null)
+            return;
+        if (!albums.equals(mAlbums)) {
             mAlbums = albums;
-            notifyDataSetChanged();
         }
     }
 
@@ -67,8 +70,8 @@ public class MusicAlbumAdapter extends RecyclerView.Adapter<MusicAlbumAdapter.Mu
         }
 
         public void bind(final Album album) {
-            //todo dont use image view to set
             mBinding.executePendingBindings();
+            mBinding.setViewModel(new AlbumViewModel(album));
         }
     }
 }

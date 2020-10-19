@@ -1,9 +1,9 @@
 package org.maktab.musucplayer.ui.lists.music;
 
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 
 import org.maktab.musucplayer.data.model.Song;
 import org.maktab.musucplayer.utils.StringLimiting;
@@ -13,6 +13,9 @@ public class MusicViewModel {
 
     public ObservableField<Uri> resultImageUrl = new ObservableField<>();
 
+    public void onClick() {
+
+    }
 
     public MusicViewModel(Song song) {
         mSong = (song);
