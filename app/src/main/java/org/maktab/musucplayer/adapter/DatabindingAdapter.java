@@ -3,7 +3,6 @@ package org.maktab.musucplayer.adapter;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -12,17 +11,18 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+import org.maktab.musucplayer.R;
 
 public class DatabindingAdapter {
 
     @BindingAdapter("bind:imageUrl")
     public static void loadImage(ImageView view, Uri uri) {
-        if (view == null || uri == null) {
+        if (view == null || uri == null)
             return;
-        }
+
         Glide.with(view.getContext())
                 .load(uri)
+                .placeholder(R.drawable.ic_empty_pic)
                 .centerCrop()
                 .apply(new RequestOptions().transform(
                         new CenterCrop(), new RoundedCorners(12)
@@ -46,7 +46,7 @@ public class DatabindingAdapter {
     }
 
     @BindingAdapter("android:src")
-    public static void setImageResource(ImageView imageView, int resource){
+    public static void setImageResource(ImageView imageView, int resource) {
         imageView.setImageResource(resource);
     }
 }

@@ -45,12 +45,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initCallbackBar();
         initFragments();
         setupMaianFragment();
-        mViewModel.getLiveDataSecond().observe(this, new Observer<Integer>() {
-            @Override
-            public void onChanged(Integer integer) {
-                Log.d("QQQ","chnaged in-->"+integer);
-            }
-        });
     }
 
     private void initCallbackBar() {

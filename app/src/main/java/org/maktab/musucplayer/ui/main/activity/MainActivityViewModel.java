@@ -17,11 +17,14 @@ public class MainActivityViewModel extends ViewModel {
     private Music mMusic;
 
     public void setMusic(final Context context) {
-        //todo start async (problem == getLiveDataSecond)
-        mMusic = Music.newInstance(context, SongRepository.newInstance(context).getSongs());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mMusic = Music.newInstance(context, SongRepository.newInstance(context).getSongs());
+            }
+        }).start();
     }
-
-    public MutableLiveData<Integer> getLiveDataSecond() {
+    public MutableLiveData<Integer> mLiveDataSecond(){
         return mMusic.getLiveDataCurentSecond();
     }
 
