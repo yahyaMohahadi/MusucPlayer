@@ -18,7 +18,7 @@
         android:onClick="@{()->viewModel.onClick()}"
         android:padding="8dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageView_list_album"
             android:layout_width="100dp"
             android:layout_height="100dp"

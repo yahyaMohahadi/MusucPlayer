@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.maktab.musucplayer.ui.ditails.DitailViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/title"
@@ -23,9 +29,8 @@
             android:paddingHorizontal="16dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Tittle"
+            android:text="@{viewModel.tittle}"
             android:textAppearance="@style/TextViewHeadline6"
-            android:textColor="?android:attr/textColorPrimary"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,15 +51,14 @@
             android:paddingVertical="8dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Artist"
+            android:text="@{viewModel.artist}"
             android:textAppearance="@style/TextViewBody1"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBottom_toTopOf="@+id/progressSlider"
-            tools:layout_editor_absoluteX="44dp" />
+            app:layout_constraintBottom_toTopOf="@+id/progressSlider" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:imageUrl="@{viewModel.mImageUri}"
             app:layout_constraintBottom_toTopOf="@+id/text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -70,9 +74,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_test_buttons"
+            android:onClick="@{()->viewModel.onClickRpeat()}"
             android:padding="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_shuffle"
+            android:src="@{viewModel.repeat ? @drawable/ic_repeat_all : @drawable/ic_repeat_one}"
             app:layout_constraintBottom_toBottomOf="@+id/previousButton"
             app:layout_constraintEnd_toStartOf="@+id/previousButton"
             app:layout_constraintHorizontal_bias="0.5"
@@ -84,9 +89,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_test_buttons"
+            android:onClick="@{()->viewModel.onClickPrevious()}"
             android:padding="16dp"
             android:scaleType="fitCenter"
-
             android:src="@drawable/ic_previous"
             app:layout_constraintBottom_toBottomOf="@+id/playPauseButton"
             app:layout_constraintEnd_toStartOf="@+id/playPauseButton"
@@ -100,7 +105,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:background="@drawable/background_test_buttons"
-            android:src="@drawable/ic_play"
+            android:onClick="@{()->viewModel.onClickPlay()}"
+            android:src="@{viewModel.playing ?  @drawable/ic_pause : @drawable/ic_play}"
             app:backgroundTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/nextButton"
@@ -112,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_test_buttons"
+            android:onClick="@{()->viewModel.onClickNext()}"
             android:padding="16dp"
             android:scaleType="fitCenter"
-
             android:src="@drawable/ic_next"
             app:layout_constraintBottom_toBottomOf="@+id/playPauseButton"
             app:layout_constraintEnd_toStartOf="@+id/shuffleButton"
@@ -126,9 +132,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/background_test_buttons"
+            android:onClick="@{()->viewModel.onClickShaffle()}"
             android:padding="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_repeat_all"
+            android:src="@{viewModel.shffle ? @drawable/ic_shuffle : @drawable/ic_off_shaffle}"
             app:layout_constraintBottom_toBottomOf="@+id/nextButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/nextButton"
@@ -141,44 +148,40 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:gravity="center"
-
             android:minWidth="40dp"
             android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondary"
+            android:text="@{viewModel.curentDuraton}"
             app:layout_constraintBottom_toBottomOf="@+id/progressSlider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progressSlider"
-            tools:ignore="RtlHardcoded,RtlSymmetry"
-            tools:text="@tools:sample/date/hhmmss" />
+            app:layout_constraintTop_toTopOf="@id/progressSlider" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/progressSlider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
+            android:layout_marginBottom="28dp"
             android:maxHeight="2dp"
+            android:progress="@{viewModel.intCurenDuretionPersont}"
+            android:onProgressChanged="@{(seekbar, progress, fromuser) -> viewModel.onSeekBarMove(seekbar, progress, fromuser)}"
             android:progressDrawable="@drawable/prosses_seek_bar"
-            android:splitTrack="false"
             app:layout_constraintBottom_toTopOf="@+id/playPauseButton"
             app:layout_constraintEnd_toStartOf="@id/songTotalTime"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@id/songCurrentProgress" />
+            app:layout_constraintStart_toEndOf="@+id/songCurrentProgress" />
+        app:layout_constraintStart_toEndOf="@id/songCurrentProgress" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/songTotalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:gravity="center"
             android:minWidth="40dp"
             android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondary"
+            android:text="@{viewModel.allDuraton}"
             app:layout_constraintBottom_toBottomOf="@+id/progressSlider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progressSlider"
-            tools:ignore="RtlHardcoded,RtlSymmetry"
-            tools:text="@tools:sample/date/hhmmss" />
+            app:layout_constraintTop_toTopOf="@id/progressSlider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

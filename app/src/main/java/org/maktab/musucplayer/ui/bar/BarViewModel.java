@@ -74,6 +74,7 @@ public class BarViewModel extends ViewModel implements Observable {
                 setSongUi(song);
             }
         });
+
     }
 
     public void setSongUi(Song song) {

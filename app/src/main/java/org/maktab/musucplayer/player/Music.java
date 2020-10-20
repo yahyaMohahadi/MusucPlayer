@@ -101,6 +101,10 @@ public class Music {
         mMediaPlayer.start();
     }
 
+    public void seekFromPersent(int persrnt) {
+        mMediaPlayer.seekTo((persrnt * mIntegerMusicTotal) / 100);
+    }
+
     private void puse() {
         mIntegerPersentPlayed = mMediaPlayer.getCurrentPosition();
         mStatePlay = StatePlay.PAUSE;
@@ -108,7 +112,7 @@ public class Music {
         //       mThreadTime.interrupt();
     }
 
-    public  void initStateShuffle(final StateShuffle stateRepeat) {
+    public void initStateShuffle(final StateShuffle stateRepeat) {
         switch (stateRepeat) {
             case SHUFFLE: {
                 mOrdering.inableShuffle();
@@ -122,7 +126,7 @@ public class Music {
         mStateShuffle = stateRepeat;
     }
 
-    public  void initStateRepeat(final StateRepeat stateRepeat) {
+    public void initStateRepeat(final StateRepeat stateRepeat) {
         switch (stateRepeat) {
             case REPEAT: {
                 mOrdering.inableRepeat();
@@ -136,7 +140,7 @@ public class Music {
         mStateRepeat = stateRepeat;
     }
 
-    public synchronized void  initDirection(Direction direction) throws IOException {
+    public synchronized void initDirection(Direction direction) throws IOException {
         switch (direction) {
             case NEWXT: {
                 next();
@@ -252,7 +256,7 @@ public class Music {
         return mLiveDataCurentSecond;
     }
 
-    public void endSeekThread(){
+    public void endSeekThread() {
         mThreadSeekBar.interrupt();
     }
 
