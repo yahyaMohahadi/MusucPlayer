@@ -2,10 +2,12 @@ package org.maktab.musucplayer.ui.main.activity;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab.musucplayer.R;
@@ -43,6 +45,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initCallbackBar();
         initFragments();
         setupMaianFragment();
+        mViewModel.getLiveDataSecond().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer integer) {
+                Log.d("QQQ","chnaged in-->"+integer);
+            }
+        });
     }
 
     private void initCallbackBar() {

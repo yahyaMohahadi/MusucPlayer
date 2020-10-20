@@ -2,6 +2,7 @@ package org.maktab.musucplayer.ui.main.activity;
 
 import android.content.Context;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.data.local.repository.SongRepository;
@@ -16,12 +17,12 @@ public class MainActivityViewModel extends ViewModel {
     private Music mMusic;
 
     public void setMusic(final Context context) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                mMusic = Music.newInstance(context, SongRepository.newInstance(context).getSongs());
-            }
-        }).start();
+        //todo start async (problem == getLiveDataSecond)
+        mMusic = Music.newInstance(context, SongRepository.newInstance(context).getSongs());
+    }
+
+    public MutableLiveData<Integer> getLiveDataSecond() {
+        return mMusic.getLiveDataCurentSecond();
     }
 
     public void setCallbacks(final Context applicationContext) {

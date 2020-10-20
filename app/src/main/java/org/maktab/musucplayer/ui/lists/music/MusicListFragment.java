@@ -51,7 +51,6 @@ public class MusicListFragment extends Fragment {
 
     public void addDividerRecyclerView() {
         DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        //todo add divider graadient or drawble option
         mBinding.recyclerviewSongs.addItemDecoration(divider);
     }
 

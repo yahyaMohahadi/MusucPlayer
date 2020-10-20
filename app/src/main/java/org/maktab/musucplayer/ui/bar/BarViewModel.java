@@ -62,7 +62,6 @@ public class BarViewModel extends ViewModel implements Observable {
     }
 
     public void fetchMusic(@NonNull final Context application, LifecycleOwner owner) {
-        //todo declirate azyncronize
         new Thread(new Runnable() {
             @Override
             public void run() {

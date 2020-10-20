@@ -16,7 +16,6 @@ import java.util.List;
 public class MainFragmentViewModel extends ViewModel {
     private ViewPagerAdapter mViewPagerAdapter;
     private MutableLiveData<String> mFieldUpBar = new MutableLiveData<>();
-    private Callback<Song> mSongCallback;
     public static final String[] mFragmentsName = new String[]{
             "music",
             "artist",

@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.List;
 
 public class Music {
+    public static final int SECOND_OF_SEEK = 1000;
+    private MutableLiveData<Integer> mLiveDataCurentSecond = new MutableLiveData<>();
     private static MutableLiveData<Song> mLiveDataCurentSong = new MutableLiveData<>();
     private Context mContext;
     private List<Song> mSongs;
@@ -24,7 +26,7 @@ public class Music {
     private StateShuffle mStateShuffle;
     private StateRepeat mStateRepeat;
     private StatePlay mStatePlay;
-    //TODO THRAD AND CALLBACKS FOR SEEKBAR
+    private Thread mThreadSeekBar;
 
     private Music() {
     }
@@ -38,6 +40,7 @@ public class Music {
             sInstance = new Music();
             sInstance.mContext = context.getApplicationContext();
             initFirst(songs);
+            sInstance.startSeekThread();
         }
         return sInstance;
     }
@@ -105,7 +108,7 @@ public class Music {
         //       mThreadTime.interrupt();
     }
 
-    public void initStateShuffle(final StateShuffle stateRepeat) {
+    public  void initStateShuffle(final StateShuffle stateRepeat) {
         switch (stateRepeat) {
             case SHUFFLE: {
                 mOrdering.inableShuffle();
@@ -119,7 +122,7 @@ public class Music {
         mStateShuffle = stateRepeat;
     }
 
-    public void initStateRepeat(final StateRepeat stateRepeat) {
+    public  void initStateRepeat(final StateRepeat stateRepeat) {
         switch (stateRepeat) {
             case REPEAT: {
                 mOrdering.inableRepeat();
@@ -133,7 +136,7 @@ public class Music {
         mStateRepeat = stateRepeat;
     }
 
-    public void initDirection(Direction direction) throws IOException {
+    public synchronized void  initDirection(Direction direction) throws IOException {
         switch (direction) {
             case NEWXT: {
                 next();
@@ -166,7 +169,16 @@ public class Music {
         }
         mIntegerMusicTotal = mMediaPlayer.getDuration();
         mLiveDataCurentSong.postValue(getCurentSong());
-        //TODO runTimeThread();
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                try {
+                    initDirection(Direction.NEWXT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
     }
 
@@ -212,6 +224,37 @@ public class Music {
         System.gc();
     }
 
+
+    public void startSeekThread() {
+        mThreadSeekBar = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    if (mMediaPlayer.isPlaying()) {
+                        mLiveDataCurentSecond.postValue(mMediaPlayer.getCurrentPosition());
+                    } else {
+                        //nothing
+                    }
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        mThreadSeekBar.start();
+        //todo intrupt the method for kill
+    }
+
+    public MutableLiveData<Integer> getLiveDataCurentSecond() {
+        return mLiveDataCurentSecond;
+    }
+
+    public void endSeekThread(){
+        mThreadSeekBar.interrupt();
+    }
 
     public enum StatePlay {
         PLAY, PAUSE
