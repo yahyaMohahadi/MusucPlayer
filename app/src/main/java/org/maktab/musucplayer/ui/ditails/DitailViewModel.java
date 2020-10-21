@@ -1,6 +1,5 @@
 package org.maktab.musucplayer.ui.ditails;
 
-import android.content.Context;
 import android.net.Uri;
 import android.widget.SeekBar;
 
@@ -12,8 +11,8 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import org.maktab.musucplayer.data.local.repository.SongRepository;
 import org.maktab.musucplayer.data.model.Song;
+import org.maktab.musucplayer.service.MusicService;
 import org.maktab.musucplayer.service.player.Music;
 
 import java.io.IOException;
@@ -39,24 +38,26 @@ public class DitailViewModel extends ViewModel implements Observable {
     private String mAllDuraton;
     private int mIntCurenDuretionPersont;
 
-    public void fetchMusic(final Context context) {
-        mMusic = Music.newInstance(context, SongRepository.newInstance(context).getSongs());
-        setTittle(mMusic.getCurentSong().getStringTitle());
-
+    public void fetchMusic(final MusicService musicService) {
+        mMusic = musicService.getMusic();
+        setUi();
     }
 
     public void fetchSeeckBar(LifecycleOwner owner) {
-        mMusic.getLiveDataCurentSecond().observe(owner, new Observer<Integer>() {
+        Music.getLiveDataCurentSecond().observe(owner, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
+
                 setCurentDuraton(String.valueOf(integer));
                 setIntCurenDuretionPersont(integer);
+
             }
         });
         Music.getLiveDataCurentSong().observe(owner, new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
-                setUi();
+                if (mMusic != null)
+                    setUi();
 
             }
         });

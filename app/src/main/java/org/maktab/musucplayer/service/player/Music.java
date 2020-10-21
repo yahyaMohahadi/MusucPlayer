@@ -31,10 +31,16 @@ public class Music {
     private Music() {
     }
 
-    public List<Song> getSongs() {
+    private List<Song> getSongs() {
         return mSongs;
     }
 
+    /**
+     * it just used be service and all anothe components get Music states form servise
+     * @param context
+     * @param songs
+     * @return
+     */
     public static Music newInstance(Context context, List<Song> songs) {
         if (sInstance == null) {
             sInstance = new Music();
@@ -46,7 +52,8 @@ public class Music {
     }
 
     private static void initFirst(List<Song> songs) {
-        if (songs.size() == 0) {
+
+        if (songs == null) {
             sInstance.mMediaPlayer.reset();
             return;
         }
@@ -252,7 +259,7 @@ public class Music {
         //todo intrupt the method for kill
     }
 
-    public MutableLiveData<Integer> getLiveDataCurentSecond() {
+    public static MutableLiveData<Integer> getLiveDataCurentSecond() {
         return mLiveDataCurentSecond;
     }
 

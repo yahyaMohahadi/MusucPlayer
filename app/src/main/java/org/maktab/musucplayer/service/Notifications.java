@@ -4,33 +4,44 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 
 import androidx.core.app.NotificationManagerCompat;
 
 import org.maktab.musucplayer.R;
 
 public class Notifications {
-    private void startTest(Context context) {
-        Intent notificationIntent = MusicService.newIntent(context);
-        PendingIntent pendingIntent =
-                PendingIntent.getActivity(context, 0, notificationIntent, 0);
-        Notification notification = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            notification = new Notification.Builder(context, "musicchanelid")
-                    .setContentTitle("tittle")
-                    .setContentText("setContentText")
-                    .setSmallIcon(R.drawable.ic_empty_pic)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker("tiker")
-                    .build();
-            NotificationChannel channel = new NotificationChannel("musicchanelid", "nameee", NotificationManager.IMPORTANCE_DEFAULT);
-            context.getSystemService(NotificationManager.class).createNotificationChannel(channel);
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-            notificationManager.notify(0, notification);
+    //todo logic notification seperating heare from musicService
+ /*   private boolean mBound;
+    private MusicService mService;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            mService = ((MusicService.LocalBinder) iBinder).getService();
+            mBound = true;
         }
 
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBound = false;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = MusicService.newIntent(this);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(connection);
+        startService(MusicService.newIntent(this, MusicService.KEY_STRING_stop));
+        mBound = false;
+    }*/
 }

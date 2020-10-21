@@ -30,35 +30,24 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     private ActivitySingleFragmentBinding mBinding;
     private MainActivityViewModel mViewModel;
-    private MusicService mService;
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-            mService = ((MusicService.LocalBinder) iBinder).getService();
-        }
 
-        @Override
-        public void onServiceDisconnected(ComponentName componentName) {
 
-        }
-    };
     private MainFragment mFragmentMain;
     private DitailMusicFragment mFragmentDetail;
     private PlayingBarFragment mFragmentPlay;
     private Callback mCallback;
     private OnlineFragment mOnlineFragment;
-    private boolean mBound;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //todo dont send contex
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_single_fragment);
-        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        mViewModel.setMusic(getApplicationContext());
         mBinding.setLifecycleOwner(this);
-        requestPermissions();
+        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         mViewModel.setCallbacks(getApplicationContext());
+        requestPermissions();
         initCallbackBar();
         initFragments();
         setupMaianFragment();
@@ -133,6 +122,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         getSupportFragmentManager().beginTransaction().remove(mFragmentPlay).commit();
     }
 
+
+    private MusicService mService;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            mService = ((MusicService.LocalBinder) iBinder).getService();
+            mViewModel.setMusic(mService);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+        }
+    };
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -145,7 +148,6 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onStop();
         unbindService(connection);
         startService(MusicService.newIntent(this, MusicService.KEY_STRING_stop));
-        mBound = false;
     }
 
     public interface Callback {
