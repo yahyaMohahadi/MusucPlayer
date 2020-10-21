@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.data.local.repository.SongRepository;
 import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.player.Music;
+import org.maktab.musucplayer.service.player.Music;
 import org.maktab.musucplayer.utils.StringLimiter;
 
 import java.io.IOException;
@@ -68,13 +68,13 @@ public class BarViewModel extends ViewModel implements Observable {
                 mMusic = Music.newInstance(application, SongRepository.newInstance(application).getSongs());
             }
         }).start();
-        mMusic.getLiveDataCurentSong().observe(owner, new Observer<Song>() {
+        Music.getLiveDataCurentSong().observe(owner, new Observer<Song>() {
             @Override
             public void onChanged(Song song) {
-                setSongUi(song);
+                if (mMusic != null)
+                    setSongUi(song);
             }
         });
-
     }
 
     public void setSongUi(Song song) {

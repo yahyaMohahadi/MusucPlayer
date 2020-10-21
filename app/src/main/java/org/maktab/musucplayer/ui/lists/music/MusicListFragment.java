@@ -35,6 +35,7 @@ public class MusicListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_music_list, container, false);
+        mBinding.setLifecycleOwner(this);
         mViewModel = new ViewModelProvider(this).get(MusicListViewModel.class);
         mViewModel.setCallback(mCallback);
         mViewModel.fetchSongs(this.getContext());

@@ -9,7 +9,7 @@ import org.maktab.musucplayer.data.local.repository.SongRepository;
 import org.maktab.musucplayer.data.model.Album;
 import org.maktab.musucplayer.data.model.Artist;
 import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.player.Music;
+import org.maktab.musucplayer.service.player.Music;
 import org.maktab.musucplayer.ui.Callback;
 
 public class MainActivityViewModel extends ViewModel {

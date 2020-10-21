@@ -1,4 +1,4 @@
-package org.maktab.musucplayer.player;
+package org.maktab.musucplayer.service.player;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Music {
     public static final int SECOND_OF_SEEK = 1000;
-    private MutableLiveData<Integer> mLiveDataCurentSecond = new MutableLiveData<>();
+    private static MutableLiveData<Integer> mLiveDataCurentSecond = new MutableLiveData<>();
     private static MutableLiveData<Song> mLiveDataCurentSong = new MutableLiveData<>();
     private Context mContext;
     private List<Song> mSongs;

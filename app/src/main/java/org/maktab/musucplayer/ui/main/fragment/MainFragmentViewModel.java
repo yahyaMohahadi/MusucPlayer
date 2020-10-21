@@ -6,12 +6,6 @@ import androidx.lifecycle.ViewModel;
 import androidx.viewpager2.widget.ViewPager2;
 
 import org.maktab.musucplayer.adapter.ViewPagerAdapter;
-import org.maktab.musucplayer.data.local.repository.SongRepository;
-import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.player.Music;
-import org.maktab.musucplayer.ui.Callback;
-
-import java.util.List;
 
 public class MainFragmentViewModel extends ViewModel {
     private ViewPagerAdapter mViewPagerAdapter;

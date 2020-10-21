@@ -1,17 +1,21 @@
 package org.maktab.musucplayer.ui.main.activity;
 
 import android.Manifest;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.IBinder;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import org.maktab.musucplayer.R;
 import org.maktab.musucplayer.databinding.ActivitySingleFragmentBinding;
+import org.maktab.musucplayer.service.MusicService;
 import org.maktab.musucplayer.ui.bar.PlayingBarFragment;
 import org.maktab.musucplayer.ui.ditails.DitailMusicFragment;
 import org.maktab.musucplayer.ui.main.fragment.MainFragment;
@@ -26,11 +30,24 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
 
     private ActivitySingleFragmentBinding mBinding;
     private MainActivityViewModel mViewModel;
+    private MusicService mService;
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+            mService = ((MusicService.LocalBinder) iBinder).getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+
+        }
+    };
     private MainFragment mFragmentMain;
     private DitailMusicFragment mFragmentDetail;
     private PlayingBarFragment mFragmentPlay;
     private Callback mCallback;
     private OnlineFragment mOnlineFragment;
+    private boolean mBound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         initCallbackBar();
         initFragments();
         setupMaianFragment();
+        startService(MusicService.newIntent(this));
     }
 
     private void initCallbackBar() {
@@ -113,6 +131,21 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         mOnlineFragment = OnlineFragment.DITAIL;
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_place, mFragmentDetail).commit();
         getSupportFragmentManager().beginTransaction().remove(mFragmentPlay).commit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = MusicService.newIntent(this);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(connection);
+        startService(MusicService.newIntent(this, MusicService.KEY_STRING_stop));
+        mBound = false;
     }
 
     public interface Callback {

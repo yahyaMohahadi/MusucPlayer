@@ -14,16 +14,16 @@ import androidx.lifecycle.ViewModel;
 
 import org.maktab.musucplayer.data.local.repository.SongRepository;
 import org.maktab.musucplayer.data.model.Song;
-import org.maktab.musucplayer.player.Music;
+import org.maktab.musucplayer.service.player.Music;
 
 import java.io.IOException;
 
-import static org.maktab.musucplayer.player.Music.StatePlay.PAUSE;
-import static org.maktab.musucplayer.player.Music.StatePlay.PLAY;
-import static org.maktab.musucplayer.player.Music.StateRepeat.NORMAL;
-import static org.maktab.musucplayer.player.Music.StateRepeat.REPEAT;
-import static org.maktab.musucplayer.player.Music.StateShuffle.RESPECTIVLY;
-import static org.maktab.musucplayer.player.Music.StateShuffle.SHUFFLE;
+import static org.maktab.musucplayer.service.player.Music.StatePlay.PAUSE;
+import static org.maktab.musucplayer.service.player.Music.StatePlay.PLAY;
+import static org.maktab.musucplayer.service.player.Music.StateRepeat.NORMAL;
+import static org.maktab.musucplayer.service.player.Music.StateRepeat.REPEAT;
+import static org.maktab.musucplayer.service.player.Music.StateShuffle.RESPECTIVLY;
+import static org.maktab.musucplayer.service.player.Music.StateShuffle.SHUFFLE;
 
 public class DitailViewModel extends ViewModel implements Observable {
 
@@ -69,12 +69,12 @@ public class DitailViewModel extends ViewModel implements Observable {
         setArtist(mMusic.getCurentSong().getStringArtist());
         setShffle(mMusic.getStateShuffle() == SHUFFLE);
         setRepeat(mMusic.getStateRepeat() == REPEAT);
-        setPlaying(mMusic.getStatePlay() == Music.StatePlay.PLAY ? true : false);
+        setPlaying(mMusic.getStatePlay() == Music.StatePlay.PLAY);
     }
 
     public void onSeekBarMove(SeekBar seekBar, int progress, boolean fromUser) {
-        mMusic.seekFromPersent(progress);
-        return;
+        if (fromUser)
+            mMusic.seekFromPersent(progress);
     }
 
     @Bindable
@@ -93,8 +93,9 @@ public class DitailViewModel extends ViewModel implements Observable {
     }
 
     public void setIntCurenDuretionPersont(int intCurenDuretionPersont) {
-        int prosses = (intCurenDuretionPersont * 100 / Integer.valueOf(getAllDuraton()));
-        mIntCurenDuretionPersont = prosses;
+        if (getAllDuraton() == null)
+            return;
+        mIntCurenDuretionPersont = ((intCurenDuretionPersont * 100) / Integer.parseInt(getAllDuraton()));
         callbacks.notifyCallbacks(this, 0, null);
     }
 
@@ -179,11 +180,11 @@ public class DitailViewModel extends ViewModel implements Observable {
 
             case RESPECTIVLY:
                 mMusic.initStateShuffle(SHUFFLE);
-                setShffle(false);
+                setShffle(true);
                 break;
             case SHUFFLE:
-                setShffle(false);
                 mMusic.initStateShuffle(RESPECTIVLY);
+                setShffle(false);
                 break;
         }
     }

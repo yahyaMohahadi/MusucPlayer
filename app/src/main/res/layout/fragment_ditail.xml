@@ -58,6 +58,8 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             app:imageUrl="@{viewModel.mImageUri}"
             app:layout_constraintBottom_toTopOf="@+id/text"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,41 +149,44 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
             android:gravity="center"
             android:minWidth="40dp"
             android:singleLine="true"
             android:text="@{viewModel.curentDuraton}"
-            app:layout_constraintBottom_toBottomOf="@+id/progressSlider"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progressSlider" />
+            app:layout_constraintTop_toBottomOf="@+id/progressSlider" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
             android:id="@+id/progressSlider"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:layout_marginBottom="28dp"
             android:maxHeight="2dp"
-            android:progress="@{viewModel.intCurenDuretionPersont}"
             android:onProgressChanged="@{(seekbar, progress, fromuser) -> viewModel.onSeekBarMove(seekbar, progress, fromuser)}"
+            android:progress="@{viewModel.intCurenDuretionPersont}"
             android:progressDrawable="@drawable/prosses_seek_bar"
             app:layout_constraintBottom_toTopOf="@+id/playPauseButton"
-            app:layout_constraintEnd_toStartOf="@id/songTotalTime"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/songCurrentProgress" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
         app:layout_constraintStart_toEndOf="@id/songCurrentProgress" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/songTotalTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:gravity="center"
             android:minWidth="40dp"
             android:singleLine="true"
             android:text="@{viewModel.allDuraton}"
-            app:layout_constraintBottom_toBottomOf="@+id/progressSlider"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/progressSlider" />
+            app:layout_constraintTop_toBottomOf="@+id/progressSlider" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

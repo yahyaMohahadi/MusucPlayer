@@ -44,6 +44,7 @@ public class MusicListAlbumFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_artist_list, container, false);
+        mBinding.setLifecycleOwner(this);
         mViewModel = new ViewModelProvider(this).get(AlbumListViewMode.class);
         mViewModel.setCallback(mCallback, mSongCallback);
         mViewModel.setupRecyclerView(mBinding.recyclerviewArtist);
